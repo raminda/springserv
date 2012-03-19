@@ -11,52 +11,50 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<context:component-scan base-package="com.millenniumit.mx" />
 
 	<!-- Production databases (Comment out on testing) -->
-	<!-- <bean id="jiradb" class="org.apache.commons.dbcp.BasicDataSource" -->
-	<!-- destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="oracle.jdbc.OracleDriver" /> -->
-	<!-- <property name="url" value="jdbc:oracle:thin:@172.25.31.123:1521/JIRADB" 
-		/> -->
-	<!-- <property name="username" value="vimukthi" /> -->
-	<!-- <property name="password" value="Vimuk7h1" /> -->
-	<!-- </bean> -->
-	<!-- <bean id="issuemandb" class="org.apache.commons.dbcp.BasicDataSource" -->
-	<!-- destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-	<!-- <property name="url" value="jdbc:mysql://172.25.40.135/issueman_test" 
-		/> -->
-	<!-- <property name="username" value="portaluser" /> -->
-	<!-- <property name="password" value="p0rt41u53r123" /> -->
-	<!-- </bean> -->
-	<!-- <bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource" -->
-	<!-- destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-	<!-- <property name="url" -->
-	<!-- value="jdbc:mysql://172.25.40.135/portal_20111209_test" /> -->
-	<!-- <property name="username" value="portaluser" /> -->
-	<!-- <property name="password" value="p0rt41u53r123" /> -->
-	<!-- </bean> -->
-	<!-- Test databases (Comment out on production) -->
 	<bean id="jiradb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/jira_test" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@172.25.31.123:1521/JIRADB" />
+		<property name="username" value="vimukthi" />
+		<property name="password" value="Vimuk7h1" />
 	</bean>
 	<bean id="issuemandb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/issueman_test" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="url" value="jdbc:mysql://172.25.40.135/issueman_test" />
+		<property name="username" value="portaluser" />
+		<property name="password" value="p0rt41u53r123" />
 	</bean>
 	<bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/portal_test" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="url"
+			value="jdbc:mysql://172.25.40.135/portal_20111209_test" />
+		<property name="username" value="portaluser" />
+		<property name="password" value="p0rt41u53r123" />
 	</bean>
+	<!-- Test databases (Comment out on production) -->
+	<!-- <bean id="jiradb" class="org.apache.commons.dbcp.BasicDataSource" -->
+	<!-- destroy-method="close"> -->
+	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+	<!-- <property name="url" value="jdbc:mysql://localhost/jira_test" /> -->
+	<!-- <property name="username" value="root" /> -->
+	<!-- <property name="password" value="" /> -->
+	<!-- </bean> -->
+	<!-- <bean id="issuemandb" class="org.apache.commons.dbcp.BasicDataSource" -->
+	<!-- destroy-method="close"> -->
+	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+	<!-- <property name="url" value="jdbc:mysql://localhost/issueman_test" /> -->
+	<!-- <property name="username" value="root" /> -->
+	<!-- <property name="password" value="" /> -->
+	<!-- </bean> -->
+	<!-- <bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource" -->
+	<!-- destroy-method="close"> -->
+	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+	<!-- <property name="url" value="jdbc:mysql://localhost/portal_test" /> -->
+	<!-- <property name="username" value="root" /> -->
+	<!-- <property name="password" value="" /> -->
+	<!-- </bean> -->
 
 	<!-- JDBC templates to bypass Hibernate when needed -->
 	<bean id="jiraJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
@@ -102,7 +100,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				</value>
 				<value>com.millenniumit.mx.data.relman.domain.RelmanCurrentReleaseInfo
 				</value>
-				
+
 				<!-- Metrics Entities starts here -->
 				<value>com.millenniumit.mx.data.metrics.metric.Loc
 				</value>
