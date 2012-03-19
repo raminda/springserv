@@ -1,0 +1,120 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<context:component-scan base-package="com.millenniumit.mx" />
+
+	<!-- Production databases (Comment out on testing) -->
+	<!-- <bean id="jiradb" class="org.apache.commons.dbcp.BasicDataSource" -->
+	<!-- destroy-method="close"> -->
+	<!-- <property name="driverClassName" value="oracle.jdbc.OracleDriver" /> -->
+	<!-- <property name="url" value="jdbc:oracle:thin:@172.25.31.123:1521/JIRADB" 
+		/> -->
+	<!-- <property name="username" value="vimukthi" /> -->
+	<!-- <property name="password" value="Vimuk7h1" /> -->
+	<!-- </bean> -->
+	<!-- <bean id="issuemandb" class="org.apache.commons.dbcp.BasicDataSource" -->
+	<!-- destroy-method="close"> -->
+	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+	<!-- <property name="url" value="jdbc:mysql://172.25.40.135/issueman_test" 
+		/> -->
+	<!-- <property name="username" value="portaluser" /> -->
+	<!-- <property name="password" value="p0rt41u53r123" /> -->
+	<!-- </bean> -->
+	<!-- <bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource" -->
+	<!-- destroy-method="close"> -->
+	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+	<!-- <property name="url" -->
+	<!-- value="jdbc:mysql://172.25.40.135/portal_20111209_test" /> -->
+	<!-- <property name="username" value="portaluser" /> -->
+	<!-- <property name="password" value="p0rt41u53r123" /> -->
+	<!-- </bean> -->
+	<!-- Test databases (Comment out on production) -->
+	<bean id="jiradb" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/jira_test" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+	<bean id="issuemandb" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/issueman_test" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+	<bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/portal_test" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+
+	<!-- JDBC templates to bypass Hibernate when needed -->
+	<bean id="jiraJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="jiradb" />
+	</bean>
+	<bean id="issuemanJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="issuemandb" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="portaldb" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanActivity
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanUser</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanProject
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanRelease
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanBaseComponent
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanBaseRelease
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanCodeItem
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanCodeItemFile
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanCurrentCodeItemFile
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanGroup</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanItemType
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanCurrentVersion
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanLogicalLayer
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanModule</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanProjectLevelActivity
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanRelation
+				</value>
+				<value>com.millenniumit.mx.data.relman.domain.RelmanCurrentReleaseInfo
+				</value>
+				
+				<!-- Metrics Entities starts here -->
+				<value>com.millenniumit.mx.data.metrics.metric.Loc
+				</value>
+				<value>com.millenniumit.mx.data.metrics.metric.Mcc
+				</value>
+			</list>
+		</property>
+	</bean>
+	<tx:annotation-driven transaction-manager="txManager" />
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+</beans>

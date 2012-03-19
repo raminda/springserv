@@ -1,0 +1,14 @@
+IssuemanRelease
+IssuemanProject
+IssuemanComponent
+IssuemanPriority
+IssuemanResolution
+IssuemanTicket
+IssuemanTicketField
+IssuemanTicketFieldStatus
+IssuemanTicketFieldValue
+IssuemanTicketLink
+IssuemanTicketLinkType
+IssuemanTicketStatus
+IssuemanTicketType
+IssuemanUser

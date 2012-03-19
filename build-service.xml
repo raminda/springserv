@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<project name="build-service" basedir="." default="build-service">
+
+	<target name="build-service">
+		<mkdir dir="service-classes" />
+
+		<path id="service.classpath">
+			<fileset dir="lib" includes="*.jar" excludes="mx-service.jar"/>
+		</path>
+
+		<delete file="lib/mx-service.jar" />
+
+		<javac includeantruntime="false" classpathref="service.classpath" srcdir="src/com/millenniumit/mx/data" destdir="service-classes"/>
+
+		<zip
+				basedir="service-classes"
+				destfile="lib/mx-service.jar"
+			/>
+
+		<delete dir="service-classes" />
+	</target>
+</project>
+
