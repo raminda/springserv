@@ -100,11 +100,13 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				</value>
 				<value>com.millenniumit.mx.data.relman.domain.RelmanCurrentReleaseInfo
 				</value>
+
 				<value>com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser
 				</value>
 				<value>com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork
 				</value>
 				<value> com.millenniumit.mx.data.timesheets.domain.TimeSheetsReference</value>
+
 
 				<!-- Metrics Entities starts here -->
 				<value>com.millenniumit.mx.data.metrics.metric.Loc
