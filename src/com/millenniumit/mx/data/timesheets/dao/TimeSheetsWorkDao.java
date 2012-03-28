@@ -9,10 +9,10 @@ public interface TimeSheetsWorkDao {
 	
 	public List<TimeSheetsWork> getTimeSheetsWork();
 	public List<Object> getTimeSheetsWork(long offset,long limit);
-	public List<Object> getTimeSheetsWork(long offset,long limit, Long[] users, Long[] roles);
-	public List<Object> getTimeSheetsWork(long offset,long limit, String startDate, String endDate);
+	public List<TimeSheetsWork> getAllTimeSheetsWork(long offset, long limit);
 	public List<Object> getTimeSheetsWork(long offset,long limit, TimeSheetsWorkCriteria workcriteria );
-	
 	public long getTotalTimeSheetsWorkCount();
+	public long getTimeSheetWorkReturnedRowCount();
+	public void saveTimeSheetsWork(TimeSheetsWork timesheetWork);
 
 }

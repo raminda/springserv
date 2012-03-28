@@ -3,27 +3,30 @@ package com.millenniumit.mx.data.timesheets.dao.impl;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projection;
-import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.google.gson.Gson;
 import com.millenniumit.mx.data.timesheets.dao.TimeSheetsWorkDao;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork;
 import com.millenniumit.mx.data.timesheets.util.TimeSheetsWorkCriteria;
+
+/**
+ * 
+ * @author Kalpag
+ * 
+ */
 
 @Repository("timesheetsWorkDao")
 public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 
 	@Autowired
 	private SessionFactory sessionfactory;
+	private long timeSheetsWorkRowCount;
 
 	/*
 	 * * @see
@@ -33,7 +36,6 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<TimeSheetsWork> getTimeSheetsWork() {
-
 		return sessionfactory.getCurrentSession()
 				.createQuery("from TimeSheetsWork").list();
 	}
@@ -57,12 +59,12 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 	@Override
 	public List<Object> getTimeSheetsWork(long offset, long limit) {
 
-		String queryString = " select new map(t.projectId as projectId,t.roleId as roleId,"
+		String queryString = " select new map(t.divisionId as divisionId,t.projectId as projectId,t.roleId as roleId,"
 				+ "	t.userId as userId, t.reference as reference,"
 				+ "	t.note as note,"
 				+ " sum(t.hoursPlanned) as hoursPlanned,sum(t.hoursUnplanned) as hoursUnplanned,"
 				+ " sum(t.hoursPlanned) + sum(t.hoursUnplanned) as total) from TimeSheetsWork t "
-				+ " group by t.userId, t.projectId, t.roleId";
+				+ " group by t.divisionId, t.userId, t.projectId, t.roleId";
 
 		return getPaginatedResultSet(queryString, offset, limit);
 	}
@@ -80,7 +82,6 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 
 		Query query = sessionfactory.getCurrentSession().createQuery(
 				queryString);
-
 		int first = (int) offset;
 		int last = (int) limit;
 		query.setFirstResult(first);
@@ -97,164 +98,122 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 	}
 
 	/**
- * 
- */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Object> getTimeSheetsWork(long offset, long limit,
-			Long[] users, Long[] roles) {
-
-		String queryString = " select new map(t.projectId as projectId,t.roleId as roleId,"
-				+ "t.userId as userId, t.reference as reference,"
-				+ "t.note as note,"
-				+ "sum(t.hoursPlanned) as hoursPlanned,sum(t.hoursUnplanned) as hoursUnplanned,"
-				+ "sum(t.hoursPlanned) + sum(t.hoursUnplanned) as total) from TimeSheetsWork t"
-				+ " where t.roleId in :_roles and t.userId in :_users "
-				+ "group by t.userId,t.projectId,t.roleId";
-
-		Query query = sessionfactory.getCurrentSession().createQuery(
-				queryString);
-
-		query.setParameterList("_users", users);
-		query.setParameterList("_roles", roles);
-
-		int first = (int) offset;
-		int last = (int) limit;
-		query.setFirstResult(first);
-		query.setMaxResults(last);
-		return (List<Object>) query.list();
-
-		// return getPaginatedResultSet(queryString, offset, limit);
-	}
-
-	/**
- * 
- */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Object> getTimeSheetsWork(long offset, long limit,
-			String startDate, String endDate) {
-
-		String queryString = " select new map(t.projectId as projectId,t.roleId as roleId,"
-				+ "t.userId as userId, t.reference as reference,"
-				+ "t.note as note,"
-				+ "sum(t.hoursPlanned) as hoursPlanned,sum(t.hoursUnplanned) as hoursUnplanned,"
-				+ "sum(t.hoursPlanned) + sum(t.hoursUnplanned) as total) from TimeSheetsWork t"
-				+ " where t.workDate > :_startdate and t.workDate < :_enddate "
-				+ "group by t.userId,t.projectId,t.roleId";
-
-		DateFormat formatter;
-		formatter = new SimpleDateFormat("yyyy/mm/dd");
-		Date startdate = null;
-		Date enddate = null;
-		try {
-			enddate = (Date) formatter.parse(endDate);
-			startdate = (Date) formatter.parse(startDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		Query query = sessionfactory.getCurrentSession().createQuery(
-				queryString);
-
-		query.setParameter("_startdate", startdate);
-		query.setParameter("_enddate", enddate);
-
-		int first = (int) offset;
-		int last = (int) limit;
-		query.setFirstResult(first);
-		query.setMaxResults(last);
-		return (List<Object>) query.list();
-	}
-
-	/**
- * 
- */
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object> getTimeSheetsWork(long offset, long limit,
 			TimeSheetsWorkCriteria workcriteria) {
 
 		boolean whereFlag = false;
-
-		String queryString = " select new map(t.projectId as projectId,t.roleId as roleId,"
+		String selectString = " select new map(t.divisionId as divisionId,"
+				+ "t.projectId as projectId,t.roleId as roleId,"
 				+ "t.userId as userId, t.reference as reference,"
 				+ "t.note as note,"
 				+ "sum(t.hoursPlanned) as hoursPlanned,sum(t.hoursUnplanned) as hoursUnplanned,"
 				+ "sum(t.hoursPlanned) + sum(t.hoursUnplanned) as total) from TimeSheetsWork t";
 
+		String countSelectString = "select count(*) from TimeSheetsWork t";
+		String groupString = " group by t.divisionId,t.userId,t.projectId,t.roleId";
+		String criteriaString = "";
+		String queryString = "";
+		String countQueryString = "";
+
 		if (workcriteria.getUserIds() != null) {
-			queryString += getCriteriaString(whereFlag, "t.userId", "in",
+			criteriaString += getCriteriaString(whereFlag, "t.userId", "in",
 					":_users");
 			whereFlag = true;
 		}
 
+		if (workcriteria.getDivisionIds() != null) {
+			criteriaString += getCriteriaString(whereFlag, "t.divisionId",
+					"in", ":_divisions");
+			whereFlag = true;
+		}
+
 		if (workcriteria.getRoleIds() != null) {
-			queryString += getCriteriaString(whereFlag, "t.roleId", "in",
+			criteriaString += getCriteriaString(whereFlag, "t.roleId", "in",
 					":_roles");
 			whereFlag = true;
 		}
 
 		if (workcriteria.getProjectIds() != null) {
-			queryString += getCriteriaString(whereFlag, "t.projectId", "in",
+			criteriaString += getCriteriaString(whereFlag, "t.projectId", "in",
 					":_projects");
 			whereFlag = true;
 		}
 
 		if ((workcriteria.getStartDate() != null)) {
-			queryString += getCriteriaString(whereFlag, "t.workDate", ">",
+			criteriaString += getCriteriaString(whereFlag, "t.workDate", ">",
 					":_startdate");
 			whereFlag = true;
 		}
 
 		if ((workcriteria.getEndDate() != null)) {
-			queryString += getCriteriaString(whereFlag, "t.workDate", "<",
+			criteriaString += getCriteriaString(whereFlag, "t.workDate", "<",
 					":_enddate");
 			whereFlag = true;
 		}
 
-		queryString += " group by t.userId,t.projectId,t.roleId";
+		queryString += selectString + criteriaString + groupString;
+		countQueryString = countSelectString + criteriaString + groupString;
+
 		Query query = sessionfactory.getCurrentSession().createQuery(
 				queryString);
+		Query countHQLQuery = getSessionfactory().getCurrentSession()
+				.createQuery(countQueryString);
 
 		DateFormat formatter;
 		formatter = new SimpleDateFormat("yyyy/mm/dd");
 		Date startdate = null;
 		Date enddate = null;
 
-		if (workcriteria.getProjectIds() != null)
+		if (workcriteria.getProjectIds() != null) {
 			query.setParameterList("_projects", workcriteria.getProjectIds());
-		if (workcriteria.getUserIds() != null)
+			countHQLQuery.setParameterList("_projects",
+					workcriteria.getProjectIds());
+		}
+		if (workcriteria.getUserIds() != null) {
 			query.setParameterList("_users", workcriteria.getUserIds());
+			countHQLQuery.setParameterList("_users", workcriteria.getUserIds());
+		}
+		if (workcriteria.getDivisionIds() != null) {
+			query.setParameterList("_divisions", workcriteria.getDivisionIds());
+			countHQLQuery.setParameterList("_divisions",
+					workcriteria.getDivisionIds());
+		}
 		if (workcriteria.getEndDate() != null) {
-
 			try {
 				enddate = (Date) formatter.parse(workcriteria.getEndDate());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			query.setParameter("_enddate", enddate);
-
+			countHQLQuery.setParameter("_enddate", enddate);
 		}
-		if (workcriteria.getStartDate() != null) {
 
+		if (workcriteria.getStartDate() != null) {
 			try {
 				startdate = (Date) formatter.parse(workcriteria.getStartDate());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			query.setParameter("_startdate", startdate);
-
+			countHQLQuery.setParameter("_startdate", startdate);
 		}
-		if (workcriteria.getRoleIds() != null)
+		if (workcriteria.getRoleIds() != null) {
 			query.setParameterList("_roles", workcriteria.getRoleIds());
+			countHQLQuery.setParameterList("_roles", workcriteria.getRoleIds());
+		}
+		long returnedRowcount = countHQLQuery.list().size();
+		setTimeSheetsWorkRowCount(returnedRowcount);
 
-		    		
+		System.out.println("Returned rowCount is " + returnedRowcount);
+
 		int first = (int) offset;
 		int last = (int) limit;
 		query.setFirstResult(first);
 		query.setMaxResults(last);
-
 		System.out.println("Query String = " + query.getQueryString());
 		return (List<Object>) query.list();
 	}
@@ -274,5 +233,51 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 			return " and " + operand + " " + operator + " " + parameter;
 		else
 			return " where " + operand + " " + operator + " " + parameter;
+	}
+
+	/**
+	 * @return the timeSheetsWorkRowCount
+	 */
+	public long getTimeSheetsWorkRowCount() {
+		return timeSheetsWorkRowCount;
+	}
+
+	/**
+	 * @param timeSheetsWorkRowCount
+	 *            the timeSheetsWorkRowCount to set
+	 */
+	public void setTimeSheetsWorkRowCount(long timeSheetsWorkRowCount) {
+		this.timeSheetsWorkRowCount = timeSheetsWorkRowCount;
+	}
+
+	@Override
+	public long getTimeSheetWorkReturnedRowCount() {
+		return getTimeSheetsWorkRowCount();
+	}
+
+	@Override
+	public void saveTimeSheetsWork(TimeSheetsWork timesheetWork) {
+		// sessionfactory.getCurrentSession().save(timesheetWork);
+		Gson gs = new Gson();
+
+		TimeSheetsWork ts = (TimeSheetsWork) sessionfactory.getCurrentSession()
+				.save(timesheetWork);
+		// sessionfactory.getCurrentSession().refresh(timesheetWork);
+		System.out.println("ID = " + timesheetWork.getId());
+		//
+		// sessionfactory.getCurrentSession().clear();
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TimeSheetsWork> getAllTimeSheetsWork(long offset, long limit) {
+		Query query = sessionfactory.getCurrentSession().createQuery(
+				"from TimeSheetsWork");
+		int first = (int) offset;
+		int last = (int) limit;
+		query.setFirstResult(first);
+		query.setMaxResults(last);
+		return query.list();
 	}
 }

@@ -1,5 +1,6 @@
 package com.millenniumit.mx.data.timesheets.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.*;
@@ -41,7 +42,7 @@ public class TimeSheetsUserServiceImpl implements TimeSheetsUserService {
 	}
 
 	@Transactional
-	public void saveTimeSheetsUsers(TimeSheetsUser timesheetuser) {
+	public void saveTimeSheetsUser(TimeSheetsUser timesheetuser) {
 		timesheetsdao.saveTimeSheetsUsers(timesheetuser);
 	}
 
@@ -50,5 +51,12 @@ public class TimeSheetsUserServiceImpl implements TimeSheetsUserService {
 		
 		timesheetsdao.deleteTimeSheetsUsers(userID);
 	}
-
+	
+	
+	@Transactional
+	public void saveTimeSheetsUsers(List<TimeSheetsUser> timesheetuserList) {
+		for (TimeSheetsUser timeSheetsUser : timesheetuserList) {
+			timesheetsdao.saveTimeSheetsUsers(timeSheetsUser);
+		}
+	}
 }

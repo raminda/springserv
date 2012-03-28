@@ -2,7 +2,6 @@ package com.millenniumit.mx.data.timesheets.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,6 +9,11 @@ import org.springframework.stereotype.Repository;
 import com.millenniumit.mx.data.timesheets.dao.TimeSheetsUserDao;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser;
 
+/**
+ * 
+ * @author Kalpag
+ *
+ */
 @Repository("timesheetsUserDao")
 public class TimeSheetsUserHibernateDao implements TimeSheetsUserDao {
 
@@ -35,6 +39,7 @@ public class TimeSheetsUserHibernateDao implements TimeSheetsUserDao {
 	public void saveTimeSheetsUsers(TimeSheetsUser timesheetsuser) {
 		sessionfactory.getCurrentSession().saveOrUpdate(timesheetsuser);
 		sessionfactory.getCurrentSession().flush();
+		sessionfactory.getCurrentSession().clear();
 	}
 
 	@Override
@@ -48,6 +53,4 @@ public class TimeSheetsUserHibernateDao implements TimeSheetsUserDao {
 
 		sessionfactory.getCurrentSession().delete(timesheetsuser);
 	}
-
-	
 }

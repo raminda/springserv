@@ -8,7 +8,10 @@ public interface TimeSheetsWorkService {
 
 	public List<TimeSheetsWork> getTimeSheetsWork();
 	public List<Object> getTimeSheetsWork(long offset, long limit);
+	public List<TimeSheetsWork> getAllTimeSheetsWork(long offset, long limit);
 	public List<Object> getTimeSheetsWork(
 			TimeSheetsWorkCriteria timesheetsCriteria, long offset, long limit);
 	public long getTotalTimeSheetsWorkCount();
+	public long getTimeSheetWorkReturnedRowCount();
+	public void saveTimeSheetsWork(TimeSheetsWork timesheetWork);
 }

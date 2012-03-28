@@ -12,6 +12,7 @@ import com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser;
  */
 public interface TimeSheetsUserService {
 	public List<TimeSheetsUser> getTimeSheetsUsers();
-	public void saveTimeSheetsUsers(TimeSheetsUser timesheetuser);
+	public void saveTimeSheetsUser(TimeSheetsUser timesheetuser);
+	public void saveTimeSheetsUsers( List<TimeSheetsUser> timesheetuserList);
 	public void deleteTimeSheetsUsers(long userId);
 }

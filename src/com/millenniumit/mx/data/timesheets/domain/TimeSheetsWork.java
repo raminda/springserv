@@ -18,6 +18,10 @@ public class TimeSheetsWork implements Serializable {
 	@Column(name = "id")
 	private long id;
 
+	@Id
+	@Column(name = "division_id")
+	private long divisionId;
+	
 	@Column(name = "user_id")
 	private long userId;
 	
@@ -34,10 +38,10 @@ public class TimeSheetsWork implements Serializable {
 	private String reference;
 	
 	@Column(name = "hours_planned")
-	private long hoursPlanned;
+	private float hoursPlanned;
 	
 	@Column(name = "hours_unplanned")
-	private long hoursUnplanned;
+	private float hoursUnplanned;
 		
 	@Column(name = "note")
 	private String note;
@@ -83,6 +87,7 @@ public class TimeSheetsWork implements Serializable {
 		this.userId = userId;
 	}
 
+	
 	/**
 	 * @return the projectId
 	 */
@@ -142,28 +147,28 @@ public class TimeSheetsWork implements Serializable {
 	/**
 	 * @return the hoursPlanned
 	 */
-	public long getHoursPlanned() {
+	public float getHoursPlanned() {
 		return hoursPlanned;
 	}
 
 	/**
 	 * @param hoursPlanned the hoursPlanned to set
 	 */
-	public void setHoursPlanned(long hoursPlanned) {
+	public void setHoursPlanned(float hoursPlanned) {
 		this.hoursPlanned = hoursPlanned;
 	}
 
 	/**
 	 * @return the hoursUnplanned
 	 */
-	public long getHoursUnplanned() {
+	public float getHoursUnplanned() {
 		return hoursUnplanned;
 	}
 
 	/**
 	 * @param hoursUnplanned the hoursUnplanned to set
 	 */
-	public void setHoursUnplanned(long hoursUnplanned) {
+	public void setHoursUnplanned(float hoursUnplanned) {
 		this.hoursUnplanned = hoursUnplanned;
 	}
 
@@ -221,6 +226,20 @@ public class TimeSheetsWork implements Serializable {
 	 */
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
+	}
+
+	/**
+	 * @return the divisionId
+	 */
+	public long getDivisionId() {
+		return divisionId;
+	}
+
+	/**
+	 * @param divisionId the divisionId to set
+	 */
+	public void setDivisionId(long divisionId) {
+		this.divisionId = divisionId;
 	}
 	
 		
