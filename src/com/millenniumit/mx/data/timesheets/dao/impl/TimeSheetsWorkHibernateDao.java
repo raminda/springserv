@@ -260,9 +260,8 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 		// sessionfactory.getCurrentSession().save(timesheetWork);
 		Gson gs = new Gson();
 
-		TimeSheetsWork ts = (TimeSheetsWork) sessionfactory.getCurrentSession()
-				.save(timesheetWork);
-		// sessionfactory.getCurrentSession().refresh(timesheetWork);
+	 sessionfactory.getCurrentSession().save(timesheetWork);
+		sessionfactory.getCurrentSession().flush();
 		System.out.println("ID = " + timesheetWork.getId());
 		//
 		// sessionfactory.getCurrentSession().clear();
