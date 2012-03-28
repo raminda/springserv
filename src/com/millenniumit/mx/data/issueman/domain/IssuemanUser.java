@@ -23,6 +23,9 @@ public class IssuemanUser extends AuditFields implements Serializable {
 	@Id 
     private Long id;
 	
+	@Column(name = "native_id")
+	private Long nativeId;
+	
 	@Column(name = "username")
 	private String username;
 	
@@ -69,5 +72,19 @@ public class IssuemanUser extends AuditFields implements Serializable {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	/**
+	 * @return the nativeId
+	 */
+	public Long getNativeId() {
+		return nativeId;
+	}
+
+	/**
+	 * @param nativeId the nativeId to set
+	 */
+	public void setNativeId(Long nativeId) {
+		this.nativeId = nativeId;
 	}
 }

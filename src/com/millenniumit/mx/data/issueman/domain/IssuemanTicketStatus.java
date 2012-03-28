@@ -23,6 +23,9 @@ public class IssuemanTicketStatus extends AuditFields implements Serializable {
 	@Id 
     private Long id;
 	
+	@Column(name = "native_id")
+	private Long nativeId;
+	
 	@Column(name = "name")
 	private String name;
 	
@@ -69,5 +72,19 @@ public class IssuemanTicketStatus extends AuditFields implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return the nativeId
+	 */
+	public Long getNativeId() {
+		return nativeId;
+	}
+
+	/**
+	 * @param nativeId the nativeId to set
+	 */
+	public void setNativeId(Long nativeId) {
+		this.nativeId = nativeId;
 	}
 }

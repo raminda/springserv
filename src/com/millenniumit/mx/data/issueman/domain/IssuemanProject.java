@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 /**
  * 
- * @author Vimukthi
+ * @author Kalpag
  *
  */
 @Entity(name = "IssuemanProject")
@@ -21,13 +21,16 @@ public class IssuemanProject extends AuditFields implements Serializable {
 	@Id 
     private Long id;
 	
+	@Column(name = "native_id")
+	private Long nativeId;
+	
 	@Column(name = "name")
 	private String name;
 	
 	@Column(name = "description")
 	private String description;
 	
-	@Column(name = "key")
+	@Column(name = "ikey")
 	private String key;
 
 	/**
@@ -84,5 +87,19 @@ public class IssuemanProject extends AuditFields implements Serializable {
 	 */
 	public void setKey(String key) {
 		this.key = key;
+	}
+
+	/**
+	 * @return the nativeId
+	 */
+	public Long getNativeId() {
+		return nativeId;
+	}
+
+	/**
+	 * @param nativeId the nativeId to set
+	 */
+	public void setNativeId(Long nativeId) {
+		this.nativeId = nativeId;
 	}
 }

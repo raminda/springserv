@@ -26,6 +26,9 @@ public class IssuemanTicketType extends AuditFields implements Serializable {
 	@Id 
     private Long id;
 	
+	@Column(name = "native_id")
+	private Long nativeId;
+	
 	@ManyToOne
 	@JoinColumn(name = "parent_type_id")
 	@NotFound( action = NotFoundAction.IGNORE )
@@ -91,5 +94,19 @@ public class IssuemanTicketType extends AuditFields implements Serializable {
 	 */
 	public void setParentType(IssuemanTicketType parentType) {
 		this.parentType = parentType;
+	}
+
+	/**
+	 * @return the nativeId
+	 */
+	public Long getNativeId() {
+		return nativeId;
+	}
+
+	/**
+	 * @param nativeId the nativeId to set
+	 */
+	public void setNativeId(Long nativeId) {
+		this.nativeId = nativeId;
 	}
 }

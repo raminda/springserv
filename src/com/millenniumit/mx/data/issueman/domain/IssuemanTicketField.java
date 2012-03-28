@@ -23,8 +23,14 @@ public class IssuemanTicketField extends AuditFields implements Serializable {
 	@Id 
     private Long id;
 	
+	@Column(name = "native_id")
+	private Long nativeId;
+	
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "description")
+	private String description;
 	
 	@Column(name = "type")
 	private String type;
@@ -69,5 +75,33 @@ public class IssuemanTicketField extends AuditFields implements Serializable {
 	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * @return the nativeId
+	 */
+	public Long getNativeId() {
+		return nativeId;
+	}
+
+	/**
+	 * @param nativeId the nativeId to set
+	 */
+	public void setNativeId(Long nativeId) {
+		this.nativeId = nativeId;
 	}	
 }
