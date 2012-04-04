@@ -140,6 +140,18 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				</value>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanReleaseFieldCurrent
 				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanUserFieldCurrent
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanPriorityFieldCurrent
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStringFieldCurrent
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTypeFieldCurrent
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanResolutionFieldCurrent
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldCurrent
+				</value>
 				<!-- <value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldHistory -->
 				<!-- </value> -->
 			</list>

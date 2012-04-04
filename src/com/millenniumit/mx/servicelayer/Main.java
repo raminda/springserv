@@ -27,12 +27,6 @@ public class Main {
 	@Autowired
 	@Qualifier("issuemanJdbcTemplate")
 	private JdbcTemplate issuemanJdbcTemplate;
-
-	@Autowired
-	private IssuemanTicketService issuemanTicketService;
-
-	@Autowired
-	private IssuemanReleaseFieldCurrentService issuemanReleaseFieldCurrentService;
 	
 	private static ApplicationContextLoader contextLoader = new ApplicationContextLoader();
 
@@ -45,8 +39,6 @@ public class Main {
 		contextLoader.load(main, "applicationContext.xml");
 		Gson gs = new Gson();
 
-		System.out.println("Issue Ticket Current Value Fields = "
-				+ gs.toJson(main.issuemanReleaseFieldCurrentService.getIssuemanReleaseFieldCurrent(1, 100)));
 	}
 
 	/**
