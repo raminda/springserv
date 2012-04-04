@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.relman.dao.RelmanCurrentReleaseInfoDao;
@@ -15,6 +16,7 @@ public class RelmanCurrentReleaseInfoHibernateDao implements
 		RelmanCurrentReleaseInfoDao {
 	
 	@Autowired
+	@Qualifier("sessionFactory")
 	private SessionFactory sessionfactory;
 	
 	

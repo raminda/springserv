@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.timesheets.dao.TimeSheetsReferenceDao;
@@ -20,6 +21,7 @@ import com.millenniumit.mx.data.timesheets.domain.TimeSheetsReference;
 public class TimeSheetsReferenceHibernateDao implements TimeSheetsReferenceDao {
 
 	@Autowired
+	@Qualifier("sessionFactory")
 	private SessionFactory sessionfactory;
 
 	@SuppressWarnings("unchecked")

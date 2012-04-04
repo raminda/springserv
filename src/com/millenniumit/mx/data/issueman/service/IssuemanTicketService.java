@@ -14,8 +14,8 @@ import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
  * @author Kalpag
  * 
  */
-public interface IssuemanTicketService {
 
+public interface IssuemanTicketService {
 	public List<IssuemanTicket> getTicketsGroupByWeek();
 	public List<IssuemanTicket> getTicketsGroupByWeek(int offset, int limit);
 	public List<IssuemanTicket> getTicketsGroupByWeek(IssuemanProject project,

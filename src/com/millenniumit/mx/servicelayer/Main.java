@@ -2,22 +2,11 @@
  * 
  */
 package com.millenniumit.mx.servicelayer;
-
-import java.lang.reflect.Type;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.millenniumit.mx.data.relman.service.RelmanReleaseService;
-import com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork;
-import com.millenniumit.mx.data.timesheets.service.TimeSheetsReferenceService;
-import com.millenniumit.mx.data.timesheets.service.TimeSheetsWorkService;
+import com.millenniumit.mx.data.issueman.service.IssuemanReleaseFieldCurrentService;
+import com.millenniumit.mx.data.issueman.service.IssuemanTicketService;
 import com.millenniumit.spring.consoleutil.ApplicationContextLoader;
 
 /**
@@ -40,12 +29,11 @@ public class Main {
 	private JdbcTemplate issuemanJdbcTemplate;
 
 	@Autowired
-	private RelmanReleaseService releaseService;
+	private IssuemanTicketService issuemanTicketService;
 
-	
 	@Autowired
-	private TimeSheetsWorkService timesheetsWorkService;
-
+	private IssuemanReleaseFieldCurrentService issuemanReleaseFieldCurrentService;
+	
 	private static ApplicationContextLoader contextLoader = new ApplicationContextLoader();
 
 	/**
@@ -56,25 +44,9 @@ public class Main {
 		Main main = new Main();
 		contextLoader.load(main, "applicationContext.xml");
 		Gson gs = new Gson();
-		
-		Calendar currentDate = Calendar.getInstance();
-		TimeSheetsWork timesheetsWork = new TimeSheetsWork();
-		timesheetsWork.setDateCreated(currentDate.getTime());
-		timesheetsWork.setDivisionId((long)2055);
-		timesheetsWork.setHoursPlanned((float) 2.30);
-		timesheetsWork.setHoursUnplanned((float) 3.20);
-		timesheetsWork.setNote("note");
-		timesheetsWork.setProjectId(1020);
-		timesheetsWork.setReference("kalpa");
-		timesheetsWork.setRoleId(205);
-		timesheetsWork.setUpdateCount(110);
-		timesheetsWork.setUserId(102);
-		timesheetsWork.setWorkDate(currentDate.getTime());
-	//	timesheetsWork.setId(555555);
-		main.timesheetsWorkService.saveTimeSheetsWork(timesheetsWork);
-	
-		
-	
+
+		System.out.println("Issue Ticket Current Value Fields = "
+				+ gs.toJson(main.issuemanReleaseFieldCurrentService.getIssuemanReleaseFieldCurrent(1, 100)));
 	}
 
 	/**
@@ -106,34 +78,4 @@ public class Main {
 	public void setIssuemanJdbcTemplate(JdbcTemplate issuemanJdbcTemplate) {
 		this.issuemanJdbcTemplate = issuemanJdbcTemplate;
 	}
-
-	/**
-	 * @return the releaseService
-	 */
-	public RelmanReleaseService getReleaseService() {
-		return releaseService;
-	}
-
-	/**
-	 * @param releaseService
-	 *            the releaseService to set
-	 */
-	public void setReleaseService(RelmanReleaseService releaseService) {
-		this.releaseService = releaseService;
-	}
-
-	/**
-	 * @return the timesheetsWorkService
-	 */
-	public TimeSheetsWorkService getTimesheetsWorkService() {
-		return timesheetsWorkService;
-	}
-
-	/**
-	 * @param timesheetsWorkService the timesheetsWorkService to set
-	 */
-	public void setTimesheetsWorkService(TimeSheetsWorkService timesheetsWorkService) {
-		this.timesheetsWorkService = timesheetsWorkService;
-	}
-
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.relman.dao.RelmanRelationDao;
@@ -19,6 +20,7 @@ import com.millenniumit.mx.data.relman.domain.*;
 public class RelmanRelationHibernateDao implements RelmanRelationDao {
 
 	@Autowired
+	@Qualifier("sessionFactory")
 	private SessionFactory sessionfactory;
 
 	public SessionFactory getSessionfactory() {

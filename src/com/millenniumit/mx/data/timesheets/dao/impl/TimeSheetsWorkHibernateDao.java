@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.google.gson.Gson;
@@ -25,6 +26,7 @@ import com.millenniumit.mx.data.timesheets.util.TimeSheetsWorkCriteria;
 public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 
 	@Autowired
+	@Qualifier("sessionFactory")
 	private SessionFactory sessionfactory;
 	private long timeSheetsWorkRowCount;
 

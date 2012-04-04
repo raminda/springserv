@@ -8,6 +8,9 @@ import java.sql.Timestamp;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 /**
  * @author Vimukthi
  *
@@ -35,9 +38,10 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 		
 	@ManyToOne
 	@JoinColumn(name = "project_id")
-	private Long projectId;
+	private IssuemanProject project;
 	
 	@ManyToOne
+	@NotFound( action = NotFoundAction.IGNORE )
 	@JoinColumn(name = "component_id")
 	private IssuemanComponent component;
 	
@@ -108,20 +112,6 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @return the projectId
-	 */
-	public Long getProjectId() {
-		return projectId;
-	}
-
-	/**
-	 * @param projectId the projectId to set
-	 */
-	public void setProjectId(Long projectId) {
-		this.projectId = projectId;
-	}
-
-	/**
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -175,5 +165,19 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	 */
 	public void setReporter(IssuemanUser reporter) {
 		this.reporter = reporter;
+	}
+
+	/**
+	 * @return the projectId
+	 */
+	public IssuemanProject getProject() {
+		return project;
+	}
+
+	/**
+	 * @param projectId the projectId to set
+	 */
+	public void setProject(IssuemanProject projectId) {
+		this.project = project;
 	}
 }

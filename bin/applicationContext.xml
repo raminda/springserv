@@ -65,7 +65,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" >
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="portaldb" />
 		<property name="annotatedClasses">
 			<list>
@@ -101,12 +101,14 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				<value>com.millenniumit.mx.data.relman.domain.RelmanCurrentReleaseInfo
 				</value>
 
+				<!-- TimeSheets Entities starts here -->
 				<value>com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser
 				</value>
 				<value>com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork
 				</value>
-				<value> com.millenniumit.mx.data.timesheets.domain.TimeSheetsReference</value>
-
+				<value>
+					com.millenniumit.mx.data.timesheets.domain.TimeSheetsReference
+				</value>
 
 				<!-- Metrics Entities starts here -->
 				<value>com.millenniumit.mx.data.metrics.metric.Loc
@@ -116,10 +118,36 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			</list>
 		</property>
 	</bean>
+
+
+	<bean id="IssuemanSessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="issuemandb" />
+		<property name="annotatedClasses">
+			<list>
+				<!-- Issueman Entities starts here -->
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicket
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanComponent
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanProject
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanUser
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldCurrent
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketField
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanReleaseFieldCurrent
+				</value>
+				<!-- <value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldHistory -->
+				<!-- </value> -->
+			</list>
+		</property>
+	</bean>
 	<tx:annotation-driven transaction-manager="txManager" />
 	<bean id="txManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
 </beans>
