@@ -12,7 +12,8 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 /**
- * @author Vimukthi
+ * 
+ * @author kalpag
  *
  */
 @Entity(name = "IssuemanTicket")

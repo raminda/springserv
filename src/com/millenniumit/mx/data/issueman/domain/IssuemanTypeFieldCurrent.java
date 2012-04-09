@@ -11,7 +11,7 @@ import javax.persistence.InheritanceType;
  * @author Kalpag
  *
  */
-@Entity
+@Entity(name="IssuemanTypeFieldCurrent" )
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("type")
 public class IssuemanTypeFieldCurrent extends IssuemanTicketFieldCurrent {

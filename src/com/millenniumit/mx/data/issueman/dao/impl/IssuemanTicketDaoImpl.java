@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao;
 import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
+import com.millenniumit.mx.data.issueman.domain.IssuemanTypeFieldCurrent;
 
 /**
  * 
@@ -44,12 +45,21 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	/**
  * 
  */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<IssuemanTicket> getTicketsGroupByWeek(IssuemanProject project,
 			int type, int subType, Date from, Date to, boolean clientCopied) {
-		String queryString = "from IssuemanTicket where ";
 
-		return null;
+		long projectId = project.getId();
+
+		String queryString = "select ticket from IssuemanTypeFieldCurrent as type " +
+				" where type.ticket.project.id = "+projectId+"";
+
+		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(
+				queryString);
+		query.setFirstResult(1);
+		query.setMaxResults(100);
+		return (List<IssuemanTicket>) query.list();
 	}
 
 	/**
