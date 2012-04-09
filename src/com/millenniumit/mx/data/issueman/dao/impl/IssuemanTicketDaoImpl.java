@@ -45,6 +45,8 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	/**
  * 
  */
+	
+	//kalpag lklka
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<IssuemanTicket> getTicketsGroupByWeek(IssuemanProject project,
@@ -53,10 +55,13 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		long projectId = project.getId();
 
 		String queryString = "select ticket from IssuemanTypeFieldCurrent as type " +
-				" where type.ticket.project.id = "+projectId+"";
+				" where type.ticket.project.id = :projectId and  ";
 
 		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(
 				queryString);
+		query.setParameter("projectId", projectId);
+		
+		
 		query.setFirstResult(1);
 		query.setMaxResults(100);
 		return (List<IssuemanTicket>) query.list();
