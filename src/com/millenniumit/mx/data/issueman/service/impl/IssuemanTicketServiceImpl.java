@@ -35,20 +35,14 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	}
 
 	@Transactional
-	public List<IssuemanTicket> getTicketsGroupByWeek(IssuemanProject project,
-			int type, int subType, Date from, Date to, boolean clientCopied) {
-		return issuemanTicketDao.getTicketsGroupByWeek(project, type, subType,
-				from, to, clientCopied);
+	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
+			long subType, Date from, Date to) {
+		return issuemanTicketDao.getTotalTickets(projectId, type, subType,
+				from, to);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
-	 * getTicketsGroupByWeek(int, int)
-	 */
 	@Transactional
-	public List<IssuemanTicket> getTicketsGroupByWeek(int offset, int limit) {
+	public List<IssuemanTicket> getTotalTickets(int offset, int limit) {
 		return issuemanTicketDao.getTicketsGroupByWeek(offset, limit);
 	}
 
@@ -65,5 +59,29 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	 */
 	public void setIssuemanTicketDao(IssuemanTicketDao issuemanTicketDao) {
 		this.issuemanTicketDao = issuemanTicketDao;
+	}
+
+	@Transactional
+	public List<IssuemanTicket> getCopiedTickets(long projectId, long type,
+			long subType, Date from, Date to) {
+		return issuemanTicketDao.getCopiedTickets(projectId, type, subType,
+				from, to);
+	}
+
+	@Transactional
+	public List<IssuemanTicket> getCurrentOpenTickets(long projectId,
+			long type, long subType, Date from, Date to) {
+
+		return issuemanTicketDao.getCurrentOpenTickets(projectId, type,
+				subType, from, to);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getInvalidTickets(long, long, long, java.util.Date, java.util.Date)
+	 */
+	@Transactional
+	public List<IssuemanTicket> getInvalidTickets(long projectId, long type,
+			long subType, Date from, Date to) {
+		return issuemanTicketDao.getInvalidTickets(projectId, type, subType, from, to);
 	}
 }

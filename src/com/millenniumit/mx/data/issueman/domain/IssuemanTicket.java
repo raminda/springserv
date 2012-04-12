@@ -5,16 +5,20 @@ package com.millenniumit.mx.data.issueman.domain;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
 
 /**
  * 
  * @author kalpag
- *
+ * 
  */
 @Entity(name = "IssuemanTicket")
 @Table(name = "tickets")
@@ -24,37 +28,130 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	@Id 
-    private Long id;
-	
+
+	@Id
+	private Long id;
+
 	@Column(name = "native_id")
 	private Long nativeId;
-	
+
 	@Column(name = "ikey")
 	private String key;
-	
+
 	@Column(name = "title")
 	private String title;
-		
+
 	@ManyToOne
 	@JoinColumn(name = "project_id")
 	private IssuemanProject project;
-	
+
 	@ManyToOne
-	@NotFound( action = NotFoundAction.IGNORE )
+	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "component_id")
 	private IssuemanComponent component;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "reporter_id")
 	private IssuemanUser reporter;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "reported_date")
 	private Timestamp reportedDate;
+
+	@OneToMany(targetEntity = IssuemanTicketLink.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "destination_ticket_id")
+	private Collection<IssuemanTicketLink> ticketLinks;
+
+	@OneToMany(targetEntity = IssuemanStatusFieldHistory.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "ticket_id")	
+	private Collection<IssuemanStatusFieldHistory> statusHistoy;
+
+	@OneToOne(targetEntity = IssuemanStatusFieldCurrent.class, fetch = FetchType.LAZY, mappedBy = "ticket")
+	private IssuemanStatusFieldCurrent currentStatus;
+
+	@OneToOne(targetEntity = IssuemanTypeFieldCurrent.class, fetch = FetchType.LAZY, mappedBy = "ticket")
+	private IssuemanTypeFieldCurrent currentType;
+
+	@OneToOne(targetEntity = IssuemanPriorityFieldCurrent.class, fetch = FetchType.LAZY, mappedBy = "ticket")
+	private IssuemanPriorityFieldCurrent currentPriority;
+
+	
+
+	/**
+	 * @return the statusHistoy
+	 */
+	public Collection<IssuemanStatusFieldHistory> getStatusHistoy() {
+		return statusHistoy;
+	}
+
+	/**
+	 * @param statusHistoy the statusHistoy to set
+	 */
+	public void setStatusHistoy(Collection<IssuemanStatusFieldHistory> statusHistoy) {
+		this.statusHistoy = statusHistoy;
+	}
+	
+	/**
+	 * @return the currentPriority
+	 */
+	public IssuemanPriorityFieldCurrent getCurrentPriority() {
+		return currentPriority;
+	}
+
+	/**
+	 * @param currentPriority
+	 *            the currentPriority to set
+	 */
+	public void setCurrentPriority(IssuemanPriorityFieldCurrent currentPriority) {
+		this.currentPriority = currentPriority;
+	}
+
+	/**
+	 * @return the currentType
+	 */
+	public IssuemanTypeFieldCurrent getCurrentType() {
+		return currentType;
+	}
+
+	/**
+	 * @param currentType
+	 *            the currentType to set
+	 */
+	public void setCurrentType(IssuemanTypeFieldCurrent currentType) {
+		this.currentType = currentType;
+	}
+
+	/**
+	 * @return the currentStatus
+	 */
+	public IssuemanStatusFieldCurrent getCurrentStatus() {
+		return currentStatus;
+	}
+
+	/**
+	 * @param currentStatus
+	 *            the currentStatus to set
+	 */
+	public void setCurrentStatus(IssuemanStatusFieldCurrent currentStatus) {
+		this.currentStatus = currentStatus;
+	}
+
+	/**
+	 * @return the ticketLinks
+	 */
+	public Collection<IssuemanTicketLink> getTicketLinks() {
+		return ticketLinks;
+	}
+
+	/**
+	 * @param ticketLinks
+	 *            the ticketLinks to set
+	 */
+	public void setTicketLinks(Collection<IssuemanTicketLink> ticketLinks) {
+		this.ticketLinks = ticketLinks;
+	}
 
 	/**
 	 * @return the id
@@ -64,7 +161,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Long id) {
 		this.id = id;
@@ -78,7 +176,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param nativeId the nativeId to set
+	 * @param nativeId
+	 *            the nativeId to set
 	 */
 	public void setNativeId(Long nativeId) {
 		this.nativeId = nativeId;
@@ -92,7 +191,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param key the key to set
+	 * @param key
+	 *            the key to set
 	 */
 	public void setKey(String key) {
 		this.key = key;
@@ -106,7 +206,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param title the title to set
+	 * @param title
+	 *            the title to set
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -120,7 +221,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -134,7 +236,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param reportedDate the reportedDate to set
+	 * @param reportedDate
+	 *            the reportedDate to set
 	 */
 	public void setReportedDate(Timestamp reportedDate) {
 		this.reportedDate = reportedDate;
@@ -148,7 +251,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param component the component to set
+	 * @param component
+	 *            the component to set
 	 */
 	public void setComponent(IssuemanComponent component) {
 		this.component = component;
@@ -162,7 +266,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param reporter the reporter to set
+	 * @param reporter
+	 *            the reporter to set
 	 */
 	public void setReporter(IssuemanUser reporter) {
 		this.reporter = reporter;
@@ -176,9 +281,10 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param projectId the projectId to set
+	 * @param projectId
+	 *            the projectId to set
 	 */
-	public void setProject(IssuemanProject projectId) {
+	public void setProject(IssuemanProject project) {
 		this.project = project;
 	}
 }

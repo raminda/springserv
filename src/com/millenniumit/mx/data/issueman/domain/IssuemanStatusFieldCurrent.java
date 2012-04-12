@@ -8,31 +8,36 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Kalpag
  *
  */
-@Entity
+@Entity(name="IssuemanStatusFieldCurrent")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("status")
 public class IssuemanStatusFieldCurrent extends IssuemanTicketFieldCurrent {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "value_id" ,insertable = false, updatable = false)
-	private Long valueId;
+	@ManyToOne
+	@JoinColumn(name = "value_id" ,insertable = false, updatable = false)
+	private IssuemanTicketStatus status;
 
 	/**
-	 * @return the valueId
+	 * @return the status
 	 */
-	public Long getValueId() {
-		return valueId;
+	public IssuemanTicketStatus getStatus() {
+		return status;
 	}
 
 	/**
-	 * @param valueId the valueId to set
+	 * @param status the status to set
 	 */
-	public void setValueId(Long valueId) {
-		this.valueId = valueId;
+	public void setStatus(IssuemanTicketStatus status) {
+		this.status = status;
 	}
+
+	
 }

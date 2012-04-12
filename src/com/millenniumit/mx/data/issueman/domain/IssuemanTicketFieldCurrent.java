@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Entity(name = "IssuemanTicketFieldCurrent")
 @Table(name = "ticket_field_current")
 @DiscriminatorColumn(name = "field_type")
-abstract class IssuemanTicketFieldCurrent extends AuditFields implements
+public abstract class IssuemanTicketFieldCurrent extends AuditFields implements
 		Serializable {
 
 	private static final long serialVersionUID = 1L;

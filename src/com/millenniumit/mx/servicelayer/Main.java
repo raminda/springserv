@@ -3,17 +3,20 @@
  */
 package com.millenniumit.mx.servicelayer;
 
+import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.jdbc.core.JdbcTemplate;
 import com.google.gson.Gson;
 import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
-import com.millenniumit.mx.data.issueman.domain.IssuemanTypeFieldCurrent;
-import com.millenniumit.mx.data.issueman.service.IssuemanReleaseFieldCurrentService;
+import com.millenniumit.mx.data.issueman.domain.IssuemanTicketLink;
 import com.millenniumit.mx.data.issueman.service.IssuemanTicketService;
+
 import com.millenniumit.spring.consoleutil.ApplicationContextLoader;
 
 /**
@@ -27,18 +30,19 @@ public class Main {
 
 	// These variables provide access to services and databases
 
-//	@Autowired
-//	@Qualifier("jiraJdbcTemplate")
-//	private JdbcTemplate jiraJdbcTemplate;
-//
-//	@Autowired
-//	@Qualifier("issuemanJdbcTemplate")
-//	private JdbcTemplate issuemanJdbcTemplate;
+	// @Autowired
+	// @Qualifier("jiraJdbcTemplate")
+	// private JdbcTemplate jiraJdbcTemplate;
+	//
+	// @Autowired
+	// @Qualifier("issuemanJdbcTemplate")
+	// private JdbcTemplate issuemanJdbcTemplate;
 
 	@Autowired
 	private IssuemanTicketService issuemanTicketService;
 
 	private static ApplicationContextLoader contextLoader = new ApplicationContextLoader();
+	private static final Logger LOG = Logger.getLogger(Main.class);
 
 	/**
 	 * @param args
@@ -49,42 +53,15 @@ public class Main {
 		contextLoader.load(main, "applicationContext.xml");
 		Gson gs = new Gson();
 
-		IssuemanProject project = new IssuemanProject();
-		project.setId((long) 4);
-
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
+		Date from = dateFormat.parse("2010/01/01");
+		Date to = dateFormat.parse("2012/04/09");
 		List<IssuemanTicket> tickets = main.issuemanTicketService
-				.getTicketsGroupByWeek(project, 21, 21, new Date(), new Date(), false);
-		
-		System.out.println("Tickets = "+gs.toJson(tickets));
+				.getCopiedTickets(3, 3, 21, from, to);
+
+		System.out.println("size of the list = " + tickets.size());
+
+		// System.out.println("Tickets = "+gs.toJson(tickets));
+		//
 	}
-
-	/**
-	 * @return the jiraJdbcTemplate
-	 */
-//	public JdbcTemplate getJiraJdbcTemplate() {
-//		return jiraJdbcTemplate;
-//	}
-
-	/**
-	 * @param jiraJdbcTemplate
-	 *            the jiraJdbcTemplate to set
-	 */
-//	public void setJiraJdbcTemplate(JdbcTemplate jiraJdbcTemplate) {
-//		this.jiraJdbcTemplate = jiraJdbcTemplate;
-//	}
-//
-//	/**
-//	 * @return the issuemanJdbcTemplate
-//	 */
-//	public JdbcTemplate getIssuemanJdbcTemplate() {
-//		return issuemanJdbcTemplate;
-//	}
-
-	/**
-	 * @param issuemanJdbcTemplate
-	 *            the issuemanJdbcTemplate to set
-	 */
-//public void setIssuemanJdbcTemplate(JdbcTemplate issuemanJdbcTemplate) {
-//		this.issuemanJdbcTemplate = issuemanJdbcTemplate;
-//	}	
 }

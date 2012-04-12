@@ -3,11 +3,12 @@
  */
 package com.millenniumit.mx.data.issueman.domain;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Kalpag
@@ -19,20 +20,22 @@ import javax.persistence.InheritanceType;
 public class IssuemanUserFieldCurrent extends IssuemanTicketFieldCurrent {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "value_id" ,insertable = false, updatable = false)
-	private Long valueId;
+	@ManyToOne
+	@JoinColumn(name = "value_id" ,insertable = false, updatable = false)
+	private IssuemanUser user;
 
 	/**
-	 * @return the valueId
+	 * @return the user
 	 */
-	public Long getValueId() {
-		return valueId;
+	public IssuemanUser getUser() {
+		return user;
 	}
 
 	/**
-	 * @param valueId the valueId to set
+	 * @param user the user to set
 	 */
-	public void setValueId(Long valueId) {
-		this.valueId = valueId;
+	public void setUser(IssuemanUser user) {
+		this.user = user;
 	}
+
 }

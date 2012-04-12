@@ -8,6 +8,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Kalpag
@@ -19,20 +21,22 @@ import javax.persistence.InheritanceType;
 public class IssuemanPriorityFieldCurrent extends IssuemanTicketFieldCurrent {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "value_id" ,insertable = false, updatable = false)
-	private Long valueId;
+	@ManyToOne
+	@JoinColumn(name = "value_id" ,insertable = false, updatable = false)
+	private IssuemanPriority priority;
 
 	/**
-	 * @return the valueId
+	 * @return the priority
 	 */
-	public Long getValueId() {
-		return valueId;
+	public IssuemanPriority getPriority() {
+		return priority;
 	}
 
 	/**
-	 * @param valueId the valueId to set
+	 * @param priority the priority to set
 	 */
-	public void setValueId(Long valueId) {
-		this.valueId = valueId;
+	public void setPriority(IssuemanPriority priority) {
+		this.priority = priority;
 	}
+
 }

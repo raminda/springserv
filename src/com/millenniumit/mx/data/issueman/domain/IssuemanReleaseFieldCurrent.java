@@ -9,34 +9,40 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
 
 /**
  * @author Kalpag
- *
+ * 
  */
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("release")
 public class IssuemanReleaseFieldCurrent extends IssuemanTicketFieldCurrent {
 
-
 	private static final long serialVersionUID = 1L;
-	
-	@Column(name = "value_id" ,insertable = false, updatable = false)
-	private Long valueId;
+
+	@ManyToOne
+	@JoinColumn(name = "value_string", insertable = false, updatable = false)
+	private IssuemanRelease release;
 
 	/**
-	 * @return the valueId
+	 * @return the release
 	 */
-	public Long getValueId() {
-		return valueId;
+	public IssuemanRelease getRelease() {
+		return release;
 	}
 
 	/**
-	 * @param valueId the valueId to set
+	 * @param release
+	 *            the release to set
 	 */
-	public void setValueId(Long valueId) {
-		this.valueId = valueId;
+	public void setRelease(IssuemanRelease release) {
+		this.release = release;
 	}
-	
 }

@@ -15,7 +15,8 @@ import javax.persistence.*;
  */
 @Entity(name = "IssuemanTicketFieldHistory")
 @Table(name = "ticket_field_history")
-public class IssuemanTicketFieldHistory extends AuditFields implements Serializable {
+@DiscriminatorColumn(name = "field_type")
+public abstract class IssuemanTicketFieldHistory extends AuditFields implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

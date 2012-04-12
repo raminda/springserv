@@ -8,6 +8,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Kalpag
@@ -19,21 +21,23 @@ import javax.persistence.InheritanceType;
 public class IssuemanResolutionFieldCurrent extends IssuemanTicketFieldCurrent {
 	private static final long serialVersionUID = 1L;
 	
-	@Column(name = "value_id" ,insertable = false, updatable = false)
-	private Long valueId;
+	@ManyToOne
+	@JoinColumn(name = "value_id" ,insertable = false, updatable = false)
+	private IssuemanResolution resolution;
 
 	/**
-	 * @return the valueId
+	 * @return the resolution
 	 */
-	public Long getValueId() {
-		return valueId;
+	public IssuemanResolution getResolution() {
+		return resolution;
 	}
 
 	/**
-	 * @param valueId the valueId to set
+	 * @param resolution the resolution to set
 	 */
-	public void setValueId(Long valueId) {
-		this.valueId = valueId;
+	public void setResolution(IssuemanResolution resolution) {
+		this.resolution = resolution;
 	}
+
 	
 }

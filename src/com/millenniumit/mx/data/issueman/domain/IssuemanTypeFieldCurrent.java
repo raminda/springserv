@@ -2,11 +2,15 @@
  * 
  */
 package com.millenniumit.mx.data.issueman.domain;
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 /**
  * @author Kalpag
  *
@@ -21,20 +25,24 @@ public class IssuemanTypeFieldCurrent extends IssuemanTicketFieldCurrent {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "value_id" ,insertable = false, updatable = false)
-	private Long valueId;
+	@ManyToOne
+	@JoinColumn(name = "value_id" ,insertable = false, updatable = false)
+	private IssuemanTicketType ticketType;
 
 	/**
-	 * @return the valueId
+	 * @return the ticketType
 	 */
-	public Long getValueId() {
-		return valueId;
+	public IssuemanTicketType getTicketType() {
+		return ticketType;
 	}
 
 	/**
-	 * @param valueId the valueId to set
+	 * @param ticketType the ticketType to set
 	 */
-	public void setValueId(Long valueId) {
-		this.valueId = valueId;
+	public void setTicketType(IssuemanTicketType ticketType) {
+		this.ticketType = ticketType;
 	}
+
+	
+	
 }

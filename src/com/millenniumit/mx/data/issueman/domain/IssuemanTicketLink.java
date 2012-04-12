@@ -29,7 +29,8 @@ public class IssuemanTicketLink extends AuditFields implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "ticket_link_type_id")
 	private IssuemanTicketLinkType ticketLinkType;
-	
+
+
 	@ManyToOne
 	@JoinColumn(name = "source_ticket_id")
 	private IssuemanTicket sourceTicket;

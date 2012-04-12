@@ -17,6 +17,13 @@ import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 public interface IssuemanTicketDao {
 	public List<IssuemanTicket> getTicketsGroupByWeek();
 	public List<IssuemanTicket> getTicketsGroupByWeek(int offset, int limit);
-	public List<IssuemanTicket> getTicketsGroupByWeek(IssuemanProject project,
-			int type, int subType, Date from, Date to, boolean clientCopied);
+	public List<IssuemanTicket> getTotalTickets(long projectId,
+			long type, long subType, Date from, Date to);
+	
+	public List<IssuemanTicket> getCopiedTickets(long projectId,
+			long type, long subType, Date from, Date to);
+	public List<IssuemanTicket> getCurrentOpenTickets(long projectId, long type,
+			long subType, Date from, Date to);
+	public List<IssuemanTicket> getInvalidTickets(long projectId, long type,
+			long subType, Date from, Date to);
 }
