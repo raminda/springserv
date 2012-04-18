@@ -171,8 +171,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketStatus
 				</value>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldHistory</value>
-				<!-- <value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldHistory -->
-				<!-- </value> -->
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanResolutionFieldHistory</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldHistory </value> 
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStringFieldHistory</value>
 			</list>
 		</property>
 	</bean>

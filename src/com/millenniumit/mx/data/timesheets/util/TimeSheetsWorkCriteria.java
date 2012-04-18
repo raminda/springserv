@@ -1,5 +1,9 @@
 package com.millenniumit.mx.data.timesheets.util;
-
+/**
+ * 
+ * @author kalpag
+ *
+ */
 public class TimeSheetsWorkCriteria {
 
 	private Long[] divisionIds = null;

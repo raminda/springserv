@@ -4,6 +4,7 @@
 package com.millenniumit.mx.data.issueman.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao;
 import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
+import com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldHistory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicketType;
 
@@ -52,9 +54,9 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	@Override
 	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
 			long subType, Date from, Date to) {
-		
-		String queryString = "select ticket from IssuemanTicket ticket" 
-				+  " join ticket.currentType as currentType "
+
+		String queryString = "select ticket from IssuemanTicket ticket"
+				+ " join ticket.currentType as currentType "
 				+ " where ticket.project.id = :projectId and "
 				+ " currentType.ticketType.id = :subType "
 				+ "and ticket.reportedDate < :to and ticket.reportedDate > :from ";
@@ -92,7 +94,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 				+ " ticket.reportedDate < :to "
 				+ " and ticket.reportedDate > :from"
 				+ " and linkType.name in :linktypes";
-		
+
 		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(
 				queryString);
 		query.setParameter("projectId", projectId);
@@ -133,8 +135,8 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	@Override
 	public List<IssuemanTicket> getCurrentOpenTickets(long projectId,
 			long type, long subType, Date from, Date to) {
-		
-		System.out.println("from = "+from +" to = "+to);
+
+		System.out.println("from = " + from + " to = " + to);
 
 		String queryString = "select ticket from IssuemanTicket ticket"
 				+ " left join ticket.ticketLinks as links"
@@ -143,8 +145,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 				+ " where ticket.project.id = :projectId  "
 				+ " and currentType.ticketType.id = :subType "
 				+ " and currentStatus.status.name = :open"
-				+ " and links is null" 
-				+ " and ticket.reportedDate < :to "
+				+ " and links is null" + " and ticket.reportedDate < :to "
 				+ " and ticket.reportedDate > :from";
 
 		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(
@@ -157,14 +158,47 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		return (List<IssuemanTicket>) query.list();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getInvalidTickets(long, long, long, java.util.Date, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getInvalidTickets
+	 * (long, long, long, java.util.Date, java.util.Date)
 	 */
 	@Override
 	public List<IssuemanTicket> getInvalidTickets(long projectId, long type,
 			long subType, Date from, Date to) {
-		// TODO Auto-generated method stub
-		return null;
+
+		String q = "select ticket from IssuemanTicket ticket"
+		// + " left join ticket.ticketLinks as links"
+				+ " join ticket.statusHistoy as statusHistoy "
+				// + " join ticket.currentStatus as currentStatus"
+				// + " join ticket.currentType as currentType"
+			+ " where ticket.project.id = :projectId  ";
+				// + " and currentType.ticketType.id = :subType "
+				// + " and currentStatus.status.name = :open"
+			//	+ " and links is null";
+		// + " and ticket.reportedDate < :to "
+		// + " and ticket.reportedDate > :from";
+
+		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(q);
+		query.setParameter("projectId", projectId);
+
+		List<IssuemanTicket> tickets = query.list();
+		for (IssuemanTicket issuemanTicket : tickets) {
+			Collection<IssuemanStatusFieldHistory> histories = (Collection<IssuemanStatusFieldHistory>) issuemanTicket
+					.getStatusHistoy();
+			System.out.println("----------------------");
+			for (IssuemanStatusFieldHistory issuemanStatusFieldHistory : histories) {
+				System.out.println(issuemanTicket.getId() + " old value = "
+					//	+ issuemanStatusFieldHistory.getOldStatus().getId()
+						+ " new value = "+"");
+					//	+ issuemanStatusFieldHistory.getNewStatus().getId());
+			}
+
+		}
+
+		return tickets;
 	}
 
 }

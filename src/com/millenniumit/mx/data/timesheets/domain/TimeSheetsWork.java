@@ -31,6 +31,7 @@ public class TimeSheetsWork implements Serializable {
 	@Column(name = "role_id")
 	private long roleId;
 	
+	@Temporal(value = TemporalType.DATE)
 	@Column(name = "work_date")
 	private Date workDate;
 		

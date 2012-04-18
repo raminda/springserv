@@ -57,7 +57,7 @@ public class Main {
 		Date from = dateFormat.parse("2010/01/01");
 		Date to = dateFormat.parse("2012/04/09");
 		List<IssuemanTicket> tickets = main.issuemanTicketService
-				.getCopiedTickets(3, 3, 21, from, to);
+				.getInvalidTickets(3, 3, 21, from, to);
 
 		System.out.println("size of the list = " + tickets.size());
 

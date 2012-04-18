@@ -8,11 +8,14 @@ import java.sql.Timestamp;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Where;
+
 /**
  * 
  * @author Kalpag
  *
  */
+
 @Entity(name = "IssuemanTicketFieldHistory")
 @Table(name = "ticket_field_history")
 @DiscriminatorColumn(name = "field_type")
@@ -33,10 +36,7 @@ public abstract class IssuemanTicketFieldHistory extends AuditFields implements 
 	@ManyToOne
 	@JoinColumn(name = "field_id")
 	private IssuemanTicketField field;
-	
-	@Column(name = "is_current")
-	private int isCurrent;
-	
+
 	@Column(name = "modified_by")
 	private Long modifiedBy;
 	
@@ -193,20 +193,6 @@ public abstract class IssuemanTicketFieldHistory extends AuditFields implements 
 		this.id = id;
 	}
 
-
-	/**
-	 * @return the isCurrent
-	 */
-	public int getIsCurrent() {
-		return isCurrent;
-	}
-
-	/**
-	 * @param isCurrent the isCurrent to set
-	 */
-	public void setIsCurrent(int isCurrent) {
-		this.isCurrent = isCurrent;
-	}
 
 	/**
 	 * @return the modifiedBy

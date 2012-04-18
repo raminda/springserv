@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.millenniumit.mx.data.timesheets.dao.TimeSheetsWorkDao;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork;
 import com.millenniumit.mx.data.timesheets.util.TimeSheetsWorkCriteria;
 
+
 /**
  * 
  * @author Kalpag
@@ -25,6 +28,8 @@ import com.millenniumit.mx.data.timesheets.util.TimeSheetsWorkCriteria;
 @Repository("timesheetsWorkDao")
 public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 
+	private static final Logger LOG = Logger
+			.getLogger(TimeSheetsWorkHibernateDao.class);
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory sessionfactory;
@@ -166,7 +171,7 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 				.createQuery(countQueryString);
 
 		DateFormat formatter;
-		formatter = new SimpleDateFormat("yyyy/mm/dd");
+		formatter = new SimpleDateFormat("yyyy/MM/dd");
 		Date startdate = null;
 		Date enddate = null;
 
@@ -210,13 +215,15 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 		long returnedRowcount = countHQLQuery.list().size();
 		setTimeSheetsWorkRowCount(returnedRowcount);
 
-		System.out.println("Returned rowCount is " + returnedRowcount);
-
+		LOG.debug("Returned rowCount is " + returnedRowcount);
+		LOG.debug("HQL Query = "+queryString);
+		
+		
 		int first = (int) offset;
 		int last = (int) limit;
 		query.setFirstResult(first);
 		query.setMaxResults(last);
-		System.out.println("Query String = " + query.getQueryString());
+	
 		return (List<Object>) query.list();
 	}
 
@@ -262,9 +269,10 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 		// sessionfactory.getCurrentSession().save(timesheetWork);
 		Gson gs = new Gson();
 
-	 sessionfactory.getCurrentSession().save(timesheetWork);
+		sessionfactory.getCurrentSession().save(timesheetWork);
 		sessionfactory.getCurrentSession().flush();
-		System.out.println("ID = " + timesheetWork.getId());
+	
+		LOG.debug("Saved ID  = " + timesheetWork.getId());
 		//
 		// sessionfactory.getCurrentSession().clear();
 
