@@ -17,15 +17,22 @@ import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
 import com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldHistory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicketType;
-
 /**
  * 
  * @author Kalpag
  * 
  */
-
 @Repository("issuemanTicketDao")
 public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
+
+	private static String CLONERS = "Cloners";
+	private static String PLATFORM = "Platform";
+	private static String COPIED_FROM = "Copied From";
+	private static String DUPLICATE = "Duplicate";
+	private static String CANCELLED = "Cancelled";
+	private static String CLOSED = "Closed";
+	private static String DELIVERED = "Delivered"; // jira does not have this
+													// status
 
 	@Autowired
 	@Qualifier("IssuemanSessionFactory")
@@ -46,16 +53,16 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		return (List<IssuemanTicket>) query.list();
 	}
 
-	/**
- * 
- */
+		/**
+	 * 
+	 */
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
 			long subType, Date from, Date to) {
 
-		String queryString = "select ticket from IssuemanTicket ticket"
+		String queryString = "select distinct ticket from IssuemanTicket ticket"
 				+ " join ticket.currentType as currentType "
 				+ " where ticket.project.id = :projectId and "
 				+ " currentType.ticketType.id = :subType "
@@ -85,7 +92,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	public List<IssuemanTicket> getCopiedTickets(long projectId, long type,
 			long subType, Date from, Date to) {
 
-		String queryString = "select ticket from IssuemanTicket ticket "
+		String queryString = "select distinct ticket from IssuemanTicket ticket "
 				+ " join ticket.ticketLinks as links"
 				+ " join ticket.currentType as currentType"
 				+ " join links.ticketLinkType as linkType"
@@ -102,9 +109,9 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		query.setParameter("from", from);
 		query.setParameter("to", to);
 		List<String> params = new ArrayList<String>();
-		params.add("Copied From");
-		params.add("Platform");
-		params.add("Cloners");
+		params.add(COPIED_FROM);
+		params.add(PLATFORM);
+		params.add(CLONERS);
 		query.setParameterList("linktypes", params);
 		return (List<IssuemanTicket>) query.list();
 	}
@@ -138,7 +145,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 
 		System.out.println("from = " + from + " to = " + to);
 
-		String queryString = "select ticket from IssuemanTicket ticket"
+		String queryString = "select distinct ticket from IssuemanTicket ticket"
 				+ " left join ticket.ticketLinks as links"
 				+ " join ticket.currentStatus as currentStatus"
 				+ " join ticket.currentType as currentType"
@@ -168,37 +175,69 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	@Override
 	public List<IssuemanTicket> getInvalidTickets(long projectId, long type,
 			long subType, Date from, Date to) {
+		
+		String q = "from IssuemanTicket";
+		//+ " join ticket.currentStatus as currentStatus "
+		//+ " where currentStatus.status.name ='Closed'";
+	//	+ " where ticket.project.id = :projectId  "
+		//+ " and currentType.ticketType.id = :subType "
+		//+ " where links is null"
 
-		String q = "select ticket from IssuemanTicket ticket"
-		// + " left join ticket.ticketLinks as links"
-				+ " join ticket.statusHistoy as statusHistoy "
-				// + " join ticket.currentStatus as currentStatus"
-				// + " join ticket.currentType as currentType"
-			+ " where ticket.project.id = :projectId  ";
-				// + " and currentType.ticketType.id = :subType "
-				// + " and currentStatus.status.name = :open"
-			//	+ " and links is null";
-		// + " and ticket.reportedDate < :to "
-		// + " and ticket.reportedDate > :from";
+//		String q = "select distinct ticket from IssuemanTicket ticket"
+//				+ " left join ticket.ticketLinks as links"
+//				+ " join ticket.statusHistoy as statusHistoy "
+//				+ " join statusHistoy.newStatus as newStatus "
+//				+ " join statusHistoy.oldStatus as oldStatus "
+//				+ " join ticket.currentStatus as currentStatus "
+//				+ " join ticket.currentType as currentType"
+//			//	+ " where ticket.project.id = :projectId  "
+//				//+ " and currentType.ticketType.id = :subType "
+//				//+ " where links is null"
+//				+ " where currentStatus.status.name in :status";
+////				+ " or ( oldStatus.name in :oldstatus"
+////				+ " and newStatus.name in :newstatus )";
+//		// + " and ticket.reportedDate < :to "
+//		// + " and ticket.reportedDate > :from";
 
 		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(q);
-		query.setParameter("projectId", projectId);
+		System.out.println("********************************" + query.list().size());
+		//query.setParameter("projectId", projectId);
+		// query.setParameter("subType", subType);
+		List<String> status = new ArrayList<String>();
+		List<String> oldstatus = new ArrayList<String>();
 
-		List<IssuemanTicket> tickets = query.list();
-		for (IssuemanTicket issuemanTicket : tickets) {
-			Collection<IssuemanStatusFieldHistory> histories = (Collection<IssuemanStatusFieldHistory>) issuemanTicket
-					.getStatusHistoy();
-			System.out.println("----------------------");
-			for (IssuemanStatusFieldHistory issuemanStatusFieldHistory : histories) {
-				System.out.println(issuemanTicket.getId() + " old value = "
-					//	+ issuemanStatusFieldHistory.getOldStatus().getId()
-						+ " new value = "+"");
-					//	+ issuemanStatusFieldHistory.getNewStatus().getId());
-			}
+		status.add(DUPLICATE);
+		status.add(CANCELLED);
 
-		}
+		oldstatus.add(DUPLICATE);
+		oldstatus.add(DELIVERED);
 
-		return tickets;
+//		query.setParameterList("status", status);
+//		query.setParameterList("oldstatus", oldstatus);
+//		query.setParameter("newstatus", CLOSED);
+		// query.setParameter("from", from);
+		// query.setParameter("to", to);
+
+//		int count = 0;
+//		List<IssuemanTicket> tickets = query.list();
+//		for (IssuemanTicket issuemanTicket : tickets) {
+//			Collection<IssuemanStatusFieldHistory> histories = (Collection<IssuemanStatusFieldHistory>) issuemanTicket
+//					.getStatusHistoy();
+//			System.out.println("----------------------");
+//
+//			for (IssuemanStatusFieldHistory issuemanStatusFieldHistory : histories) {
+//				long oldval = 0;
+//				long newval = 0;
+//				if (issuemanStatusFieldHistory.getOldStatus() != null)
+//					oldval = issuemanStatusFieldHistory.getOldStatus().getId();
+//				if (issuemanStatusFieldHistory.getNewStatus() != null)
+//					newval = issuemanStatusFieldHistory.getNewStatus().getId();
+//				System.out.println("Count = " + ++count);
+//
+//				System.out.println(issuemanTicket.getId() + " old value = "
+//						+ oldval + " new value = " + "" + newval);
+//			}
+//		}
+		return null;
 	}
-
 }

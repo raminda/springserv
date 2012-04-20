@@ -4,6 +4,7 @@
 package com.millenniumit.mx.data.issueman.domain;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -25,8 +26,9 @@ public class IssuemanTypeFieldCurrent extends IssuemanTicketFieldCurrent {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "value_id" ,insertable = false, updatable = false)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private IssuemanTicketType ticketType;
 
 	/**

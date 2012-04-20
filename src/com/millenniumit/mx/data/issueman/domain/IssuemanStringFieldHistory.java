@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import org.hibernate.annotations.Where;
+
 
 /**
  * @author kalpag
@@ -17,6 +19,7 @@ import javax.persistence.InheritanceType;
 @Entity(name = "IssuemanStringFieldHistory")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("string")
+@Where(clause="field_id != 0")
 public class IssuemanStringFieldHistory extends IssuemanTicketFieldHistory {
 
 	/**

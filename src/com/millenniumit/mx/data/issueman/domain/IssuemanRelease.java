@@ -24,7 +24,7 @@ public class IssuemanRelease extends AuditFields implements Serializable {
 	@Column(name = "native_id")
 	private Long nativeId;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "project_id")
 	private IssuemanProject project;
 	

@@ -26,7 +26,6 @@
 			<attribute name="javadoc_location" value="http://docs.oracle.com/javaee/5/api/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/mx-service.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.17-bin.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="lib/org.springframework.aop-3.0.6.RELEASE.jar" sourcepath="E:/java/spring-framework-3.0.6.RELEASE/src/org.springframework.aop-sources-3.0.6.RELEASE.jar">

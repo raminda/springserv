@@ -16,9 +16,11 @@ import org.hibernate.annotations.Where;
  *
  */
 
+
 @Entity(name = "IssuemanTicketFieldHistory")
 @Table(name = "ticket_field_history")
 @DiscriminatorColumn(name = "field_type")
+@Where(clause="field_id != 0")
 public abstract class IssuemanTicketFieldHistory extends AuditFields implements Serializable {
 
 	private static final long serialVersionUID = 1L;

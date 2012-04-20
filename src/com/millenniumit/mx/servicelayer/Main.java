@@ -59,7 +59,7 @@ public class Main {
 		List<IssuemanTicket> tickets = main.issuemanTicketService
 				.getInvalidTickets(3, 3, 21, from, to);
 
-		System.out.println("size of the list = " + tickets.size());
+		//System.out.println("size of the list = " + tickets.size());
 
 		// System.out.println("Tickets = "+gs.toJson(tickets));
 		//

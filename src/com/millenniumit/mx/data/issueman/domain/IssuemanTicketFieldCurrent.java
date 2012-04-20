@@ -8,7 +8,9 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,7 +22,10 @@ import javax.persistence.Table;
  */
 @Entity(name = "IssuemanTicketFieldCurrent")
 @Table(name = "ticket_field_current")
-@DiscriminatorColumn(name = "field_type")
+@DiscriminatorColumn(
+	    name="field_type",
+	    discriminatorType=DiscriminatorType.STRING
+)
 public abstract class IssuemanTicketFieldCurrent extends AuditFields implements
 		Serializable {
 
@@ -32,16 +37,14 @@ public abstract class IssuemanTicketFieldCurrent extends AuditFields implements
 	@Column(name = "native_id")
 	private Long nativeId;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "ticket_id")
 	private IssuemanTicket ticket;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "field_id")
 	private IssuemanTicketField field;
 
-	@Column(name = "value_id")
-	private Long valueId;
 
 	@Column(name = "value_int")
 	private int valueInt;
@@ -82,20 +85,7 @@ public abstract class IssuemanTicketFieldCurrent extends AuditFields implements
 		this.nativeId = nativeId;
 	}
 
-	/**
-	 * @return the ticket
-	 */
-	public IssuemanTicket getTicket() {
-		return ticket;
-	}
-
-	/**
-	 * @param ticket
-	 *            the ticket to set
-	 */
-	public void setTicket(IssuemanTicket ticket) {
-		this.ticket = ticket;
-	}
+	
 
 	/**
 	 * @return the field
@@ -110,21 +100,6 @@ public abstract class IssuemanTicketFieldCurrent extends AuditFields implements
 	 */
 	public void setField(IssuemanTicketField field) {
 		this.field = field;
-	}
-
-	/**
-	 * @return the valueId
-	 */
-	public Long getValueId() {
-		return valueId;
-	}
-
-	/**
-	 * @param valueId
-	 *            the valueId to set
-	 */
-	public void setValueId(Long valueId) {
-		this.valueId = valueId;
 	}
 
 	/**

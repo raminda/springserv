@@ -8,12 +8,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Where;
-
 /**
- * @author Vimukthi
+ * 
+ * @author kalpag
  *
  */
-@Where(clause = "id != 0")
+
+
 @Entity(name = "IssuemanTicketField")
 @Table(name = "ticket_fields")
 public class IssuemanTicketField extends AuditFields implements Serializable {

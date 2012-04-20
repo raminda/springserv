@@ -10,6 +10,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Where;
+
 /**
  * @author kalpag
  *
@@ -17,6 +19,7 @@ import javax.persistence.ManyToOne;
 @Entity(name = "IssuemanResolutionFieldHistory")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("resolution")
+@Where(clause="field_id != 0")
 public class IssuemanResolutionFieldHistory extends IssuemanTicketFieldHistory {
 
 	/**

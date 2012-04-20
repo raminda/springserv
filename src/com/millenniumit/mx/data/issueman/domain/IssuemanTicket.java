@@ -11,6 +11,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
@@ -41,16 +43,16 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	@Column(name = "title")
 	private String title;
 
-	@ManyToOne
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "project_id")
 	private IssuemanProject project;
 
-	@ManyToOne
-	@NotFound(action = NotFoundAction.IGNORE)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "component_id")
 	private IssuemanComponent component;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "reporter_id")
 	private IssuemanUser reporter;
 
@@ -60,98 +62,98 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	@Column(name = "reported_date")
 	private Timestamp reportedDate;
 
-	@OneToMany(targetEntity = IssuemanTicketLink.class, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = IssuemanTicketLink.class)
 	@JoinColumn(name = "destination_ticket_id")
 	private Collection<IssuemanTicketLink> ticketLinks;
 
-	@OneToMany(targetEntity = IssuemanStatusFieldHistory.class, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = IssuemanStatusFieldHistory.class)
 	@JoinColumn(name = "ticket_id")	
 	private Collection<IssuemanStatusFieldHistory> statusHistoy;
 
-	@OneToOne(targetEntity = IssuemanStatusFieldCurrent.class, fetch = FetchType.LAZY, mappedBy = "ticket")
+	@OneToOne(targetEntity = IssuemanStatusFieldCurrent.class, mappedBy="ticket", fetch=FetchType.EAGER)
 	private IssuemanStatusFieldCurrent currentStatus;
-
-	@OneToOne(targetEntity = IssuemanTypeFieldCurrent.class, fetch = FetchType.LAZY, mappedBy = "ticket")
-	private IssuemanTypeFieldCurrent currentType;
-
-	@OneToOne(targetEntity = IssuemanPriorityFieldCurrent.class, fetch = FetchType.LAZY, mappedBy = "ticket")
-	private IssuemanPriorityFieldCurrent currentPriority;
+//
+//	@OneToOne(targetEntity = IssuemanTypeFieldCurrent.class, mappedBy = "ticket", fetch=FetchType.LAZY)
+//	private IssuemanTypeFieldCurrent currentType;
+//
+//	@OneToOne(targetEntity = IssuemanPriorityFieldCurrent.class, mappedBy = "ticket", fetch=FetchType.LAZY)
+//	private IssuemanPriorityFieldCurrent currentPriority;
 
 	
 
-	/**
-	 * @return the statusHistoy
-	 */
-	public Collection<IssuemanStatusFieldHistory> getStatusHistoy() {
-		return statusHistoy;
-	}
-
-	/**
-	 * @param statusHistoy the statusHistoy to set
-	 */
-	public void setStatusHistoy(Collection<IssuemanStatusFieldHistory> statusHistoy) {
-		this.statusHistoy = statusHistoy;
-	}
+//	/**
+//	 * @return the statusHistoy
+//	 */
+//	public Collection<IssuemanStatusFieldHistory> getStatusHistoy() {
+//		return statusHistoy;
+//	}
+//
+//	/**
+//	 * @param statusHistoy the statusHistoy to set
+//	 */
+//	public void setStatusHistoy(Collection<IssuemanStatusFieldHistory> statusHistoy) {
+//		this.statusHistoy = statusHistoy;
+//	}
 	
-	/**
-	 * @return the currentPriority
-	 */
-	public IssuemanPriorityFieldCurrent getCurrentPriority() {
-		return currentPriority;
-	}
+//	/**
+//	 * @return the currentPriority
+//	 */
+//	public IssuemanPriorityFieldCurrent getCurrentPriority() {
+//		return currentPriority;
+//	}
+//
+//	/**
+//	 * @param currentPriority
+//	 *            the currentPriority to set
+//	 */
+//	public void setCurrentPriority(IssuemanPriorityFieldCurrent currentPriority) {
+//		this.currentPriority = currentPriority;
+//	}
+//
+//	/**
+//	 * @return the currentType
+//	 */
+//	public IssuemanTypeFieldCurrent getCurrentType() {
+//		return currentType;
+//	}
+//
+//	/**
+//	 * @param currentType
+//	 *            the currentType to set
+//	 */
+//	public void setCurrentType(IssuemanTypeFieldCurrent currentType) {
+//		this.currentType = currentType;
+//	}
+//
+//	/**
+//	 * @return the currentStatus
+//	 */
+//	public IssuemanStatusFieldCurrent getCurrentStatus() {
+//		return currentStatus;
+//	}
+//
+//	/**
+//	 * @param currentStatus
+//	 *            the currentStatus to set
+//	 */
+//	public void setCurrentStatus(IssuemanStatusFieldCurrent currentStatus) {
+//		this.currentStatus = currentStatus;
+//	}
 
-	/**
-	 * @param currentPriority
-	 *            the currentPriority to set
-	 */
-	public void setCurrentPriority(IssuemanPriorityFieldCurrent currentPriority) {
-		this.currentPriority = currentPriority;
-	}
-
-	/**
-	 * @return the currentType
-	 */
-	public IssuemanTypeFieldCurrent getCurrentType() {
-		return currentType;
-	}
-
-	/**
-	 * @param currentType
-	 *            the currentType to set
-	 */
-	public void setCurrentType(IssuemanTypeFieldCurrent currentType) {
-		this.currentType = currentType;
-	}
-
-	/**
-	 * @return the currentStatus
-	 */
-	public IssuemanStatusFieldCurrent getCurrentStatus() {
-		return currentStatus;
-	}
-
-	/**
-	 * @param currentStatus
-	 *            the currentStatus to set
-	 */
-	public void setCurrentStatus(IssuemanStatusFieldCurrent currentStatus) {
-		this.currentStatus = currentStatus;
-	}
-
-	/**
-	 * @return the ticketLinks
-	 */
-	public Collection<IssuemanTicketLink> getTicketLinks() {
-		return ticketLinks;
-	}
-
-	/**
-	 * @param ticketLinks
-	 *            the ticketLinks to set
-	 */
-	public void setTicketLinks(Collection<IssuemanTicketLink> ticketLinks) {
-		this.ticketLinks = ticketLinks;
-	}
+//	/**
+//	 * @return the ticketLinks
+//	 */
+//	public Collection<IssuemanTicketLink> getTicketLinks() {
+//		return ticketLinks;
+//	}
+//
+//	/**
+//	 * @param ticketLinks
+//	 *            the ticketLinks to set
+//	 */
+//	public void setTicketLinks(Collection<IssuemanTicketLink> ticketLinks) {
+//		this.ticketLinks = ticketLinks;
+//	}
 
 	/**
 	 * @return the id
@@ -243,20 +245,20 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 		this.reportedDate = reportedDate;
 	}
 
-	/**
-	 * @return the component
-	 */
-	public IssuemanComponent getComponent() {
-		return component;
-	}
-
-	/**
-	 * @param component
-	 *            the component to set
-	 */
-	public void setComponent(IssuemanComponent component) {
-		this.component = component;
-	}
+//	/**
+//	 * @return the component
+//	 */
+//	public IssuemanComponent getComponent() {
+//		return component;
+//	}
+//
+//	/**
+//	 * @param component
+//	 *            the component to set
+//	 */
+//	public void setComponent(IssuemanComponent component) {
+//		this.component = component;
+//	}
 
 	/**
 	 * @return the reporter

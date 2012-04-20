@@ -18,10 +18,11 @@ import org.hibernate.annotations.Where;
  * @author kalpag
  * 
  */
-@Where(clause = "id != 0")
+
 @Entity(name = "IssuemanStatusFieldHistory")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("status")
+@Where(clause="field_id != 0")
 public class IssuemanStatusFieldHistory extends IssuemanTicketFieldHistory {
 
 	private static final long serialVersionUID = 1L;

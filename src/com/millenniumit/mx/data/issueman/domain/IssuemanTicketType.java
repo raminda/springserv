@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
 
 /**
  * @author Vimukthi
@@ -16,6 +17,7 @@ import org.hibernate.annotations.NotFoundAction;
  */
 @Entity(name = "IssuemanTicketType")
 @Table(name = "ticket_types")
+@Where(clause="id <> 0")
 public class IssuemanTicketType extends AuditFields implements Serializable {
 
 	/**

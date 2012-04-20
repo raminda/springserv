@@ -10,6 +10,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 /**
  * @author Kalpag
  *
@@ -22,6 +25,7 @@ public class IssuemanUserFieldCurrent extends IssuemanTicketFieldCurrent {
 
 	@ManyToOne
 	@JoinColumn(name = "value_id" ,insertable = false, updatable = false)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private IssuemanUser user;
 
 	/**
