@@ -22,16 +22,16 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="issuemandb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_jira" />
+		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_jira_test" />
 		<property name="username" value="root" />
-		<property name="password" value="kalpa" />
+		<property name="password" value="" />
 	</bean>
 	<bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/portal_20111209_test" />
+		<property name="url" value="jdbc:mysql://localhost/portal_test" />
 		<property name="username" value="root" />
-		<property name="password" value="kalpa" />
+		<property name="password" value="" />
 	</bean>
 	<!-- Test databases (Comment out on production) -->
 	<!-- <bean id="jiradb" class="org.apache.commons.dbcp.BasicDataSource" -->
@@ -120,7 +120,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 
 
-	<bean id="IssuemanSessionFactory"
+	<bean id="issuemanSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="issuemandb" />
 		<property name="annotatedClasses">
@@ -180,6 +180,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<tx:annotation-driven transaction-manager="txManager" />
 	<bean id="txManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="sessionFactory" ref="issuemanSessionFactory" />
 	</bean>
 </beans>

@@ -62,7 +62,7 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 		this.sessionfactory = sessionfactory;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Object> getTimeSheetsWork(long offset, long limit) {
 

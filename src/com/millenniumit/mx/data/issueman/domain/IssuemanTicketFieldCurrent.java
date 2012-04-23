@@ -6,15 +6,7 @@ package com.millenniumit.mx.data.issueman.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author Kalpag
@@ -36,7 +28,7 @@ public abstract class IssuemanTicketFieldCurrent extends AuditFields implements
 
 	@Column(name = "native_id")
 	private Long nativeId;
-
+	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "ticket_id")
 	private IssuemanTicket ticket;
@@ -145,5 +137,19 @@ public abstract class IssuemanTicketFieldCurrent extends AuditFields implements
 	 */
 	public void setValueDate(Date valueDate) {
 		this.valueDate = valueDate;
+	}
+
+	/**
+	 * @return the ticket
+	 */
+	public IssuemanTicket getTicket() {
+		return ticket;
+	}
+
+	/**
+	 * @param ticket the ticket to set
+	 */
+	public void setTicket(IssuemanTicket ticket) {
+		this.ticket = ticket;
 	}
 }

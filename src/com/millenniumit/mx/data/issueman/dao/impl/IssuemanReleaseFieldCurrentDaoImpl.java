@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.issueman.dao.IssuemanReleaseFieldCurrentDao;
 import com.millenniumit.mx.data.issueman.domain.IssuemanReleaseFieldCurrent;
-import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 
 /**
  * @author Kalpag
@@ -24,14 +23,14 @@ public class IssuemanReleaseFieldCurrentDaoImpl implements
 		IssuemanReleaseFieldCurrentDao {
 
 	@Autowired
-	@Qualifier("IssuemanSessionFactory")
-	private SessionFactory IssuemanSessionFactory;
+	@Qualifier("issuemanSessionFactory")
+	private SessionFactory issuemanSessionFactory;
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<IssuemanReleaseFieldCurrent> getIssuemanReleaseFieldCurrent(
 			int offset, int limit) {
-		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(
+		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
 				"from IssuemanReleaseFieldCurrent");
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -50,15 +49,15 @@ public class IssuemanReleaseFieldCurrentDaoImpl implements
 	/**
 	 * @return the issuemanSessionFactory
 	 */
-	public SessionFactory getIssuemanSessionFactory() {
-		return IssuemanSessionFactory;
+	public SessionFactory getissuemanSessionFactory() {
+		return issuemanSessionFactory;
 	}
 
 	/**
 	 * @param issuemanSessionFactory the issuemanSessionFactory to set
 	 */
-	public void setIssuemanSessionFactory(SessionFactory issuemanSessionFactory) {
-		IssuemanSessionFactory = issuemanSessionFactory;
+	public void setissuemanSessionFactory(SessionFactory sessionFactory) {
+		issuemanSessionFactory = sessionFactory;
 	}
 
 }

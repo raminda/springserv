@@ -4,7 +4,6 @@
 package com.millenniumit.mx.data.issueman.dao.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
@@ -13,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao;
-import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
-import com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldHistory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
-import com.millenniumit.mx.data.issueman.domain.IssuemanTicketType;
 /**
  * 
  * @author Kalpag
@@ -35,8 +31,8 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 													// status
 
 	@Autowired
-	@Qualifier("IssuemanSessionFactory")
-	private SessionFactory IssuemanSessionFactory;
+	@Qualifier("issuemanSessionFactory")
+	private SessionFactory issuemanSessionFactory;
 
 	@Override
 	public List<IssuemanTicket> getTicketsGroupByWeek() {
@@ -46,7 +42,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<IssuemanTicket> getTicketsGroupByWeek(int offset, int limit) {
-		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(
+		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
 				"from IssuemanTicket");
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -68,7 +64,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 				+ " currentType.ticketType.id = :subType "
 				+ "and ticket.reportedDate < :to and ticket.reportedDate > :from ";
 
-		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(
+		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
 				queryString);
 		query.setParameter("projectId", projectId);
 		query.setParameter("subType", subType);
@@ -102,7 +98,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 				+ " and ticket.reportedDate > :from"
 				+ " and linkType.name in :linktypes";
 
-		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(
+		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
 				queryString);
 		query.setParameter("projectId", projectId);
 		query.setParameter("subType", subType);
@@ -120,7 +116,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	 * @return the sessionfactory
 	 */
 	public SessionFactory getSessionfactory() {
-		return IssuemanSessionFactory;
+		return issuemanSessionFactory;
 	}
 
 	/**
@@ -128,7 +124,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	 *            the sessionfactory to set
 	 */
 	public void setSessionfactory(SessionFactory sessionfactory) {
-		this.IssuemanSessionFactory = sessionfactory;
+		this.issuemanSessionFactory = sessionfactory;
 	}
 
 	/*
@@ -155,7 +151,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 				+ " and links is null" + " and ticket.reportedDate < :to "
 				+ " and ticket.reportedDate > :from";
 
-		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(
+		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
 				queryString);
 		query.setParameter("projectId", projectId);
 		query.setParameter("subType", subType);
@@ -199,8 +195,9 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 //		// + " and ticket.reportedDate < :to "
 //		// + " and ticket.reportedDate > :from";
 
-		Query query = IssuemanSessionFactory.getCurrentSession().createQuery(q);
-		System.out.println("********************************" + query.list().size());
+		Query query = issuemanSessionFactory.getCurrentSession().createQuery(q);
+		IssuemanTicket i = (IssuemanTicket)query.list().get(0);
+		System.out.println("********************************" + i.getCurrentStatus().get(0).getStatus().getName());
 		//query.setParameter("projectId", projectId);
 		// query.setParameter("subType", subType);
 		List<String> status = new ArrayList<String>();
