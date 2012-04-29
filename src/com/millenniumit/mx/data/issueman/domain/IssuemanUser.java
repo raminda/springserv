@@ -7,12 +7,18 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 /**
- * @author Vimukthi
+ * 
+ * @author kalpag
  *
  */
+import org.hibernate.annotations.Where;
+
 @Entity(name = "IssuemanUser")
 @Table(name = "users")
+@Where(clause="id <> 0")
 public class IssuemanUser extends AuditFields implements Serializable {
 
 	/**

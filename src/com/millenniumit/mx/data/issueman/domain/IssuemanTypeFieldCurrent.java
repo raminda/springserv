@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
 /**
  * @author Kalpag
  *
@@ -19,6 +20,7 @@ import org.hibernate.annotations.NotFoundAction;
 @Entity(name="IssuemanTypeFieldCurrent" )
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("type")
+@Where(clause="ticket_id <> 0")
 public class IssuemanTypeFieldCurrent extends IssuemanTicketFieldCurrent {
 
 	/**

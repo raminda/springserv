@@ -8,10 +8,15 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
+
 /**
  * @author Kalpag
  * 
  */
+
 @Entity(name = "IssuemanTicketFieldCurrent")
 @Table(name = "ticket_field_current")
 @DiscriminatorColumn(
@@ -28,16 +33,15 @@ public abstract class IssuemanTicketFieldCurrent extends AuditFields implements
 
 	@Column(name = "native_id")
 	private Long nativeId;
-	
+		
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "ticket_id")
 	private IssuemanTicket ticket;
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "field_id")
-	private IssuemanTicketField field;
-
-
+	private IssuemanTicketField field;	
+	
 	@Column(name = "value_int")
 	private int valueInt;
 
@@ -46,6 +50,25 @@ public abstract class IssuemanTicketFieldCurrent extends AuditFields implements
 
 	@Column(name = "value_date")
 	private Date valueDate;
+	
+	@Column(name="field_type",insertable = false, updatable = false)
+	private  String fieldType;
+
+	/**
+	 * @return the fieldType
+	 */
+	public String getFieldType() {
+		return fieldType;
+	}
+
+	/**
+	 * @param fieldType the fieldType to set
+	 */
+	public void setFieldType(String fieldType) {
+		this.fieldType = fieldType;
+	}
+
+
 
 	/**
 	 * @return the id

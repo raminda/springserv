@@ -12,18 +12,34 @@ import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 /**
  * 
  * @author Kalpag
- *
+ * 
  */
 public interface IssuemanTicketDao {
-	public List<IssuemanTicket> getTicketsGroupByWeek();
-	public List<IssuemanTicket> getTicketsGroupByWeek(int offset, int limit);
-	public List<IssuemanTicket> getTotalTickets(long projectId,
-			long type, long subType, Date from, Date to);
+
+	public List<IssuemanTicket> getInvalidTickets();
+
+	public List<IssuemanTicket> getValidTickets();
+
+	public void Init(long projectId, long type, long subType, Date from, Date to);
+
+	public List<IssuemanTicket> getCopiedTickets();
+
+	public List<IssuemanTicket> getTotalTickets();
+
+	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
+			long subType, Date from, Date to);
 	
-	public List<IssuemanTicket> getCopiedTickets(long projectId,
-			long type, long subType, Date from, Date to);
-	public List<IssuemanTicket> getCurrentOpenTickets(long projectId, long type,
-			long subType, Date from, Date to);
-	public List<IssuemanTicket> getInvalidTickets(long projectId, long type,
-			long subType, Date from, Date to);
+	public List<IssuemanTicket> getUncopiedTickets();
+	
+	public List<IssuemanTicket> getCurrentOpenTickets();
+	
+	public  List<IssuemanTicket> getCurrentOpenTicketsByRole(String roleName);
+	
+	public  List<IssuemanTicket> getValidTicketsByRole(String roleName);
+	
+	public  List<IssuemanTicket> getInvalidTicketsByRole(String roleName);
+	
+	public  List<IssuemanTicket> getUncopiedTicketsByRole(String roleName);
+	
+	public  List<IssuemanTicket> getTotalTicketsByRole(String roleName);
 }

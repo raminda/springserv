@@ -1,18 +1,26 @@
-/**
- * 
- */
 package com.millenniumit.mx.data.issueman.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+
+import com.google.gson.Gson;
 import com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao;
+import com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldCurrent;
+import com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldHistory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
+import com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldCurrent;
+import com.millenniumit.mx.data.issueman.domain.IssuemanTicketLink;
+import com.millenniumit.mx.data.issueman.domain.IssuemanUserProjectRole;
+
 /**
  * 
  * @author Kalpag
@@ -27,90 +35,22 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	private static String DUPLICATE = "Duplicate";
 	private static String CANCELLED = "Cancelled";
 	private static String CLOSED = "Closed";
-	private static String DELIVERED = "Delivered"; // jira does not have this
-													// status
+
+	/**
+ *  
+ */
+	private List<IssuemanTicket> totalTicketsList = null;
+	private List<IssuemanTicket> uncopiedTickets = null;
+	private List<IssuemanTicket> invalidTickets = null;
+	private List<IssuemanTicket> validTickets = null;
+	private List<IssuemanTicket> copiedTickets = null;
+	private List<IssuemanTicket> currentOpenTickets = null;
+
+	private List<IssuemanUserProjectRole> userProjectRoles = null;
 
 	@Autowired
 	@Qualifier("issuemanSessionFactory")
 	private SessionFactory issuemanSessionFactory;
-
-	@Override
-	public List<IssuemanTicket> getTicketsGroupByWeek() {
-		return null;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<IssuemanTicket> getTicketsGroupByWeek(int offset, int limit) {
-		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
-				"from IssuemanTicket");
-		query.setFirstResult(offset);
-		query.setMaxResults(limit);
-		return (List<IssuemanTicket>) query.list();
-	}
-
-		/**
-	 * 
-	 */
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
-			long subType, Date from, Date to) {
-
-		String queryString = "select distinct ticket from IssuemanTicket ticket"
-				+ " join ticket.currentType as currentType "
-				+ " where ticket.project.id = :projectId and "
-				+ " currentType.ticketType.id = :subType "
-				+ "and ticket.reportedDate < :to and ticket.reportedDate > :from ";
-
-		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
-				queryString);
-		query.setParameter("projectId", projectId);
-		query.setParameter("subType", subType);
-		query.setParameter("from", from);
-		query.setParameter("to", to);
-
-		System.out.println("from = " + from);
-		return (List<IssuemanTicket>) query.list();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getCopiedTickets
-	 * (com.millenniumit.mx.data.issueman.domain.IssuemanProject, long, long,
-	 * java.util.Date, java.util.Date)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<IssuemanTicket> getCopiedTickets(long projectId, long type,
-			long subType, Date from, Date to) {
-
-		String queryString = "select distinct ticket from IssuemanTicket ticket "
-				+ " join ticket.ticketLinks as links"
-				+ " join ticket.currentType as currentType"
-				+ " join links.ticketLinkType as linkType"
-				+ " where ticket.project.id = :projectId and "
-				+ " currentType.ticketType.id = :subType and "
-				+ " ticket.reportedDate < :to "
-				+ " and ticket.reportedDate > :from"
-				+ " and linkType.name in :linktypes";
-
-		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
-				queryString);
-		query.setParameter("projectId", projectId);
-		query.setParameter("subType", subType);
-		query.setParameter("from", from);
-		query.setParameter("to", to);
-		List<String> params = new ArrayList<String>();
-		params.add(COPIED_FROM);
-		params.add(PLATFORM);
-		params.add(CLONERS);
-		query.setParameterList("linktypes", params);
-		return (List<IssuemanTicket>) query.list();
-	}
 
 	/**
 	 * @return the sessionfactory
@@ -131,25 +71,18 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getCurrentOpenTickets
+	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getTotalTickets
 	 * (long, long, long, java.util.Date, java.util.Date)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<IssuemanTicket> getCurrentOpenTickets(long projectId,
-			long type, long subType, Date from, Date to) {
-
-		System.out.println("from = " + from + " to = " + to);
-
+	@SuppressWarnings("unchecked")
+	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
+			long subType, Date from, Date to) {
 		String queryString = "select distinct ticket from IssuemanTicket ticket"
-				+ " left join ticket.ticketLinks as links"
-				+ " join ticket.currentStatus as currentStatus"
-				+ " join ticket.currentType as currentType"
-				+ " where ticket.project.id = :projectId  "
-				+ " and currentType.ticketType.id = :subType "
-				+ " and currentStatus.status.name = :open"
-				+ " and links is null" + " and ticket.reportedDate < :to "
-				+ " and ticket.reportedDate > :from";
+				+ " join ticket.currentType as currentType with currentType.fieldType = 'type' "
+				+ " where ticket.project.id = :projectId and "
+				+ " currentType.ticketType.id = :subType "
+				+ " and ticket.reportedDate < :to and ticket.reportedDate > :from ";
 
 		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
 				queryString);
@@ -157,7 +90,6 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		query.setParameter("subType", subType);
 		query.setParameter("from", from);
 		query.setParameter("to", to);
-		query.setParameter("open", "Open");
 		return (List<IssuemanTicket>) query.list();
 	}
 
@@ -166,75 +98,310 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	 * 
 	 * @see
 	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getInvalidTickets
-	 * (long, long, long, java.util.Date, java.util.Date)
+	 * ()
 	 */
 	@Override
-	public List<IssuemanTicket> getInvalidTickets(long projectId, long type,
-			long subType, Date from, Date to) {
-		
-		String q = "from IssuemanTicket";
-		//+ " join ticket.currentStatus as currentStatus "
-		//+ " where currentStatus.status.name ='Closed'";
-	//	+ " where ticket.project.id = :projectId  "
-		//+ " and currentType.ticketType.id = :subType "
-		//+ " where links is null"
+	public List<IssuemanTicket> getInvalidTickets() {
 
-//		String q = "select distinct ticket from IssuemanTicket ticket"
-//				+ " left join ticket.ticketLinks as links"
-//				+ " join ticket.statusHistoy as statusHistoy "
-//				+ " join statusHistoy.newStatus as newStatus "
-//				+ " join statusHistoy.oldStatus as oldStatus "
-//				+ " join ticket.currentStatus as currentStatus "
-//				+ " join ticket.currentType as currentType"
-//			//	+ " where ticket.project.id = :projectId  "
-//				//+ " and currentType.ticketType.id = :subType "
-//				//+ " where links is null"
-//				+ " where currentStatus.status.name in :status";
-////				+ " or ( oldStatus.name in :oldstatus"
-////				+ " and newStatus.name in :newstatus )";
-//		// + " and ticket.reportedDate < :to "
-//		// + " and ticket.reportedDate > :from";
+		invalidTickets = new ArrayList<IssuemanTicket>();
+		String currentStatus = null;
 
-		Query query = issuemanSessionFactory.getCurrentSession().createQuery(q);
-		IssuemanTicket i = (IssuemanTicket)query.list().get(0);
-		System.out.println("********************************" + i.getCurrentStatus().get(0).getStatus().getName());
-		//query.setParameter("projectId", projectId);
-		// query.setParameter("subType", subType);
-		List<String> status = new ArrayList<String>();
-		List<String> oldstatus = new ArrayList<String>();
+		if (uncopiedTickets == null) { // if total tickets list is empty
+			uncopiedTickets = getUncopiedTickets();
+		}
 
-		status.add(DUPLICATE);
-		status.add(CANCELLED);
+		for (IssuemanTicket ticket : uncopiedTickets) {
+			// re attach tickets to the session
+			issuemanSessionFactory.getCurrentSession().update(ticket);
+			boolean invalidHistory = false;
+			currentStatus = ticket.getCurrentStatus().get(0).getStatus()
+					.getName();
+			List<IssuemanStatusFieldHistory> statusHistory = ticket
+					.getStatusHistoy();
 
-		oldstatus.add(DUPLICATE);
-		oldstatus.add(DELIVERED);
+			for (IssuemanStatusFieldHistory issuemanStatusFieldHistory : statusHistory) {
+				String oldStatus = issuemanStatusFieldHistory.getOldStatus()
+						.getName();
+				String newStatus = issuemanStatusFieldHistory.getNewStatus()
+						.getName();
 
-//		query.setParameterList("status", status);
-//		query.setParameterList("oldstatus", oldstatus);
-//		query.setParameter("newstatus", CLOSED);
-		// query.setParameter("from", from);
-		// query.setParameter("to", to);
+				if (oldStatus.equals("DUPLICATE") && newStatus.equals("CLOSED")) {
+					invalidHistory = true;
+				}
+			}
 
-//		int count = 0;
-//		List<IssuemanTicket> tickets = query.list();
-//		for (IssuemanTicket issuemanTicket : tickets) {
-//			Collection<IssuemanStatusFieldHistory> histories = (Collection<IssuemanStatusFieldHistory>) issuemanTicket
-//					.getStatusHistoy();
-//			System.out.println("----------------------");
-//
-//			for (IssuemanStatusFieldHistory issuemanStatusFieldHistory : histories) {
-//				long oldval = 0;
-//				long newval = 0;
-//				if (issuemanStatusFieldHistory.getOldStatus() != null)
-//					oldval = issuemanStatusFieldHistory.getOldStatus().getId();
-//				if (issuemanStatusFieldHistory.getNewStatus() != null)
-//					newval = issuemanStatusFieldHistory.getNewStatus().getId();
-//				System.out.println("Count = " + ++count);
-//
-//				System.out.println(issuemanTicket.getId() + " old value = "
-//						+ oldval + " new value = " + "" + newval);
-//			}
-//		}
+			if ((currentStatus.equals("DUPLICATE") || currentStatus
+					.equals("CANCELLED")) || invalidHistory) {
+				invalidTickets.add(ticket);
+			}
+		}
+		System.out.println("no of invalid tickets = " + invalidTickets.size());
+		return invalidTickets;
+	}
+
+	/**
+     * 
+     */
+	public List<IssuemanTicket> getValidTickets() {
+
+		if (invalidTickets == null) {
+			invalidTickets = getInvalidTickets();
+		}
+
+		if (uncopiedTickets == null) {
+			uncopiedTickets = getUncopiedTickets();
+		}
+		validTickets = new ArrayList<IssuemanTicket>(); // instantiate
+		validTickets = uncopiedTickets;
+
+		System.out
+				.println("size of total uncopied = " + uncopiedTickets.size());
+
+		validTickets.removeAll(invalidTickets);
+		System.out.println("size of valid tickets = " + validTickets.size());
+		return validTickets;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#Init(long,
+	 * long, long, java.util.Date, java.util.Date)
+	 */
+	@Override
+	public void Init(long projectId, long type, long subType, Date from, Date to) {
+
+		/*
+		 * Handle all the configuration stuff here {which database to connect}
+		 */
+		setUserProjectRoles(projectId); // load user project roles table into
+										// memory
+		totalTicketsList = getTotalTickets(projectId, type, subType, from, to);
+		System.out.println("Total tickets set");
+	}
+
+	@Override
+	public List<IssuemanTicket> getUncopiedTickets() {
+
+		if (uncopiedTickets == null) {
+			uncopiedTickets = totalTicketsList;
+			copiedTickets = getCopiedTickets();
+			uncopiedTickets.removeAll(copiedTickets);
+		}
+
+		System.out.println("Size of uncopied tickets = "
+				+ uncopiedTickets.size());
+		return uncopiedTickets;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getCopiedTickets
+	 * ()
+	 */
+	@Override
+	public List<IssuemanTicket> getCopiedTickets() {
+		copiedTickets = new ArrayList<IssuemanTicket>();
+		System.out
+				.println("Size of total tickets = " + totalTicketsList.size());
+
+		if (totalTicketsList == null) {
+			totalTicketsList = getTotalTickets();
+		}
+
+		for (IssuemanTicket ticket : totalTicketsList) {
+			issuemanSessionFactory.getCurrentSession().update(ticket);
+			List<IssuemanTicketLink> ticketLinks = ticket.getTicketLinks();
+
+			for (IssuemanTicketLink issuemanTicketLink : ticketLinks) {
+				String linkType = issuemanTicketLink.getTicketLinkType()
+						.getName();
+
+				if (linkType.equals("Platform")
+						|| linkType.equals("Copied from")
+						|| linkType.equals("Cloners")) {
+					copiedTickets.add(ticket);
+				}
+			}
+		}
+		System.out.println("Size of copied issues =" + copiedTickets.size());
+		return copiedTickets;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getTotalTickets()
+	 */
+	@Override
+	public List<IssuemanTicket> getTotalTickets() {
+		if (totalTicketsList == null) {
+
+			// throw an exception and ask user to call the
+			// init method
+		}
+
+		System.out.println("size of total tickets list ="
+				+ totalTicketsList.size());
+
+		return totalTicketsList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getCurrentOpenTickets
+	 * ()
+	 */
+	@Override
+	public List<IssuemanTicket> getCurrentOpenTickets() {
+		currentOpenTickets = new ArrayList<IssuemanTicket>();
+
+		if (uncopiedTickets == null) {
+			uncopiedTickets = getUncopiedTickets();
+		}
+
+		for (IssuemanTicket ticket : uncopiedTickets) {
+			String currentStatus = ticket.getCurrentStatus().get(0).getStatus()
+					.getName();
+
+			if (currentStatus.equals("OPEN")) {
+				currentOpenTickets.add(ticket);
+			}
+
+		}
+
+		System.out.println("size of currently open tickets list ="
+				+ currentOpenTickets.size());
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#
+	 * getCurrentOpenTicketsByRole(java.lang.String)
+	 */
+	@Override
+	public List<IssuemanTicket> getCurrentOpenTicketsByRole(String roleName) {
+		List<IssuemanTicket> currentOpenTicketsbyRole = new ArrayList<IssuemanTicket>();
+
+		if (currentOpenTickets == null) {
+			currentOpenTickets = getCurrentOpenTickets();
+		}
+
+		currentOpenTicketsbyRole = getTicketsFilterByRole(roleName,
+				currentOpenTickets);
+		return currentOpenTicketsbyRole;
+	}
+
+	/**
+	 * 
+	 * @param roleName
+	 * @param ticketList
+	 * @return
+	 */
+	private List<IssuemanTicket> getTicketsFilterByRole(String roleName,
+			List<IssuemanTicket> ticketList) {
+
+		List<IssuemanTicket> filteredTickets = new ArrayList<IssuemanTicket>();
+
+		for (IssuemanTicket ticket : ticketList) {
+
+			issuemanSessionFactory.getCurrentSession().update(ticket);
+			long reporterId = ticket.getReporter().getId();
+
+			for (IssuemanUserProjectRole userprojectrole : userProjectRoles) {
+
+				issuemanSessionFactory.getCurrentSession().update(userprojectrole);
+				if (userprojectrole.getUser().getId() == reporterId) {
+					String role = userprojectrole.getRole().getName();
+
+					if (role.equals(roleName)) {
+						filteredTickets.add(ticket);
+					}
+				}
+			}
+		}
+		return filteredTickets;
+	}
+
+	/**
+	 * 
+	 * @param projectId
+	 */
+
+	@SuppressWarnings("unchecked")
+	private void setUserProjectRoles(long projectId) {
+
+		if (userProjectRoles == null) {
+			String queryString = "from IssuemanUserProjectRole where project.id = :projectId";
+			Query query = issuemanSessionFactory.getCurrentSession()
+					.createQuery(queryString);
+			query.setParameter("projectId", projectId);
+			userProjectRoles = (List<IssuemanUserProjectRole>) query.list();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getValidTicketsByRole
+	 * (java.lang.String)
+	 */
+	@Override
+	public List<IssuemanTicket> getValidTicketsByRole(String roleName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#
+	 * getInvalidTicketsByRole(java.lang.String)
+	 */
+	@Override
+	public List<IssuemanTicket> getInvalidTicketsByRole(String roleName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#
+	 * getUncopiedTicketsByRole(java.lang.String)
+	 */
+	@Override
+	public List<IssuemanTicket> getUncopiedTicketsByRole(String roleName) {
+
+		if (uncopiedTickets == null) {
+			uncopiedTickets = getUncopiedTickets();
+		}
+
+		return getTicketsFilterByRole(roleName, uncopiedTickets);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getTotalTicketsByRole
+	 * (java.lang.String)
+	 */
+	@Override
+	public List<IssuemanTicket> getTotalTicketsByRole(String roleName) {
+
+		if (totalTicketsList == null) {
+			totalTicketsList = getUncopiedTickets();
+		}
+
+		return getTicketsFilterByRole(roleName, totalTicketsList);
 	}
 }

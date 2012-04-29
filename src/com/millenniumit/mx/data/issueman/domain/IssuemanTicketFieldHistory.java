@@ -31,6 +31,23 @@ public abstract class IssuemanTicketFieldHistory extends AuditFields implements 
 	@Column(name = "native_id")
 	private Long nativeId;
 	
+	@Column(name = "field_type",insertable = false, updatable = false)
+	private String fieldType;
+	
+	/**
+	 * @return the fieldType
+	 */
+	public String getFieldType() {
+		return fieldType;
+	}
+
+	/**
+	 * @param fieldType the fieldType to set
+	 */
+	public void setFieldType(String fieldType) {
+		this.fieldType = fieldType;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "ticket_id")
 	private IssuemanTicket ticket;

@@ -15,6 +15,15 @@ import javax.persistence.*;
 @Table(name = "ticket_statuses")
 public class IssuemanTicketStatus extends AuditFields implements Serializable {
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "IssuemanTicketStatus [id=" + id + ", nativeId=" + nativeId
+				+ ", name=" + name + ", description=" + description + "]";
+	}
+
 	/**
 	 * 
 	 */

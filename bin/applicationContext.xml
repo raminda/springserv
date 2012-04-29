@@ -19,19 +19,36 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<!-- <property name="username" value="vimukthi" /> -->
 	<!-- <property name="password" value="Vimuk7h1" /> -->
 	<!-- </bean> -->
-	<bean id="issuemandb" class="org.apache.commons.dbcp.BasicDataSource"
+	<bean id="issueman_jiradb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_jira_test" />
+		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_jira" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="kalpa" />
 	</bean>
+	
+	<bean id="issueman_abacusdb" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_abacus" />
+		<property name="username" value="root" />
+		<property name="password" value="kalpa" />
+	</bean>
+
+<!-- 	<bean id="issuemandb_server" class="org.apache.commons.dbcp.BasicDataSource" -->
+<!-- 		destroy-method="close"> -->
+<!-- 		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+<!-- 		<property name="url" value="jdbc:mysql://172.25.40.135/issueman_abacus" /> -->
+<!-- 		<property name="username" value="portaluser" /> -->
+<!-- 		<property name="password" value="p0rt41u53r123" /> -->
+<!-- 	</bean> -->
+
 	<bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/portal_test" />
+		<property name="url" value="jdbc:mysql://localhost/portal_20111209_test" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="kalpa" />
 	</bean>
 	<!-- Test databases (Comment out on production) -->
 	<!-- <bean id="jiradb" class="org.apache.commons.dbcp.BasicDataSource" -->
@@ -63,7 +80,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<!-- <bean id="issuemanJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> -->
 	<!-- <property name="dataSource" ref="issuemandb" /> -->
 	<!-- </bean> -->
-
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="portaldb" />
@@ -118,11 +134,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			</list>
 		</property>
 	</bean>
-
-
 	<bean id="issuemanSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="issuemandb" />
+		<property name="dataSource" ref="issueman_abacusdb" />
 		<property name="annotatedClasses">
 			<list>
 				<!-- Issueman Entities starts here -->
@@ -174,6 +188,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanResolutionFieldHistory</value>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldHistory </value> 
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStringFieldHistory</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanUserProjectRole</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanRole</value>
 			</list>
 		</property>
 	</bean>
@@ -182,4 +198,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="issuemanSessionFactory" />
 	</bean>
+	<tx:annotation-driven transaction-manager="txManager" />
+	<bean id="txManager2"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
 </beans>
