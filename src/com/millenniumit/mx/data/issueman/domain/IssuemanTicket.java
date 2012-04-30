@@ -22,7 +22,7 @@ import org.hibernate.annotations.Where;
  */
 @Entity(name = "IssuemanTicket")
 @Table(name = "tickets")
-@Where(clause="reporter_id <> 0")
+@Where(clause="reporter_id <> 0 and id <> 0")
 public class IssuemanTicket extends AuditFields implements Serializable {
 
 	/**

@@ -61,15 +61,13 @@ public class Main {
 		// main.issuemanTicketService.Init(4,1, 7, from, to); //check and
 		// correct the error comes here
 
-		main.issuemanTicketService.Init(4, 1, 7, from, to);
+		main.issuemanTicketService.Init(11, 1, 7, from, to);
 		// List<IssuemanTicket> tickets =
 		// main.issuemanTicketService.getTotalTickets();
 
 		List<IssuemanTicket> tickets = main.issuemanTicketService
-				.getTicketsByRoleCategory(RoleCategory.MIT, IssueType.TOTAL);
+				.getTicketsByRoleCategory(RoleCategory.VIRTUSA, IssueType.VALID);
 
-		System.out.println("tickets size = "
-				+ tickets.size());
-
+		System.out.println("tickets size = " + tickets.size());
 	}
 }

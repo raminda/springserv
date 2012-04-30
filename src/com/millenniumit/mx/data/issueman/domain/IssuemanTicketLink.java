@@ -7,6 +7,9 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 /**
  * @author Vimukthi
  *
@@ -30,11 +33,12 @@ public class IssuemanTicketLink extends AuditFields implements Serializable {
 	@JoinColumn(name = "ticket_link_type_id")
 	private IssuemanTicketLinkType ticketLinkType;
 
-
+	@NotFound(action=NotFoundAction.IGNORE)
 	@ManyToOne
 	@JoinColumn(name = "source_ticket_id")
 	private IssuemanTicket sourceTicket;
 	
+	@NotFound(action=NotFoundAction.IGNORE)
 	@ManyToOne
 	@JoinColumn(name = "destination_ticket_id")
 	private IssuemanTicket destinationTicket;

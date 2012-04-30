@@ -23,6 +23,7 @@ import org.hibernate.annotations.Where;
 	    name="field_type",
 	    discriminatorType=DiscriminatorType.STRING
 )
+@Where(clause="ticket_id <> 0")
 public abstract class IssuemanTicketFieldCurrent extends AuditFields implements
 		Serializable {
 
