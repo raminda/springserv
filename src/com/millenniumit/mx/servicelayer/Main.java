@@ -11,6 +11,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.*;
 import com.google.gson.Gson;
+import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType;
+import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 import com.millenniumit.mx.data.issueman.service.IssuemanTicketService;
 
@@ -62,10 +64,12 @@ public class Main {
 		main.issuemanTicketService.Init(4, 1, 7, from, to);
 		// List<IssuemanTicket> tickets =
 		// main.issuemanTicketService.getTotalTickets();
+
 		List<IssuemanTicket> tickets = main.issuemanTicketService
-				.getTotalTicketsByRole("Project Manager");
-		
-		System.out.println("size of project manager reported issues " + tickets.size());
+				.getTicketsByRoleCategory(RoleCategory.MIT, IssueType.TOTAL);
+
+		System.out.println("tickets size = "
+				+ tickets.size());
 
 	}
 }

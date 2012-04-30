@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao;
+import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType;
+import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 
 import com.millenniumit.mx.data.issueman.service.IssuemanTicketService;
@@ -24,7 +26,6 @@ import com.millenniumit.mx.data.issueman.service.IssuemanTicketService;
 
 @Service("issuemanTicketService")
 public class IssuemanTicketServiceImpl implements IssuemanTicketService {
-
 
 	/*
 	 * (non-Javadoc)
@@ -40,7 +41,6 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	@Autowired
 	@Qualifier("issuemanTicketDao")
 	private IssuemanTicketDao issuemanTicketDao;
-
 
 	@Transactional
 	public List<IssuemanTicket> getInvalidTickets() {
@@ -62,8 +62,11 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 		this.issuemanTicketDao = issuemanTicketDao;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getTotalTickets()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getTotalTickets()
 	 */
 	@Transactional
 	public List<IssuemanTicket> getTotalTickets() {
@@ -71,75 +74,116 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 		return issuemanTicketDao.getTotalTickets();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getValidTickets()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getValidTickets()
 	 */
 	@Transactional
 	public List<IssuemanTicket> getValidTickets() {
 		return issuemanTicketDao.getValidTickets();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getCopiedTickets()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getCopiedTickets()
 	 */
 	@Transactional
 	public List<IssuemanTicket> getCopiedTickets() {
 		return issuemanTicketDao.getCopiedTickets();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getUncopiedTickets()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getUncopiedTickets()
 	 */
 	@Transactional
 	public List<IssuemanTicket> getUncopiedTickets() {
 		return issuemanTicketDao.getUncopiedTickets();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getCurrentOpenTickets()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getCurrentOpenTickets()
 	 */
 	@Transactional
 	public List<IssuemanTicket> getCurrentOpenTickets() {
 		return issuemanTicketDao.getCurrentOpenTickets();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getCurrentOpenTicketsByRole(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getCurrentOpenTicketsByRole(java.lang.String)
 	 */
 	@Transactional
 	public List<IssuemanTicket> getCurrentOpenTicketsByRole(String roleName) {
 		return issuemanTicketDao.getCurrentOpenTicketsByRole(roleName);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getValidTicketsByRole(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getValidTicketsByRole(java.lang.String)
 	 */
 	@Transactional
 	public List<IssuemanTicket> getValidTicketsByRole(String roleName) {
 		return issuemanTicketDao.getValidTicketsByRole(roleName);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getInvalidTicketsByRole(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getInvalidTicketsByRole(java.lang.String)
 	 */
 	@Transactional
 	public List<IssuemanTicket> getInvalidTicketsByRole(String roleName) {
 		return issuemanTicketDao.getInvalidTicketsByRole(roleName);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getUncopiedTicketsByRole(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getUncopiedTicketsByRole(java.lang.String)
 	 */
 	@Transactional
 	public List<IssuemanTicket> getUncopiedTicketsByRole(String roleName) {
 		return issuemanTicketDao.getUncopiedTicketsByRole(roleName);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getTotalTicketsByRole(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getTotalTicketsByRole(java.lang.String)
 	 */
 	@Transactional
 	public List<IssuemanTicket> getTotalTicketsByRole(String roleName) {
 		return issuemanTicketDao.getTotalTicketsByRole(roleName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getTicketsByRoleCategory
+	 * (com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl
+	 * .RoleCategory)
+	 */
+	@Transactional
+	public List<IssuemanTicket> getTicketsByRoleCategory(RoleCategory roles,
+			IssueType issueType) {
+		return issuemanTicketDao.getTicketsByRoleCategory(roles, issueType);
 	}
 }
