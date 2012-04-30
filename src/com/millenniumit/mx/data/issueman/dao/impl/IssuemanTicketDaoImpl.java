@@ -1,10 +1,9 @@
 package com.millenniumit.mx.data.issueman.dao.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -12,12 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.google.gson.Gson;
 import com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao;
-import com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldCurrent;
 import com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldHistory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
-import com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldCurrent;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicketLink;
 import com.millenniumit.mx.data.issueman.domain.IssuemanUserProjectRole;
 
@@ -45,9 +41,6 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		VALID, INVALID, CURRENTOPEN, OPEN, TOTAL, UNCOPIED, COPIED
 	}
 
-	/**
- *  
- */
 	private List<IssuemanTicket> totalTicketsList = null;
 	private List<IssuemanTicket> uncopiedTickets = null;
 	private List<IssuemanTicket> invalidTickets = null;
