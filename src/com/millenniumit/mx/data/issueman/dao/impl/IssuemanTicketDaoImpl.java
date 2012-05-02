@@ -187,16 +187,6 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		/*
 		 * Handle all the configuration stuff here {which database to connect}
 		 */
-		
-		/**
-		 * if(databaseConfiguration.getDatabase().getName().equals("jira")){
-		 * 		
-		 * DUPLICATE = "Duplicate";
-		 * CLOSED = "CLOSED";
-		 * 	
-		 * }
-		 */
-		
 		setUserProjectRoles(projectId); // load user project roles table into
 										// memory
 		totalTicketsList = getTotalTickets(projectId, type, subType, from, to);
@@ -566,9 +556,9 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	 * @param ticketList
 	 *            : list to filter
 	 * @param invert
-	 *            : determines whether to return the inverse of filtered
-	 *            tickets. when set to true, returned result set equals to {
-	 *            select ticket where ticket.role not in(roleNames)}
+	 *            : determines whether to return the inverse of filtered tickets
+	 *            when set to true, returned result set equals select ticket
+	 *            where ticket.role not in(roleNames)
 	 * 
 	 * @return returns the tickets which belong to given reported by roles
 	 */
@@ -694,8 +684,8 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	}
 
 	/**
-	 * issue lists are refreshed
-	 */
+ * issue lists are refreshed 
+ */ 
 	// *********************************************************************************************
 	public void refresh() {
 		totalTicketsList = null;
