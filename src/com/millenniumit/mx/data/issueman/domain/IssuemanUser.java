@@ -6,10 +6,7 @@ package com.millenniumit.mx.data.issueman.domain;
 import java.io.Serializable;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-/**
+/*
  * 
  * @author kalpag
  *

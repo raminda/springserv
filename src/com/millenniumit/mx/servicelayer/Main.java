@@ -4,13 +4,10 @@
 package com.millenniumit.mx.servicelayer;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.*;
-import com.google.gson.Gson;
 import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType;
 import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
@@ -41,7 +38,6 @@ public class Main {
 	private IssuemanTicketService issuemanTicketService;
 
 	private static ApplicationContextLoader contextLoader = new ApplicationContextLoader();
-	private static final Logger LOG = Logger.getLogger(Main.class);
 
 	/**
 	 * @param args
@@ -50,7 +46,6 @@ public class Main {
 		// Initialize the Spring application main
 		Main main = new Main();
 		contextLoader.load(main, "applicationContext.xml");
-		Gson gs = new Gson();
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date from = dateFormat.parse("2005-01-01");
@@ -66,7 +61,11 @@ public class Main {
 		// main.issuemanTicketService.getTotalTickets();
 
 		List<IssuemanTicket> tickets = main.issuemanTicketService
-				.getTicketsByRoleCategory(RoleCategory.VIRTUSA, IssueType.VALID);
+				.getTicketsByRoleCategoryPerSeverity(RoleCategory.MIT,
+						IssueType.VALID, "HIGH");
+
+		// List<IssuemanTicket> tickets = main.issuemanTicketService
+		// .getTicketsByRole("Project Manager", IssueType.COPIED);
 
 		System.out.println("tickets size = " + tickets.size());
 	}

@@ -7,9 +7,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 /**

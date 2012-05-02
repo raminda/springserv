@@ -122,61 +122,6 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	 * (non-Javadoc)
 	 * 
 	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
-	 * getCurrentOpenTicketsByRole(java.lang.String)
-	 */
-	@Transactional
-	public List<IssuemanTicket> getCurrentOpenTicketsByRole(String roleName) {
-		return issuemanTicketDao.getCurrentOpenTicketsByRole(roleName);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
-	 * getValidTicketsByRole(java.lang.String)
-	 */
-	@Transactional
-	public List<IssuemanTicket> getValidTicketsByRole(String roleName) {
-		return issuemanTicketDao.getValidTicketsByRole(roleName);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
-	 * getInvalidTicketsByRole(java.lang.String)
-	 */
-	@Transactional
-	public List<IssuemanTicket> getInvalidTicketsByRole(String roleName) {
-		return issuemanTicketDao.getInvalidTicketsByRole(roleName);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
-	 * getUncopiedTicketsByRole(java.lang.String)
-	 */
-	@Transactional
-	public List<IssuemanTicket> getUncopiedTicketsByRole(String roleName) {
-		return issuemanTicketDao.getUncopiedTicketsByRole(roleName);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
-	 * getTotalTicketsByRole(java.lang.String)
-	 */
-	@Transactional
-	public List<IssuemanTicket> getTotalTicketsByRole(String roleName) {
-		return issuemanTicketDao.getTotalTicketsByRole(roleName);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
 	 * getTicketsByRoleCategory
 	 * (com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl
 	 * .RoleCategory)
@@ -185,5 +130,50 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	public List<IssuemanTicket> getTicketsByRoleCategory(RoleCategory roles,
 			IssueType issueType) {
 		return issuemanTicketDao.getTicketsByRoleCategory(roles, issueType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getTicketsByRole(java.lang.String,
+	 * com.millenniumit.mx.data.issueman.dao.impl
+	 * .IssuemanTicketDaoImpl.IssueType)
+	 */
+	@Transactional
+	public List<IssuemanTicket> getTicketsByRole(String roleName,
+			IssueType issueType) {
+		return issuemanTicketDao.getTicketsByRole(roleName, issueType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getTicketsByRoleCategoryPerSeverity
+	 * (com.millenniumit.mx.data.issueman.dao.
+	 * impl.IssuemanTicketDaoImpl.RoleCategory,
+	 * com.millenniumit.mx.data.issueman
+	 * .dao.impl.IssuemanTicketDaoImpl.IssueType, java.lang.String)
+	 */
+	@Transactional
+	public List<IssuemanTicket> getTicketsByRoleCategoryPerSeverity(
+			RoleCategory roles, IssueType issueType, String severity) {
+		return issuemanTicketDao.getTicketsByRoleCategoryPerSeverity(roles,
+				issueType, severity);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getTicketsPerSeverity(java.lang.String,
+	 * com.millenniumit.mx.data.issueman.
+	 * dao.impl.IssuemanTicketDaoImpl.IssueType)
+	 */
+	@Transactional
+	public List<IssuemanTicket> getTicketsPerSeverity(String severity,
+			IssueType issueType) {
+		return issuemanTicketDao.getTicketsPerSeverity(severity, issueType);
 	}
 }

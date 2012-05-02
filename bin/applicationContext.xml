@@ -190,6 +190,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStringFieldHistory</value>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanUserProjectRole</value>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanRole</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanSeverity</value>
+			<value>com.millenniumit.mx.data.issueman.domain.IssuemanSeverityFieldCurrent</value>
 			</list>
 		</property>
 	</bean>

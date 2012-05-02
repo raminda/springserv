@@ -8,7 +8,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-
 import org.hibernate.annotations.Where;
 
 
@@ -31,7 +30,21 @@ public class IssuemanStringFieldHistory extends IssuemanTicketFieldHistory {
 	private String oldString;
 	
 	@Column(name = "string_val" ,insertable = false, updatable = false)
-	private IssuemanTicketStatus newString;
+	private String newString;
+
+	/**
+	 * @return the newString
+	 */
+	public String getNewString() {
+		return newString;
+	}
+
+	/**
+	 * @param newString the newString to set
+	 */
+	public void setNewString(String newString) {
+		this.newString = newString;
+	}
 
 	/**
 	 * @return the oldString
@@ -45,19 +58,5 @@ public class IssuemanStringFieldHistory extends IssuemanTicketFieldHistory {
 	 */
 	public void setOldString(String oldString) {
 		this.oldString = oldString;
-	}
-
-	/**
-	 * @return the newString
-	 */
-	public IssuemanTicketStatus getNewString() {
-		return newString;
-	}
-
-	/**
-	 * @param newString the newString to set
-	 */
-	public void setNewString(IssuemanTicketStatus newString) {
-		this.newString = newString;
 	}
 }

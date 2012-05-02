@@ -27,9 +27,17 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	private static String CLONERS = "Cloners";
 	private static String PLATFORM = "Platform";
 	private static String COPIED_FROM = "Copied From";
-	private static String DUPLICATE = "Duplicate";
-	private static String CANCELLED = "Cancelled";
-	private static String CLOSED = "Closed";
+	private static String DUPLICATE = "DUPLICATE";
+	private static String CANCELLED = "CANCELLED";
+	private static String CLOSED = "CLOSED";
+	private static String OPEN = "OPEN";
+
+	private static String EXTQA_VIRTUSA = "Ext QA Virtusa";
+	private static String EXTQA_ALLIED = "Ext QA Allied";
+	private static String EXTQA_THINKSOFT = "Ext QA ThinkSoft";
+	private static String EXTQA = "Ext QA";
+	private static String CLIENT = "Client";
+	private static String CLIENT_ADMIN = "Client (Admin)";
 
 	public enum RoleCategory {
 		CLIENT, MIT, EXTQA, THINKSOFT, VIRTUSA, ALLIED
@@ -129,13 +137,13 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 				String newStatus = issuemanStatusFieldHistory.getNewStatus()
 						.getName();
 
-				if (oldStatus.equals("DUPLICATE") && newStatus.equals("CLOSED")) {
+				if (oldStatus.equals(DUPLICATE) && newStatus.equals(CLOSED)) {
 					invalidHistory = true;
 				}
 			}
 
-			if ((currentStatus.equals("DUPLICATE") || currentStatus
-					.equals("CANCELLED")) || invalidHistory) {
+			if ((currentStatus.equals(DUPLICATE) || currentStatus
+					.equals(CANCELLED)) || invalidHistory) {
 				invalidTickets.add(ticket);
 			}
 		}
@@ -215,6 +223,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 
 	@Override
 	public List<IssuemanTicket> getCopiedTickets() {
+
 		copiedTickets = new ArrayList<IssuemanTicket>();
 		System.out
 				.println("Size of total tickets = " + totalTicketsList.size());
@@ -231,9 +240,8 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 				String linkType = issuemanTicketLink.getTicketLinkType()
 						.getName();
 
-				if (linkType.equals("Platform")
-						|| linkType.equals("Copied from")
-						|| linkType.equals("Cloners")) {
+				if (linkType.equals(PLATFORM) || linkType.equals(COPIED_FROM)
+						|| linkType.equals(CLONERS)) {
 					copiedTickets.add(ticket);
 				}
 			}
@@ -286,36 +294,14 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 			String currentStatus = ticket.getCurrentStatus().get(0).getStatus()
 					.getName();
 
-			if (currentStatus.equals("OPEN")) {
+			if (currentStatus.equals(OPEN)) {
 				currentOpenTickets.add(ticket);
 			}
-
 		}
 
 		System.out.println("size of currently open tickets list ="
 				+ currentOpenTickets.size());
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#
-	 * getCurrentOpenTicketsByRole(java.lang.String)
-	 */
-	// *********************************************************************************************
-
-	@Override
-	public List<IssuemanTicket> getCurrentOpenTicketsByRole(String roleName) {
-		List<IssuemanTicket> currentOpenTicketsbyRole = new ArrayList<IssuemanTicket>();
-
-		if (currentOpenTickets == null) {
-			currentOpenTickets = getCurrentOpenTickets();
-		}
-
-		currentOpenTicketsbyRole = getTicketsFilterByRole(roleName,
-				currentOpenTickets);
-		return currentOpenTicketsbyRole;
 	}
 
 	/**
@@ -370,83 +356,9 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getValidTicketsByRole
-	 * (java.lang.String)
-	 */
-	// *********************************************************************************************
-
-	@Override
-	public List<IssuemanTicket> getValidTicketsByRole(String roleName) {
-
-		if (validTickets == null) {
-			validTickets = getValidTickets();
-		}
-
-		return getTicketsFilterByRole(roleName, validTickets);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#
-	 * getInvalidTicketsByRole(java.lang.String)
-	 */
-	// *********************************************************************************************
-
-	@Override
-	public List<IssuemanTicket> getInvalidTicketsByRole(String roleName) {
-
-		if (invalidTickets == null) {
-			invalidTickets = getInvalidTickets();
-		}
-
-		return getTicketsFilterByRole(roleName, invalidTickets);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#
-	 * getUncopiedTicketsByRole(java.lang.String)
-	 */
-	// *********************************************************************************************
-
-	@Override
-	public List<IssuemanTicket> getUncopiedTicketsByRole(String roleName) {
-
-		if (uncopiedTickets == null) {
-			uncopiedTickets = getUncopiedTickets();
-		}
-
-		return getTicketsFilterByRole(roleName, uncopiedTickets);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getTotalTicketsByRole
-	 * (java.lang.String)
-	 */
-	// *********************************************************************************************
-
-	@Override
-	public List<IssuemanTicket> getTotalTicketsByRole(String roleName) {
-
-		if (totalTicketsList == null) {
-			totalTicketsList = getTotalTickets();
-		}
-
-		return getTicketsFilterByRole(roleName, totalTicketsList);
-	}
-
 	/**
 	 * 
-	*/
+	 */
 	// *********************************************************************************************
 	public List<IssuemanTicket> getTicketsByRoleCategory(
 			RoleCategory roleCategory, IssueType issueType) {
@@ -484,10 +396,9 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	// *********************************************************************************************
 
 	private List<IssuemanTicket> getThinkSoftReportedTickets(IssueType issueType) {
-		List<IssuemanTicket> ticketList = getTicketListForIssueType(issueType);
-		String role = "Ext QA ThinkSoft";
-		return getTicketsFilterByRole(role, ticketList);
 
+		List<IssuemanTicket> ticketList = getTicketListForIssueType(issueType);
+		return getTicketsFilterByRole(EXTQA_THINKSOFT, ticketList);
 	}
 
 	/**
@@ -500,8 +411,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	private List<IssuemanTicket> getVirtusaReportedTickets(IssueType issueType) {
 
 		List<IssuemanTicket> ticketList = getTicketListForIssueType(issueType);
-		String role = "Ext QA Virtusa";
-		return getTicketsFilterByRole(role, ticketList);
+		return getTicketsFilterByRole(EXTQA_VIRTUSA, ticketList);
 	}
 
 	/**
@@ -515,10 +425,10 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		List<String> roles = new ArrayList<String>();
 		List<IssuemanTicket> ticketList = getTicketListForIssueType(issueType);
 
-		roles.add("Ext QA Virtusa");
-		roles.add("Ext QA Allied");
-		roles.add("Ext QA ThinkSoft");
-		roles.add("Ext QA");
+		roles.add(EXTQA_ALLIED);
+		roles.add(EXTQA_VIRTUSA);
+		roles.add(EXTQA_THINKSOFT);
+		roles.add(EXTQA);
 
 		return getTicketsFilterByRole(roles, ticketList, false);
 	}
@@ -531,9 +441,8 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 
 	private List<IssuemanTicket> getAlliedReportedTickets(IssueType issueType) {
 
-		String roleName = "Ext QA Allied";
 		List<IssuemanTicket> ticketList = getTicketListForIssueType(issueType);
-		return getTicketsFilterByRole(roleName, ticketList);
+		return getTicketsFilterByRole(EXTQA_ALLIED, ticketList);
 	}
 
 	/**
@@ -548,18 +457,16 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		List<IssuemanTicket> ticketList = getTicketListForIssueType(issueType);
 		List<String> roles = new ArrayList<String>();
 
-		// MIT reported tickets are the tickets
-		// that are returned where reported by role name
-		// is not in this list
+		// MIT reported tickets = inverse of the following reported by role list
 
-		roles.add("Client");
-		roles.add("Client (Admin)");
-		roles.add("Ext QA");
-		roles.add("Ext QA Virtusa");
-		roles.add("Ext QA Allied");
-		roles.add("Ext QA ThinkSoft");
+		roles.add(CLIENT);
+		roles.add(CLIENT_ADMIN);
+		roles.add(EXTQA);
+		roles.add(EXTQA_VIRTUSA);
+		roles.add(EXTQA_ALLIED);
+		roles.add(EXTQA_THINKSOFT);
 
-		return getTicketsFilterByRole(roles, ticketList, false);
+		return getTicketsFilterByRole(roles, ticketList, true);
 	}
 
 	/**
@@ -570,10 +477,11 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	// *********************************************************************************************
 
 	private List<IssuemanTicket> getClientReportedTickets(IssueType issueType) {
+
 		List<IssuemanTicket> ticketList = getTicketListForIssueType(issueType);
 		List<String> roles = new ArrayList<String>();
-		roles.add("Client");
-		roles.add("Client (Admin)");
+		roles.add(CLIENT);
+		roles.add(CLIENT_ADMIN);
 
 		return getTicketsFilterByRole(roles, ticketList, false);
 	}
@@ -591,7 +499,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	 *         the requested issue type
 	 */
 	private List<IssuemanTicket> getTicketListForIssueType(IssueType issueType) {
-		
+
 		switch (issueType) {
 		case VALID: {
 			if (validTickets == null) {
@@ -667,7 +575,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 
 			for (IssuemanUserProjectRole userprojectrole : userProjectRoles) {
 				issuemanSessionFactory.getCurrentSession().update(
-						userprojectrole); // reattach to the session
+						userprojectrole); // re-attach to the session
 
 				if (userprojectrole.getUser().getId() == reporterId) {
 					String role = userprojectrole.getRole().getName();
@@ -685,5 +593,106 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 			}
 		}
 		return filteredTickets;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getTicketsByRole
+	 * (java.lang.String,
+	 * com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl
+	 * .IssueType)
+	 * 
+	 * returns the tickets reported by given role and given issueType
+	 */
+	// *********************************************************************************************
+	@Override
+	public List<IssuemanTicket> getTicketsByRole(String roleName,
+			IssueType issueType) {
+
+		List<IssuemanTicket> ticketList = getTicketListForIssueType(issueType);
+		return getTicketsFilterByRole(roleName, ticketList);
+	}
+
+	/**
+	 * 
+	 * @param ticketList
+	 * @param severity
+	 * @return returns the the tickets filtered by given severity
+	 */
+	// *********************************************************************************************
+	private List<IssuemanTicket> getTicketsFilterBySeverity(
+			List<IssuemanTicket> ticketList, String severity) {
+
+		List<IssuemanTicket> filteredTickets = new ArrayList<IssuemanTicket>();
+
+		for (IssuemanTicket issuemanTicket : ticketList) {
+			// ticket is re attached to the session
+			issuemanSessionFactory.getCurrentSession().update(issuemanTicket);
+			String currentSeverity = issuemanTicket.getCurrentSeverity().get(0)
+					.getSeverity().getDescription();
+
+			if (currentSeverity.equals(severity)) {
+				filteredTickets.add(issuemanTicket);
+			}
+		}
+		return filteredTickets;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#
+	 * getTicketsByRoleCategoryPerSeverity
+	 * (com.millenniumit.mx.data.issueman.dao.
+	 * impl.IssuemanTicketDaoImpl.RoleCategory,
+	 * com.millenniumit.mx.data.issueman
+	 * .dao.impl.IssuemanTicketDaoImpl.IssueType, java.lang.String)
+	 * 
+	 * @returns the tickets filtered by given Role category, issue type and
+	 * severity
+	 */
+	// ********************************************************************************************
+	@Override
+	public List<IssuemanTicket> getTicketsByRoleCategoryPerSeverity(
+			RoleCategory roles, IssueType issueType, String severity) {
+
+		List<IssuemanTicket> ticketList = getTicketsByRoleCategory(roles,
+				issueType);
+
+		return getTicketsFilterBySeverity(ticketList, severity);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getTicketsPerSeverity
+	 * (java.lang.String,
+	 * com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl
+	 * .IssueType)
+	 */
+	// ********************************************************************************************
+
+	@Override
+	public List<IssuemanTicket> getTicketsPerSeverity(String severity,
+			IssueType issueType) {
+
+		List<IssuemanTicket> ticketList = getTicketListForIssueType(issueType);
+		return getTicketsFilterBySeverity(ticketList, severity);
+	}
+
+	/**
+ * issue lists are refreshed 
+ */ 
+	// *********************************************************************************************
+	public void refresh() {
+		totalTicketsList = null;
+		uncopiedTickets = null;
+		invalidTickets = null;
+		validTickets = null;
+		copiedTickets = null;
+		currentOpenTickets = null;
 	}
 }

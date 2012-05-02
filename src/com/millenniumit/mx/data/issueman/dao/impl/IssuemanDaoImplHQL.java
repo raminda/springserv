@@ -58,6 +58,7 @@ public class IssuemanDaoImplHQL {
 	/*
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public List<IssuemanTicket> getCurrentOpenTickets(long projectId,
 			long type, long subType, Date from, Date to) {
 

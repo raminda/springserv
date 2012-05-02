@@ -8,11 +8,6 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 /**
@@ -76,11 +71,18 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 
 	@OneToMany(targetEntity = IssuemanTypeFieldCurrent.class)
 	@JoinColumn(name = "ticket_id")
+	//@Where(clause = "field_type ='type'")
 	private List<IssuemanTypeFieldCurrent> currentType;
 
 	@OneToMany(targetEntity = IssuemanPriorityFieldCurrent.class)
 	@JoinColumn(name = "ticket_id")
 	private List<IssuemanPriorityFieldCurrent> currentPriority;
+	
+	
+	@OneToMany(targetEntity = IssuemanSeverityFieldCurrent.class)
+	@JoinColumn(name = "ticket_id")
+	@Where(clause = "field_type ='severity'")
+	private List<IssuemanSeverityFieldCurrent> currentSeverity;
 
 	/**
 	 * @return the id
@@ -291,5 +293,20 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	 */
 	public void setCurrentStatus(List<IssuemanStatusFieldCurrent> currentStatus) {
 		this.currentStatus = currentStatus;
+	}
+
+	/**
+	 * @return the currentSeverity
+	 */
+	public List<IssuemanSeverityFieldCurrent> getCurrentSeverity() {
+		return currentSeverity;
+	}
+
+	/**
+	 * @param currentSeverity the currentSeverity to set
+	 */
+	public void setCurrentSeverity(
+			List<IssuemanSeverityFieldCurrent> currentSeverity) {
+		this.currentSeverity = currentSeverity;
 	}
 }

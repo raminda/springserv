@@ -25,15 +25,12 @@ public class TimeSheetsReference implements Serializable {
 	@Column(name = "id")
 	private long id;
 
-	@Id
 	@Column(name = "division_id")
 	private long divisionId;
 	
-	@Id
 	@Column(name = "reference")
 	private String reference;
 	
-	@Id
 	@Column(name = "description")
 	private String description;
 

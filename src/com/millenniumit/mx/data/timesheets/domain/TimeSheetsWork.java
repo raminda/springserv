@@ -242,6 +242,4 @@ public class TimeSheetsWork implements Serializable {
 	public void setDivisionId(long divisionId) {
 		this.divisionId = divisionId;
 	}
-	
-		
 }

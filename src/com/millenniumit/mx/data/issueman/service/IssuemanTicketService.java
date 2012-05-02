@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType;
 import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory;
-import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 
 /**
@@ -33,15 +32,14 @@ public interface IssuemanTicketService {
 
 	public List<IssuemanTicket> getCurrentOpenTickets();
 
-	public List<IssuemanTicket> getCurrentOpenTicketsByRole(String roleName);
+	public List<IssuemanTicket> getTicketsByRoleCategory(RoleCategory roles,
+			IssueType issueType);
 
-	public List<IssuemanTicket> getValidTicketsByRole(String roleName);
-
-	public List<IssuemanTicket> getInvalidTicketsByRole(String roleName);
-
-	public List<IssuemanTicket> getUncopiedTicketsByRole(String roleName);
-
-	public List<IssuemanTicket> getTotalTicketsByRole(String roleName);
+	public List<IssuemanTicket> getTicketsByRole(String roleName,
+			IssueType issueType);
 	
-	public List<IssuemanTicket> getTicketsByRoleCategory(RoleCategory roles, IssueType issueType);
+	public List<IssuemanTicket> getTicketsByRoleCategoryPerSeverity(
+			RoleCategory roles, IssueType issueType, String severity);
+	
+	public List<IssuemanTicket> getTicketsPerSeverity(String severity, IssueType issueType);
 }

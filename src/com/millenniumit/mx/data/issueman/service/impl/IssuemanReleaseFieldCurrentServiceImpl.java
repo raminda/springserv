@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.millenniumit.mx.data.issueman.dao.IssuemanReleaseFieldCurrentDao;
-import com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao;
 import com.millenniumit.mx.data.issueman.domain.IssuemanReleaseFieldCurrent;
 import com.millenniumit.mx.data.issueman.service.IssuemanReleaseFieldCurrentService;
 
