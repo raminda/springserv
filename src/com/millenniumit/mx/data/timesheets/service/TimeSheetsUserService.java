@@ -2,6 +2,7 @@ package com.millenniumit.mx.data.timesheets.service;
 
 import java.util.List;
 
+import com.millenniumit.mx.data.timesheets.domain.PortalUser;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser;
 
 
@@ -11,8 +12,41 @@ import com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser;
  * 
  */
 public interface TimeSheetsUserService {
+	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public TimeSheetsUser getTimeSheetsUser(PortalUser user);
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<TimeSheetsUser> getTimeSheetsUsers();
-	public void saveTimeSheetsUser(TimeSheetsUser timesheetuser);
-	public void saveTimeSheetsUsers( List<TimeSheetsUser> timesheetuserList);
-	public void deleteTimeSheetsUsers(long userId);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<TimeSheetsUser> getTimeSheetsUsers(int offset, int limit);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Long getTimeSheetsUsersCount();
+	
+	/**
+	 * 
+	 * @param timeSheetsUser
+	 */
+	public void saveTimeSheetsUser(TimeSheetsUser timeSheetsUser);
+	
+	/**
+	 * 
+	 * @param user
+	 */
+	public void deleteTimeSheetsUser(PortalUser user);
 }

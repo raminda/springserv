@@ -1,6 +1,7 @@
 package com.millenniumit.mx.data.timesheets.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,18 +9,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.timesheets.dao.TimeSheetsUserDao;
+import com.millenniumit.mx.data.timesheets.domain.PortalUser;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
-@Repository("timesheetsUserDao")
+@SuppressWarnings("unchecked")
+@Repository("timeSheetsUserDao")
 public class TimeSheetsUserHibernateDao implements TimeSheetsUserDao {
 
 	@Autowired
-	@Qualifier("sessionFactory")
+	@Qualifier("timeSheetsSessionFactory")
 	private SessionFactory sessionfactory;
 
 	public SessionFactory getSessionfactory() {
@@ -30,29 +33,64 @@ public class TimeSheetsUserHibernateDao implements TimeSheetsUserDao {
 		this.sessionfactory = sessionfactory;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsUserDao#getTimeSheetsUser(com.millenniumit.mx.data.timesheets.domain.PortalUser)
+	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	public TimeSheetsUser getTimeSheetsUser(PortalUser user) {
+		return (TimeSheetsUser) getSessionfactory().getCurrentSession()
+				.createQuery("from TimeSheetsUser where user=:user")
+				.setParameter("user", user).uniqueResult();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsUserDao#getTimeSheetsUsers()
+	 */
+	@Override
 	public List<TimeSheetsUser> getTimeSheetsUsers() {
-		return sessionfactory.getCurrentSession()
+		return getSessionfactory().getCurrentSession()
 				.createQuery("from TimeSheetsUser").list();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsUserDao#getTimeSheetsUsers(int, int)
+	 */
 	@Override
-	public void saveTimeSheetsUsers(TimeSheetsUser timesheetsuser) {
-		sessionfactory.getCurrentSession().saveOrUpdate(timesheetsuser);
-		sessionfactory.getCurrentSession().flush();
-		sessionfactory.getCurrentSession().clear();
+	public List<TimeSheetsUser> getTimeSheetsUsers(int offset, int limit) {
+		return getSessionfactory().getCurrentSession()
+				.createQuery("from TimeSheetsUser").setFirstResult(offset)
+				.setMaxResults(limit).list();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsUserDao#getTimeSheetsUsersCount()
+	 */
 	@Override
-	public void deleteTimeSheetsUsers(long userId) {
-
-		TimeSheetsUser timesheetsuser = (TimeSheetsUser) sessionfactory
+	public Long getTimeSheetsUsersCount() {
+		Map<String, Long> m = (Map<String, Long>) sessionfactory
 				.getCurrentSession()
 				.createQuery(
-						"from TimeSheetsUser where userId ='" + userId + "'")
-				.list().get(0);
-
-		sessionfactory.getCurrentSession().delete(timesheetsuser);
+						"select new map(count(*) as total) " +
+						"from TimeSheetsUser")
+				.uniqueResult();
+		return m.get("total");
 	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsUserDao#save(com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser)
+	 */
+	@Override
+	public void save(TimeSheetsUser timeSheetsUser) {
+		getSessionfactory().getCurrentSession().saveOrUpdate(timeSheetsUser);
+		getSessionfactory().getCurrentSession().flush();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsUserDao#delete(com.millenniumit.mx.data.timesheets.domain.PortalUser)
+	 */
+	@Override
+	public void delete(PortalUser user) {
+		getSessionfactory().getCurrentSession().delete(user);
+		getSessionfactory().getCurrentSession().flush();
+	}	
 }

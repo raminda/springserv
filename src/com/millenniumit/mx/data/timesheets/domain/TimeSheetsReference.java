@@ -7,10 +7,15 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * This class represents a reference used in a timesheets entry.
  * @author Kalpag
  *
  */
@@ -18,22 +23,21 @@ import javax.persistence.Table;
 @Entity(name = "TimeSheetsReference")
 @Table(name = "timesheets_reference")
 public class TimeSheetsReference implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
-	
-	
+		
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id")
 	private long id;
 
-	@Id
-	@Column(name = "division_id")
-	private long divisionId;
+	@ManyToOne
+	@JoinColumn(name = "division_id")
+	private PortalDivision division;
 	
-	@Id
-	@Column(name = "reference")
-	private String reference;
+	@Column(name = "name")
+	private String name;
 	
-	@Id
 	@Column(name = "description")
 	private String description;
 
@@ -52,34 +56,6 @@ public class TimeSheetsReference implements Serializable {
 	}
 
 	/**
-	 * @return the divisionId
-	 */
-	public long getDivisionId() {
-		return divisionId;
-	}
-
-	/**
-	 * @param divisionId the divisionId to set
-	 */
-	public void setDivisionId(long divisionId) {
-		this.divisionId = divisionId;
-	}
-
-	/**
-	 * @return the reference
-	 */
-	public String getReference() {
-		return reference;
-	}
-
-	/**
-	 * @param reference the reference to set
-	 */
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
-	/**
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -91,6 +67,34 @@ public class TimeSheetsReference implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return the division
+	 */
+	public PortalDivision getDivision() {
+		return division;
+	}
+
+	/**
+	 * @param division the division to set
+	 */
+	public void setDivision(PortalDivision division) {
+		this.division = division;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

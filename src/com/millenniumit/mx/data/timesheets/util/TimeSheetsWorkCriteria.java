@@ -1,121 +1,113 @@
 package com.millenniumit.mx.data.timesheets.util;
+
+import java.sql.Date;
+import java.util.List;
+
+import com.millenniumit.mx.data.timesheets.domain.*;
+
 /**
  * 
- * @author kalpag
- *
+ * @author Vimukthi
+ * 
  */
 public class TimeSheetsWorkCriteria {
 
-	private Long[] divisionIds = null;
-	private Long[] projectIds = null;
-	private Long[] roleIds = null;
-	private Long[] userIds = null;
-	private String startDate = null;
-	private String endDate = null;
-		
+	private List<PortalProject> projects = null;
+	private List<PortalRole> roles = null;
+	private List<PortalUser> users = null;
+	private Date startDate = null;
+	private Date endDate = null;
+
 	/**
-	 * @param divisionIds
-	 * @param projectIds
-	 * @param roleIds
-	 * @param userIds
-	 * @param startDate
-	 * @param endDate
+	 * @return the projects
 	 */
-	public TimeSheetsWorkCriteria(Long[] divisionIds, Long[] projectIds,
-			Long[] roleIds, Long[] userIds, String startDate, String endDate) {
-		this.divisionIds = divisionIds;
-		this.projectIds = projectIds;
-		this.roleIds = roleIds;
-		this.userIds = userIds;
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
-	
-	public TimeSheetsWorkCriteria(){
-		
+	public List<PortalProject> getProjects() {
+		return projects;
 	}
 
 	/**
-	 * @return the divisionIds
+	 * @param projects
+	 *            the projects to set
 	 */
-	public Long[] getDivisionIds() {
-		return divisionIds;
+	public void setProjects(List<PortalProject> projects) {
+		this.projects = projects;
 	}
 
 	/**
-	 * @param divisionIds the divisionIds to set
+	 * @return the roles
 	 */
-	public void setDivisionIds(Long[] divisionIds) {
-		this.divisionIds = divisionIds;
+	public List<PortalRole> getRoles() {
+		return roles;
 	}
 
 	/**
-	 * @return the projectIds
+	 * @param roles
+	 *            the roles to set
 	 */
-	public Long[] getProjectIds() {
-		return projectIds;
+	public void setRoles(List<PortalRole> roles) {
+		this.roles = roles;
 	}
 
 	/**
-	 * @param projectIds the projectIds to set
+	 * @return the users
 	 */
-	public void setProjectIds(Long[] projectIds) {
-		this.projectIds = projectIds;
+	public List<PortalUser> getUsers() {
+		return users;
 	}
 
 	/**
-	 * @return the roleIds
+	 * @param users
+	 *            the users to set
 	 */
-	public Long[] getRoleIds() {
-		return roleIds;
-	}
-
-	/**
-	 * @param roleIds the roleIds to set
-	 */
-	public void setRoleIds(Long[] roleIds) {
-		this.roleIds = roleIds;
-	}
-
-	/**
-	 * @return the userIds
-	 */
-	public Long[] getUserIds() {
-		return userIds;
-	}
-
-	/**
-	 * @param userIds the userIds to set
-	 */
-	public void setUserIds(Long[] userIds) {
-		this.userIds = userIds;
+	public void setUsers(List<PortalUser> users) {
+		this.users = users;
 	}
 
 	/**
 	 * @return the startDate
 	 */
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
 	/**
-	 * @param startDate the startDate to set
+	 * @param startDate
+	 *            the startDate to set
 	 */
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
 	/**
 	 * @return the endDate
 	 */
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
 	/**
-	 * @param endDate the endDate to set
+	 * @param endDate
+	 *            the endDate to set
 	 */
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	/**
+	 * @param projects
+	 * @param roles
+	 * @param users
+	 * @param startDate
+	 * @param endDate
+	 */
+	public TimeSheetsWorkCriteria(List<PortalProject> projects,
+			List<PortalRole> roles, List<PortalUser> users, Date startDate,
+			Date endDate) {
+		super();
+		this.projects = projects;
+		this.roles = roles;
+		this.users = users;
+		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 }

@@ -3,19 +3,20 @@
  */
 package com.millenniumit.mx.servicelayer;
 
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
+
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.*;
-import com.google.gson.Gson;
-import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
-import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
-import com.millenniumit.mx.data.issueman.domain.IssuemanTicketLink;
-import com.millenniumit.mx.data.issueman.service.IssuemanTicketService;
+
+import com.millenniumit.mx.data.timesheets.domain.PortalProject;
+import com.millenniumit.mx.data.timesheets.domain.PortalRole;
+import com.millenniumit.mx.data.timesheets.domain.PortalUser;
+import com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork;
+import com.millenniumit.mx.data.timesheets.service.*;
+import com.millenniumit.mx.data.timesheets.util.TimeSheetsWorkCriteria;
 
 import com.millenniumit.spring.consoleutil.ApplicationContextLoader;
 
@@ -30,16 +31,26 @@ public class Main {
 
 	// These variables provide access to services and databases
 
-	// @Autowired
-	// @Qualifier("jiraJdbcTemplate")
-	// private JdbcTemplate jiraJdbcTemplate;
+//	@Autowired
+//	@Qualifier("timesheetsJdbcTemplate")
+//	private JdbcTemplate timesheetsJdbcTemplate;
 	//
 	// @Autowired
 	// @Qualifier("issuemanJdbcTemplate")
 	// private JdbcTemplate issuemanJdbcTemplate;
 
 	@Autowired
-	private IssuemanTicketService issuemanTicketService;
+	private PortalProjectService projectService;
+	
+	@Autowired
+	private PortalUserService userService;
+	
+	@Autowired
+	private PortalRoleService roleService;
+	
+	@Autowired
+	@Qualifier(value="timeSheetsWorkService")
+	private WorkService<TimeSheetsWork> workService;
 
 	private static ApplicationContextLoader contextLoader = new ApplicationContextLoader();
 	private static final Logger LOG = Logger.getLogger(Main.class);
@@ -51,15 +62,23 @@ public class Main {
 		// Initialize the Spring application main
 		Main main = new Main();
 		contextLoader.load(main, "applicationContext.xml");
-		Gson gs = new Gson();
+		
+		PortalProject project = main.projectService.getProject("Exchange");
+		PortalRole role = main.roleService.getRole("Exchange", null);
+		
+		//System.out.println(project.getId());
+		
+		List<PortalProject> projects = new ArrayList<PortalProject>();
+		List<PortalRole> roles = new ArrayList<PortalRole>();
+		List<PortalUser> users = new ArrayList<PortalUser>();
+		Date startDate = new Date(109, 5, 12);
+		Date endDate = new Date(112, 5, 12);
+		
+		//projects.add(project);
+		
+		TimeSheetsWorkCriteria c = new TimeSheetsWorkCriteria(projects, roles, users, startDate, endDate);
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
-		Date from = dateFormat.parse("2010/01/01");
-		Date to = dateFormat.parse("2012/04/09");
-		List<IssuemanTicket> tickets = main.issuemanTicketService
-				.getInvalidTickets(3, 3, 21, from, to);
-
-		//System.out.println("size of the list = " + tickets.size());
+		System.out.println("project = " + main.workService.getTimeSheetsWorkCount(c));
 
 		// System.out.println("Tickets = "+gs.toJson(tickets));
 		//
