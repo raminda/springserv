@@ -3,12 +3,10 @@
  */
 package com.millenniumit.mx.servicelayer;
 
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.*;
 
 import com.millenniumit.mx.data.timesheets.domain.PortalProject;
@@ -53,7 +51,6 @@ public class Main {
 	private WorkService<TimeSheetsWork> workService;
 
 	private static ApplicationContextLoader contextLoader = new ApplicationContextLoader();
-	private static final Logger LOG = Logger.getLogger(Main.class);
 
 	/**
 	 * @param args
@@ -79,8 +76,5 @@ public class Main {
 		TimeSheetsWorkCriteria c = new TimeSheetsWorkCriteria(projects, roles, users, startDate, endDate);
 
 		System.out.println("project = " + main.workService.getTimeSheetsWorkCount(c));
-
-		// System.out.println("Tickets = "+gs.toJson(tickets));
-		//
 	}
 }

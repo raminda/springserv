@@ -20,7 +20,7 @@ import org.hibernate.annotations.Where;
 @Entity(name = "IssuemanTicketFieldHistory")
 @Table(name = "ticket_field_history")
 @DiscriminatorColumn(name = "field_type")
-@Where(clause="field_id != 0")
+@Where(clause="field_id <> 0 and ticket_id <> 0")
 public abstract class IssuemanTicketFieldHistory extends AuditFields implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -31,6 +31,23 @@ public abstract class IssuemanTicketFieldHistory extends AuditFields implements 
 	@Column(name = "native_id")
 	private Long nativeId;
 	
+	@Column(name = "field_type",insertable = false, updatable = false)
+	private String fieldType;
+	
+	/**
+	 * @return the fieldType
+	 */
+	public String getFieldType() {
+		return fieldType;
+	}
+
+	/**
+	 * @param fieldType the fieldType to set
+	 */
+	public void setFieldType(String fieldType) {
+		this.fieldType = fieldType;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "ticket_id")
 	private IssuemanTicket ticket;

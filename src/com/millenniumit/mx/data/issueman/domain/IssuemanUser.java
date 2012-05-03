@@ -6,13 +6,16 @@ package com.millenniumit.mx.data.issueman.domain;
 import java.io.Serializable;
 
 import javax.persistence.*;
-
-/**
- * @author Vimukthi
+/*
+ * 
+ * @author kalpag
  *
  */
+import org.hibernate.annotations.Where;
+
 @Entity(name = "IssuemanUser")
 @Table(name = "users")
+@Where(clause="id <> 0")
 public class IssuemanUser extends AuditFields implements Serializable {
 
 	/**

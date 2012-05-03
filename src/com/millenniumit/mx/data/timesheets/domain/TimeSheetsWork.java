@@ -33,5 +33,5 @@ public class TimeSheetsWork extends Work implements Serializable {
 	 */
 	public void setUpdateCount(int updateCount) {
 		this.updateCount = updateCount;
-	}		
+	}
 }

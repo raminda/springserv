@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import javax.persistence.*;
+import org.hibernate.annotations.Where;
 
 /**
  * 
@@ -16,6 +17,7 @@ import javax.persistence.*;
  */
 @Entity(name = "IssuemanTicket")
 @Table(name = "tickets")
+@Where(clause="reporter_id <> 0 and id <> 0")
 public class IssuemanTicket extends AuditFields implements Serializable {
 
 	/**
@@ -35,16 +37,15 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	@Column(name = "title")
 	private String title;
 
-	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_id")
 	private IssuemanProject project;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "component_id")
 	private IssuemanComponent component;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reporter_id")
 	private IssuemanUser reporter;
 
@@ -59,20 +60,29 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	private List<IssuemanTicketLink> ticketLinks;
 
 	@OneToMany(targetEntity = IssuemanStatusFieldHistory.class)
-	@JoinColumn(name = "ticket_id")	
+	@JoinColumn(name = "ticket_id")
+	@Where(clause = "field_type ='status'")
 	private List<IssuemanStatusFieldHistory> statusHistoy;
 
 	@OneToMany(targetEntity = IssuemanStatusFieldCurrent.class)
 	@JoinColumn(name = "ticket_id")
+	@Where(clause = "field_type ='status'")
 	private List<IssuemanStatusFieldCurrent> currentStatus;
 
 	@OneToMany(targetEntity = IssuemanTypeFieldCurrent.class)
 	@JoinColumn(name = "ticket_id")
+	//@Where(clause = "field_type ='type'")
 	private List<IssuemanTypeFieldCurrent> currentType;
 
 	@OneToMany(targetEntity = IssuemanPriorityFieldCurrent.class)
 	@JoinColumn(name = "ticket_id")
 	private List<IssuemanPriorityFieldCurrent> currentPriority;
+	
+	
+	@OneToMany(targetEntity = IssuemanSeverityFieldCurrent.class)
+	@JoinColumn(name = "ticket_id")
+	@Where(clause = "field_type ='severity'")
+	private List<IssuemanSeverityFieldCurrent> currentSeverity;
 
 	/**
 	 * @return the id
@@ -193,7 +203,7 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	public void setProject(IssuemanProject project) {
 		this.project = project;
 	}
-	
+
 	/**
 	 * @return the component
 	 */
@@ -202,7 +212,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param component the component to set
+	 * @param component
+	 *            the component to set
 	 */
 	public void setComponent(IssuemanComponent component) {
 		this.component = component;
@@ -216,7 +227,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param ticketLinks the ticketLinks to set
+	 * @param ticketLinks
+	 *            the ticketLinks to set
 	 */
 	public void setTicketLinks(List<IssuemanTicketLink> ticketLinks) {
 		this.ticketLinks = ticketLinks;
@@ -230,7 +242,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param statusHistoy the statusHistoy to set
+	 * @param statusHistoy
+	 *            the statusHistoy to set
 	 */
 	public void setStatusHistoy(List<IssuemanStatusFieldHistory> statusHistoy) {
 		this.statusHistoy = statusHistoy;
@@ -244,7 +257,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param currentType the currentType to set
+	 * @param currentType
+	 *            the currentType to set
 	 */
 	public void setCurrentType(List<IssuemanTypeFieldCurrent> currentType) {
 		this.currentType = currentType;
@@ -258,7 +272,8 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param currentPriority the currentPriority to set
+	 * @param currentPriority
+	 *            the currentPriority to set
 	 */
 	public void setCurrentPriority(
 			List<IssuemanPriorityFieldCurrent> currentPriority) {
@@ -273,9 +288,25 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @param currentStatus the currentStatus to set
+	 * @param currentStatus
+	 *            the currentStatus to set
 	 */
 	public void setCurrentStatus(List<IssuemanStatusFieldCurrent> currentStatus) {
 		this.currentStatus = currentStatus;
+	}
+
+	/**
+	 * @return the currentSeverity
+	 */
+	public List<IssuemanSeverityFieldCurrent> getCurrentSeverity() {
+		return currentSeverity;
+	}
+
+	/**
+	 * @param currentSeverity the currentSeverity to set
+	 */
+	public void setCurrentSeverity(
+			List<IssuemanSeverityFieldCurrent> currentSeverity) {
+		this.currentSeverity = currentSeverity;
 	}
 }
