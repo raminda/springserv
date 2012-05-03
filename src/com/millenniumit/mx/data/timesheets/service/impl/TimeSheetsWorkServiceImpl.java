@@ -14,6 +14,8 @@ import com.millenniumit.mx.data.timesheets.domain.PortalRole;
 import com.millenniumit.mx.data.timesheets.domain.PortalUser;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsWorkOverwritten;
+import com.millenniumit.mx.data.timesheets.exceptions.InvalidTimeSheetUserException;
+import com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService;
 import com.millenniumit.mx.data.timesheets.service.TimeSheetsWorkOverwriteService;
 import com.millenniumit.mx.data.timesheets.service.WorkService;
 import com.millenniumit.mx.data.timesheets.util.TimeSheetsWorkCriteria;
@@ -32,6 +34,10 @@ public class TimeSheetsWorkServiceImpl implements WorkService<TimeSheetsWork> {
 	@Autowired
 	@Qualifier("timeSheetsWorkOverwrittenService")
 	private WorkService<TimeSheetsWorkOverwritten> WorkOverwrittenService;
+	
+	@Autowired
+	@Qualifier("timeSheetsUserService")
+	private TimeSheetsUserService userService;
 
 	/*
 	 * (non-Javadoc)
@@ -42,9 +48,9 @@ public class TimeSheetsWorkServiceImpl implements WorkService<TimeSheetsWork> {
 	 */
 	@Override
 	public TimeSheetsWork getTimeSheetsUserWork(PortalUser user,
-			PortalProject project, PortalRole role, Date workDate) {
+			PortalProject project, PortalRole role, Date workDate, String reference) {
 		return getWorkDao()
-				.getTimeSheetsUserWork(user, project, role, workDate);
+				.getTimeSheetsUserWork(user, project, role, workDate, reference);
 	}
 
 	/*
@@ -142,10 +148,11 @@ public class TimeSheetsWorkServiceImpl implements WorkService<TimeSheetsWork> {
 	 */
 	@Override
 	@Transactional
-	public void saveTimeSheetsWork(TimeSheetsWork timesheetWork) {
+	public void saveTimeSheetsWork(TimeSheetsWork timesheetWork) throws InvalidTimeSheetUserException {
 		// first get the timesheets entry if it already exists in the db
 		TimeSheetsWork work = getWorkDao().getTimeSheetsUserWork(timesheetWork.getUser(), 
-				timesheetWork.getProject(), timesheetWork.getRole(), timesheetWork.getWorkDate());		
+				timesheetWork.getProject(), timesheetWork.getRole(), timesheetWork.getWorkDate()
+				, timesheetWork.getReference());		
 		
 		if (work != null){
 			// if the an entry exists,
@@ -166,7 +173,13 @@ public class TimeSheetsWorkServiceImpl implements WorkService<TimeSheetsWork> {
 			//	* update the number of overwrites.
 			getWorkOverwriteService().saveTimeSheetsWorkOverwrite(work.getUser(), work.getWorkDate());
 		} else {
-			getWorkDao().save(timesheetWork);
+			if (getUserService().getTimeSheetsUser(timesheetWork.getUser()) != null){
+				getWorkDao().save(timesheetWork);
+			} else {
+				throw new InvalidTimeSheetUserException(timesheetWork.getUser().getEmail() 
+						+ " is not registered as a timesheets user");
+			}
+			
 		}
 	}
 
@@ -215,5 +228,19 @@ public class TimeSheetsWorkServiceImpl implements WorkService<TimeSheetsWork> {
 	public void setWorkOverwrittenService(
 			WorkService<TimeSheetsWorkOverwritten> workOverwrittenService) {
 		WorkOverwrittenService = workOverwrittenService;
+	}
+
+	/**
+	 * @return the userService
+	 */
+	public TimeSheetsUserService getUserService() {
+		return userService;
+	}
+
+	/**
+	 * @param userService the userService to set
+	 */
+	public void setUserService(TimeSheetsUserService userService) {
+		this.userService = userService;
 	}
 }

@@ -7,6 +7,7 @@ import com.millenniumit.mx.data.timesheets.domain.PortalProject;
 import com.millenniumit.mx.data.timesheets.domain.PortalRole;
 import com.millenniumit.mx.data.timesheets.domain.PortalUser;
 import com.millenniumit.mx.data.timesheets.domain.Work;
+import com.millenniumit.mx.data.timesheets.exceptions.InvalidTimeSheetUserException;
 import com.millenniumit.mx.data.timesheets.util.TimeSheetsWorkCriteria;
 
 /**
@@ -21,7 +22,7 @@ public interface WorkService<T extends Work> {
 	 * @return
 	 */
 	public T getTimeSheetsUserWork(PortalUser user, PortalProject project,
-			PortalRole role, Date workDate);
+			PortalRole role, Date workDate, String reference);
 
 	/**
 	 * 
@@ -70,6 +71,7 @@ public interface WorkService<T extends Work> {
 	/**
 	 * 
 	 * @param timesheetWork
+	 * @throws InvalidTimeSheetUserException 
 	 */
-	public void saveTimeSheetsWork(T timesheetWork);
+	public void saveTimeSheetsWork(T timesheetWork) throws InvalidTimeSheetUserException;
 }

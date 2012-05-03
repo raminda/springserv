@@ -32,9 +32,9 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<bean id="issueman_abacusdb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_abacus" />
+		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_test" />
 		<property name="username" value="root" />
-		<property name="password" value="kalpa" />
+		<property name="password" value="" />
 	</bean>
 
 <!-- 	<bean id="issuemandb_server" class="org.apache.commons.dbcp.BasicDataSource" -->
@@ -48,9 +48,9 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/portal_20111209_test" />
+		<property name="url" value="jdbc:mysql://localhost/portal_test" />
 		<property name="username" value="root" />
-		<property name="password" value="kalpa" />
+		<property name="password" value="" />
 	</bean>
 	<bean id="timesheetsdb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">

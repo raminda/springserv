@@ -16,10 +16,11 @@ public interface WorkDao<T extends Work> {
 	 * @param project
 	 * @param role
 	 * @param workDate
+	 * @param reference 
 	 * @return
 	 */
 	public T getTimeSheetsUserWork(PortalUser user,
-			PortalProject project, PortalRole role, Date workDate);
+			PortalProject project, PortalRole role, Date workDate, String reference);
 
 	/**
 	 * @return

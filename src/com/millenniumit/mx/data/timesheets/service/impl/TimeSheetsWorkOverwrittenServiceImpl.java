@@ -35,9 +35,9 @@ public class TimeSheetsWorkOverwrittenServiceImpl implements WorkService<TimeShe
 	 */
 	@Override
 	public TimeSheetsWorkOverwritten getTimeSheetsUserWork(PortalUser user,
-			PortalProject project, PortalRole role, Date workDate) {
+			PortalProject project, PortalRole role, Date workDate, String reference) {
 		// Returns the latest overwritten record
-		return getOverwrittenDao().getTimeSheetsUserWork(user, project, role, workDate);
+		return getOverwrittenDao().getTimeSheetsUserWork(user, project, role, workDate, reference);
 	}
 
 	/* (non-Javadoc)
@@ -111,7 +111,7 @@ public class TimeSheetsWorkOverwrittenServiceImpl implements WorkService<TimeShe
 	public void saveTimeSheetsWork(TimeSheetsWorkOverwritten overwritten) {
 		// get the last overwrite and set the incremented overwrite no for the current overwrite
 		TimeSheetsWorkOverwritten latest = getOverwrittenDao().getTimeSheetsUserWork(overwritten.getUser(), 
-				overwritten.getProject(), overwritten.getRole(), overwritten.getWorkDate());
+				overwritten.getProject(), overwritten.getRole(), overwritten.getWorkDate(), overwritten.getReference());
 		if (latest != null){
 			overwritten.setOverwriteNo(latest.getOverwriteNo() + 1);
 		} else {

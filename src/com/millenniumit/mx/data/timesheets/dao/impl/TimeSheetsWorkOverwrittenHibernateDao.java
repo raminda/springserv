@@ -49,15 +49,17 @@ public class TimeSheetsWorkOverwrittenHibernateDao implements WorkDao<TimeSheets
 	 */
 	@Override
 	public TimeSheetsWorkOverwritten getTimeSheetsUserWork(PortalUser user,
-			PortalProject project, PortalRole role, Date workDate) {
+			PortalProject project, PortalRole role, Date workDate, String reference) {
 		List<TimeSheetsWorkOverwritten> overwritten = getSessionfactory()
 				.getCurrentSession()
 				.createQuery(
 						"from TimeSheetsWorkOverwritten where user=:user and "
-								+ "project=:project and role=:role and workDate=:workDate " +
+								+ "project=:project and role=:role and " +
+								"workDate=:workDate and reference:=reference " +
 								"order by overwriteNo desc")
 				.setParameter("user", user).setParameter("project", project)
 				.setParameter("role", role).setParameter("workDate", workDate)
+				.setParameter("reference", reference)
 				.list();
 		if (overwritten != null){
 			return overwritten.get(0);

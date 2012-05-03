@@ -57,14 +57,16 @@ public class TimeSheetsWorkHibernateDao implements WorkDao<TimeSheetsWork> {
 	 */
 	@Override
 	public TimeSheetsWork getTimeSheetsUserWork(PortalUser user,
-			PortalProject project, PortalRole role, Date workDate) {
+			PortalProject project, PortalRole role, Date workDate, String reference) {
 		return (TimeSheetsWork) getSessionfactory()
 				.getCurrentSession()
 				.createQuery(
 						"from TimeSheetsWork where user=:user and "
-								+ "project=:project and role=:role and workDate=:workDate")
+								+ "project=:project and role=:role and " +
+								"workDate=:workDate and reference=:reference")
 				.setParameter("user", user).setParameter("project", project)
 				.setParameter("role", role).setParameter("workDate", workDate)
+				.setParameter("reference", reference)
 				.uniqueResult();
 	}
 
