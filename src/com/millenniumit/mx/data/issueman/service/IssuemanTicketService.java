@@ -17,7 +17,15 @@ import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
  */
 
 public interface IssuemanTicketService {
-
+	
+	/**
+	 * 
+	 * @param projectId
+	 * @param type
+	 * @param subType
+	 * @param from
+	 * @param to
+	 */
 	public void Init(long projectId, long type, long subType, Date from, Date to);
 
 	public List<IssuemanTicket> getInvalidTickets();

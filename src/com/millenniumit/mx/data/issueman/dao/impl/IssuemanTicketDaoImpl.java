@@ -1,19 +1,26 @@
 package com.millenniumit.mx.data.issueman.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.google.gson.Gson;
 import com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao;
+import com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldCurrent;
 import com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldHistory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicketLink;
+import com.millenniumit.mx.data.issueman.domain.IssuemanTicketStatus;
 import com.millenniumit.mx.data.issueman.domain.IssuemanUserProjectRole;
 
 /**
@@ -121,33 +128,123 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		if (uncopiedTickets == null) { // if total tickets list is empty
 			uncopiedTickets = getUncopiedTickets();
 		}
+		//
+		// String currenthql =
+		// "   select new map( t.ticket as ticket, t.status as status, history as history)"
+		// + " from IssuemanStatusFieldCurrent t"
+		// + " join t.ticket.statusHistory as history"
+		// + " where t.ticket in (:tickets) ";
 
-		for (IssuemanTicket ticket : uncopiedTickets) {
-			// re attach tickets to the session
-			issuemanSessionFactory.getCurrentSession().update(ticket);
-			boolean invalidHistory = false;
-			currentStatus = ticket.getCurrentStatus().get(0).getStatus()
-					.getName();
-			List<IssuemanStatusFieldHistory> statusHistory = ticket
-					.getStatusHistoy();
+		String currenthql = "select distinct t.ticket as ticket,currentStatus as status, t.oldStatus as history"
+				+ " from IssuemanStatusFieldHistory t"
+				+ " join t.ticket.currentStatus as currentStatus"
+				+ " where (t.oldStatus.name = :oldStatus and t.newStatus.name = :newStatus)"
+				+ " or currentStatus.status.name in :statusNames "
+				+ " and t.ticket in (:tickets)";
 
-			for (IssuemanStatusFieldHistory issuemanStatusFieldHistory : statusHistory) {
-				String oldStatus = issuemanStatusFieldHistory.getOldStatus()
-						.getName();
-				String newStatus = issuemanStatusFieldHistory.getNewStatus()
-						.getName();
+		// String currenthql = "from IssuemanTicket t"
+		// + " join fetch t.statusHistoy as history"
+		// //+ " join fetch t.currentStatus as status"
+		// + " where t in (:tickets) ";
+		// //+ " and status.status.name in (:statusNames)";
 
-				if (oldStatus.equals(DUPLICATE) && newStatus.equals(CLOSED)) {
-					invalidHistory = true;
-				}
-			}
+		List<String> statusNames = new ArrayList<String>();
+		statusNames.add(CANCELLED);
+		statusNames.add(DUPLICATE);
 
-			if ((currentStatus.equals(DUPLICATE) || currentStatus
-					.equals(CANCELLED)) || invalidHistory) {
-				invalidTickets.add(ticket);
-			}
+		// Query historyQuery = issuemanSessionFactory.getCurrentSession()
+		// .createQuery(historyhql);
+		// historyQuery.setParameter("oldstatus", DUPLICATE);
+		// historyQuery.setParameter("newstatus", CLOSED);
+		// historyQuery.setParameterList("statusNames", statusNames);
+		// List<IssuemanTicket> htickets = historyQuery.list();
+
+		Query currentquery = issuemanSessionFactory.getCurrentSession()
+				.createQuery(currenthql);
+		currentquery.setParameterList("tickets", uncopiedTickets);
+		currentquery.setParameterList("statusNames", statusNames);
+
+		 currentquery.setParameter("oldStatus", DUPLICATE);
+		 currentquery.setParameter("newStatus", CLOSED);
+
+		// List<IssuemanTicket> params = currentquery.list();
+
+		List<Map<String, Object>> params = currentquery.list();
+		System.out.println("Size = " + params.size());
+
+		for (int i = 0; i < params.size(); i++) {
+			// Map<String, Object> map = (Map<String, Object>) params.get(i);
+			// System.out.println(new Gson().toJson(map));
+			Map<String, Object> map = params.get(i);
+
+			List<IssuemanStatusFieldHistory> status = (List<IssuemanStatusFieldHistory>) map
+					.get("history");
+
+			System.out.println(status.size());
+			// List<IssuemanStatusFieldHistory> _statusHistory =
+			// (List<IssuemanStatusFieldHistory>) map
+			// .get("history");
+
+			// List<IssuemanStatusFieldHistory> history =
+			// (List<IssuemanStatusFieldHistory>) arr.get(2);
+
+			// for (IssuemanStatusFieldHistory issuemanStatusFieldHistory :
+			// history) {
+			// System.out.println("History = " +
+			// issuemanStatusFieldHistory.getOldStatus().getName());
+			// }
+
+			// String oldStatus = statusHistory.getOldStatus().getName();
+			// String newStatus = statusHistory.getNewStatus().getName();
+			//
+			// if ((statusName.equals(DUPLICATE) ||
+			// statusName.equals(CANCELLED))
+			// || (oldStatus.equals(DUPLICATE) && newStatus.equals(CLOSED))) {
+			//
+			// tickets.add((IssuemanTicket) map.get("ticket"));
+			//
+			// System.out.println(" status =   " + statusName);
+			// System.out.println(" OldStatus =   " + oldStatus);
+			// System.out.println(" NewStatus =   " + newStatus);
+			// System.out.println("\n");
+			// }
+			//
+			// System.out.println("Size of the ticket list is = "
+			// +tickets.size());
+			// return tickets;
 		}
-		System.out.println("no of invalid tickets = " + invalidTickets.size());
+
+		System.out.println("Loaded");
+
+		// for (IssuemanTicket ticket : uncopiedTickets) {
+		// // re attach tickets to the session
+		// issuemanSessionFactory.getCurrentSession().update(ticket);
+		//
+		// currentStatus = ticket.getCurrentStatus().get(0).getStatus()
+		// .getName();
+		// List<IssuemanStatusFieldHistory> statusHistory = ticket
+		// .getStatusHistory();
+		//
+		// boolean invalidHistory = false;
+		// for (IssuemanStatusFieldHistory issuemanStatusFieldHistory :
+		// statusHistory) {
+		// String oldStatus = issuemanStatusFieldHistory.getOldStatus()
+		// .getName();
+		// String newStatus = issuemanStatusFieldHistory.getNewStatus()
+		// .getName();
+		//
+		// if (oldStatus.equals(DUPLICATE) && newStatus.equals(CLOSED)) {
+		// invalidHistory = true;
+		// }
+		// }
+		//
+		// if ((currentStatus.equals(DUPLICATE) || currentStatus
+		// .equals(CANCELLED)) || invalidHistory) {
+		// invalidTickets.add(ticket);
+		// }
+		// }
+		// System.out.println("no of invalid tickets = " +
+		// invalidTickets.size());
 		return invalidTickets;
 	}
 
@@ -165,7 +262,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		if (uncopiedTickets == null) {
 			uncopiedTickets = getUncopiedTickets();
 		}
-		validTickets = new ArrayList<IssuemanTicket>(); // instantiate
+		// validTickets = new ArrayList<IssuemanTicket>(); // instantiate
 		validTickets = uncopiedTickets;
 
 		validTickets.removeAll(invalidTickets);
@@ -187,17 +284,15 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		/*
 		 * Handle all the configuration stuff here {which database to connect}
 		 */
-		
+
 		/**
 		 * if(databaseConfiguration.getDatabase().getName().equals("jira")){
-		 * 		
-		 * DUPLICATE = "Duplicate";
-		 * CLOSED = "Closed";
-		 * OPEN = "Open";
-		 * 	
+		 * 
+		 * DUPLICATE = "Duplicate"; CLOSED = "Closed"; OPEN = "Open";
+		 * 
 		 * }
 		 */
-		
+
 		setUserProjectRoles(projectId); // load user project roles table into
 										// memory
 		totalTicketsList = getTotalTickets(projectId, type, subType, from, to);
@@ -312,7 +407,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 
 		System.out.println("size of currently open tickets list ="
 				+ currentOpenTickets.size());
-		return null;
+		return currentOpenTickets;
 	}
 
 	/**

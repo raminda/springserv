@@ -8,6 +8,9 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 /**
@@ -17,7 +20,7 @@ import org.hibernate.annotations.Where;
  */
 @Entity(name = "IssuemanTicket")
 @Table(name = "tickets")
-@Where(clause="reporter_id <> 0 and id <> 0")
+//@Where(clause="reporter_id <> 0 and id <> 0")
 public class IssuemanTicket extends AuditFields implements Serializable {
 
 	/**
@@ -47,6 +50,7 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reporter_id")
+	
 	private IssuemanUser reporter;
 
 	@Column(name = "description")
@@ -62,7 +66,7 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	@OneToMany(targetEntity = IssuemanStatusFieldHistory.class)
 	@JoinColumn(name = "ticket_id")
 	@Where(clause = "field_type ='status'")
-	private List<IssuemanStatusFieldHistory> statusHistoy;
+	private List<IssuemanStatusFieldHistory> statusHistory;
 
 	@OneToMany(targetEntity = IssuemanStatusFieldCurrent.class)
 	@JoinColumn(name = "ticket_id")
@@ -235,21 +239,6 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @return the statusHistoy
-	 */
-	public List<IssuemanStatusFieldHistory> getStatusHistoy() {
-		return statusHistoy;
-	}
-
-	/**
-	 * @param statusHistoy
-	 *            the statusHistoy to set
-	 */
-	public void setStatusHistoy(List<IssuemanStatusFieldHistory> statusHistoy) {
-		this.statusHistoy = statusHistoy;
-	}
-
-	/**
 	 * @return the currentType
 	 */
 	public List<IssuemanTypeFieldCurrent> getCurrentType() {
@@ -308,5 +297,19 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	public void setCurrentSeverity(
 			List<IssuemanSeverityFieldCurrent> currentSeverity) {
 		this.currentSeverity = currentSeverity;
+	}
+
+	/**
+	 * @return the statusHistory
+	 */
+	public List<IssuemanStatusFieldHistory> getStatusHistory() {
+		return statusHistory;
+	}
+
+	/**
+	 * @param statusHistory the statusHistory to set
+	 */
+	public void setStatusHistory(List<IssuemanStatusFieldHistory> statusHistory) {
+		this.statusHistory = statusHistory;
 	}
 }

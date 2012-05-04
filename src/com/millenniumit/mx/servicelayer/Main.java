@@ -3,11 +3,22 @@
  */
 package com.millenniumit.mx.servicelayer;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections.MultiHashMap;
+import org.apache.commons.collections.MultiMap;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.Repository;
+
 import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType;
 import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
@@ -47,26 +58,82 @@ public class Main {
 		Main main = new Main();
 		contextLoader.load(main, "applicationContext.xml");
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date from = dateFormat.parse("2005-01-01");
-		Date to = dateFormat.parse("2012-07-09");
-		// List<IssuemanTicket> tickets = main.issuemanTicketService
-		// .getInvalidTickets(3, 3, 21, from, to);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+		String fromStr = "2005-01-01";
+		String toStr = "2012-07-09";
+
+		Date from = new Date(dateFormat.parse(fromStr).getTime());
+		Date to = new Date(dateFormat.parse(toStr).getTime());
 
 		// main.issuemanTicketService.Init(4,1, 7, from, to); //check and
 		// correct the error comes here
 
-		main.issuemanTicketService.Init(11, 1, 7, from, to);
-		// List<IssuemanTicket> tickets =
-		// main.issuemanTicketService.getTotalTickets();
+		main.issuemanTicketService.Init(4, 1, 7, from, to);
+		
+		List<IssuemanTicket> invalidTickets = main.issuemanTicketService.getTotalTickets();
+		
+		
+//		
+//		List<IssuemanTicket> totalTickets = main.issuemanTicketService.getTotalTickets();
+//		List<IssuemanTicket> copiedTickets = main.issuemanTicketService.getCopiedTickets();
+//		//List<IssuemanTicket> invalidTickets = main.issuemanTicketService.getInvalidTickets();
+//		List<IssuemanTicket> validTickets = main.issuemanTicketService.getValidTickets();
+//		
+//		MultiMap totalMap = getFoo(totalTickets);
+//		MultiMap copiedMap = getFoo(copiedTickets);
+//		MultiMap invalidMap = getFoo(invalidTickets);
+//		MultiMap validMap = getFoo(validTickets);
+//		
+//		
+//		//Print(totalMap);
+//		
+//		
+//		
+//		
+//		
+//		
+//		System.out.println("Size of Total Map = " + totalMap.size());
+//		System.out.println("Size of Copied Map = " +copiedMap.size());
+//		System.out.println("Size of Valid Map = " + validMap.size());
+//		System.out.println("Size of Invalid Map = " + invalidMap.size());	
+			
+	//	System.out.println("tickets size = " + .size());
+	}
 
-		List<IssuemanTicket> tickets = main.issuemanTicketService
-				.getTicketsByRoleCategoryPerSeverity(RoleCategory.MIT,
-						IssueType.VALID, "HIGH");
+	
+	private static void Print(MultiMap map){
+		
+		 Set keySet = map.keySet( );  
+		    Iterator keyIterator = keySet.iterator();  
+		    while( keyIterator.hasNext( ) ) {  
+		        Object key = keyIterator.next( );  
+		        System.out.print( "Key: " + key + ", " );  
+		        List<IssuemanTicket> values = (List<IssuemanTicket>) map.get( key );  
+		        Iterator valuesIterator = values.iterator( );  
+		        while( valuesIterator.hasNext( ) ) {  
+		            System.out.print( "Value: " + valuesIterator.next( ) + ". " );  
+		        }  
+		        System.out.print( "\n" );  
+		    }  
+		   
+		
+	}
+	
+	private static MultiMap getFoo(List<IssuemanTicket> ticketList) {
 
-		// List<IssuemanTicket> tickets = main.issuemanTicketService
-		// .getTicketsByRole("Project Manager", IssueType.COPIED);
+		MultiMap mhm = new MultiHashMap();
 
-		System.out.println("tickets size = " + tickets.size());
+		for (IssuemanTicket issuemanTicket : ticketList) {
+
+			Timestamp reportedDate = issuemanTicket.getReportedDate();
+			Calendar c = Calendar.getInstance();
+			c.setTime(reportedDate);
+			int weekofYear = c.get(Calendar.WEEK_OF_YEAR);
+			int year = c.get(Calendar.YEAR);
+			String yearweek = year + "-" + weekofYear;
+			mhm.put(yearweek, issuemanTicket);
+		}
+		return mhm;
 	}
 }
