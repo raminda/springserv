@@ -43,13 +43,7 @@ public class IssuemanTicketServiceImpl2 implements IssuemanTicketService2 {
 	private static String CLIENT = "Client";
 	private static String CLIENT_ADMIN = "Client (Admin)";
 
-	public enum RoleCategory {
-		CLIENT, MIT, EXTQA, THINKSOFT, VIRTUSA, ALLIED
-	}
 
-	public enum IssueType {
-		VALID, INVALID, CURRENTOPEN, OPEN, TOTAL, UNCOPIED, COPIED
-	}
 
 	private List<IssuemanTicket> totalTicketsList = null;
 	private List<IssuemanTicket> uncopiedTickets = null;
@@ -671,72 +665,4 @@ public class IssuemanTicketServiceImpl2 implements IssuemanTicketService2 {
 		}
 		return filteredTickets;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService2#getTicketsByRoleCategory(long, long, long, java.util.Date, java.util.Date, com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory, com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType)
-	 */
-	@Override
-	public List<IssuemanTicket> getTicketsByRoleCategory(
-			long projectId,
-			long type,
-			long subType,
-			Date from,
-			Date to,
-			com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory roleCategory,
-			com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType issueType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService2#getTicketsByRole(long, long, long, java.util.Date, java.util.Date, java.lang.String, com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType)
-	 */
-	@Override
-	public List<IssuemanTicket> getTicketsByRole(
-			long projectId,
-			long type,
-			long subType,
-			Date from,
-			Date to,
-			String roleName,
-			com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType issueType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService2#getTicketsPerSeverity(long, long, long, java.util.Date, java.util.Date, java.lang.String, com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType)
-	 */
-	@Override
-	public List<IssuemanTicket> getTicketsPerSeverity(
-			long projectId,
-			long type,
-			long subType,
-			Date from,
-			Date to,
-			String severity,
-			com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType issueType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService2#getTicketsByRoleCategoryPerSeverity(long, long, long, java.util.Date, java.util.Date, com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory, com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType, java.lang.String)
-	 */
-	@Override
-	public List<IssuemanTicket> getTicketsByRoleCategoryPerSeverity(
-			long projectId,
-			long type,
-			long subType,
-			Date from,
-			Date to,
-			com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory roleCategory,
-			com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType issueType,
-			String severity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 }

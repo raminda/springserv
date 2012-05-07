@@ -5,9 +5,6 @@ package com.millenniumit.mx.data.issueman.service;
 
 import java.util.Date;
 import java.util.List;
-
-import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType;
-import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 
 /**
@@ -18,6 +15,13 @@ import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 
 public interface IssuemanTicketService2 {
 
+	public enum RoleCategory {
+		CLIENT, MIT, EXTQA, THINKSOFT, VIRTUSA, ALLIED
+	}
+
+	public enum IssueType {
+		VALID, INVALID, CURRENTOPEN, OPEN, TOTAL, UNCOPIED, COPIED
+	}
 
 	/**
 	 * 
@@ -103,8 +107,8 @@ public interface IssuemanTicketService2 {
 	 * @return
 	 */
 	public List<IssuemanTicket> getTicketsByRoleCategory(long projectId,
-			long type, long subType, Date from, Date to, RoleCategory roleCategory,
-			IssueType issueType);
+			long type, long subType, Date from, Date to,
+			RoleCategory roleCategory, IssueType issueType);
 
 	/**
 	 * 

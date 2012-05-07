@@ -6,8 +6,6 @@ package com.millenniumit.mx.data.issueman.dao;
 import java.util.Date;
 import java.util.List;
 
-import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType;
-import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 import com.millenniumit.mx.data.issueman.domain.IssuemanUserProjectRole;
 

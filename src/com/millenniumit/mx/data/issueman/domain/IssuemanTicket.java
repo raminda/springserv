@@ -19,6 +19,7 @@ import org.hibernate.annotations.Where;
  * 
  */
 @Entity(name = "IssuemanTicket")
+@org.hibernate.annotations.Entity(selectBeforeUpdate=true)
 @Table(name = "tickets")
 //@Where(clause="reporter_id <> 0 and id <> 0")
 public class IssuemanTicket extends AuditFields implements Serializable {

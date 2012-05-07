@@ -17,10 +17,6 @@ import java.util.Set;
 import org.apache.commons.collections.MultiHashMap;
 import org.apache.commons.collections.MultiMap;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.Repository;
-
-import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.IssueType;
-import com.millenniumit.mx.data.issueman.dao.impl.IssuemanTicketDaoImpl.RoleCategory;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 import com.millenniumit.mx.data.issueman.service.IssuemanTicketService;
 
@@ -68,10 +64,8 @@ public class Main {
 
 		// main.issuemanTicketService.Init(4,1, 7, from, to); //check and
 		// correct the error comes here
-
-		main.issuemanTicketService.Init(4, 1, 7, from, to);
-		
-		List<IssuemanTicket> invalidTickets = main.issuemanTicketService.getTotalTickets();
+	
+		List<IssuemanTicket> invalidTickets = main.issuemanTicketService.getValidTickets(4, 1, 7, from, to);
 		
 		
 //		
