@@ -15,6 +15,7 @@ import com.millenniumit.mx.data.timesheets.domain.PortalUser;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsWorkOverwritten;
 import com.millenniumit.mx.data.timesheets.exceptions.InvalidTimeSheetUserException;
+import com.millenniumit.mx.data.timesheets.service.TimeSheetsReminderService;
 import com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService;
 import com.millenniumit.mx.data.timesheets.service.TimeSheetsWorkOverwriteService;
 import com.millenniumit.mx.data.timesheets.service.WorkService;
@@ -38,6 +39,10 @@ public class TimeSheetsWorkServiceImpl implements WorkService<TimeSheetsWork> {
 	@Autowired
 	@Qualifier("timeSheetsUserService")
 	private TimeSheetsUserService userService;
+	
+	@Autowired
+	@Qualifier("timeSheetsReminderService")
+	private TimeSheetsReminderService reminderService;
 
 	/*
 	 * (non-Javadoc)
@@ -179,8 +184,8 @@ public class TimeSheetsWorkServiceImpl implements WorkService<TimeSheetsWork> {
 				throw new InvalidTimeSheetUserException(timesheetWork.getUser().getEmail() 
 						+ " is not registered as a timesheets user");
 			}
-			
 		}
+		getReminderService().updateReminder(work.getUser(), work.getWorkDate());
 	}
 
 	/**
@@ -242,5 +247,19 @@ public class TimeSheetsWorkServiceImpl implements WorkService<TimeSheetsWork> {
 	 */
 	public void setUserService(TimeSheetsUserService userService) {
 		this.userService = userService;
+	}
+
+	/**
+	 * @return the reminderService
+	 */
+	public TimeSheetsReminderService getReminderService() {
+		return reminderService;
+	}
+
+	/**
+	 * @param reminderService the reminderService to set
+	 */
+	public void setReminderService(TimeSheetsReminderService reminderService) {
+		this.reminderService = reminderService;
 	}
 }

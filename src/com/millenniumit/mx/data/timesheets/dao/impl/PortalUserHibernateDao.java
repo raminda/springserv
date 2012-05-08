@@ -58,6 +58,17 @@ public class PortalUserHibernateDao implements PortalUserDao {
 		return getSessionfactory().getCurrentSession()
 				.createQuery("from PortalUser").list();
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.PortalUserDao#getNonTimeSheetsUsers()
+	 */
+	@Override
+	public List<PortalUser> getNonTimeSheetsUsers() {
+		return getSessionfactory().getCurrentSession()
+				.createQuery("select user from PortalUser user " +
+						"where user not in " +
+						"(select tuser.user from TimeSheetsUser tuser)").list();
+	}
 
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.timesheets.dao.PortalUserDao#getUsers(int, int)
@@ -91,5 +102,13 @@ public class PortalUserHibernateDao implements PortalUserDao {
 		getSessionfactory().getCurrentSession().saveOrUpdate(user);
 		getSessionfactory().getCurrentSession().flush();
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.PortalUserDao#save(com.millenniumit.mx.data.timesheets.domain.PortalUser)
+	 */
+	@Override
+	public void delete(PortalUser user) {
+		getSessionfactory().getCurrentSession().delete(user);
+		getSessionfactory().getCurrentSession().flush();
+	}
 }

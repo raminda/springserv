@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.*;
 
+import com.millenniumit.mx.data.timesheets.domain.PortalDivision;
 import com.millenniumit.mx.data.timesheets.domain.PortalProject;
 import com.millenniumit.mx.data.timesheets.domain.PortalRole;
 import com.millenniumit.mx.data.timesheets.domain.PortalUser;
@@ -36,6 +37,9 @@ public class Main {
 	// @Autowired
 	// @Qualifier("issuemanJdbcTemplate")
 	// private JdbcTemplate issuemanJdbcTemplate;
+	
+	@Autowired
+	private PortalDivisionService divisionService;
 
 	@Autowired
 	private PortalProjectService projectService;
@@ -60,14 +64,20 @@ public class Main {
 		Main main = new Main();
 		contextLoader.load(main, "applicationContext.xml");
 		
+		//System.out.println("manager".split("rninr")[0]);
+		
 		PortalProject project = main.projectService.getProject("Exchange");
 		PortalRole role = main.roleService.getRole("Exchange", null);
 		
-		//System.out.println(project.getId());
+		List<PortalDivision> pds = main.divisionService.getDivisions();
+		
+		List<PortalUser> users = main.userService.getNonTimeSheetsUsers();
+		
+		System.out.println(users.get(0).getEmail());
 		
 		List<PortalProject> projects = new ArrayList<PortalProject>();
 		List<PortalRole> roles = new ArrayList<PortalRole>();
-		List<PortalUser> users = new ArrayList<PortalUser>();
+		//List<PortalUser> users = new ArrayList<PortalUser>();
 		Date startDate = new Date(109, 5, 12);
 		Date endDate = new Date(112, 5, 12);
 		
@@ -75,6 +85,6 @@ public class Main {
 		
 		TimeSheetsWorkCriteria c = new TimeSheetsWorkCriteria(projects, roles, users, startDate, endDate);
 
-		System.out.println("project = " + main.workService.getTimeSheetsWorkCount(c));
+		//System.out.println("project = " + main.workService.getTimeSheetsWorkCount(c));
 	}
 }

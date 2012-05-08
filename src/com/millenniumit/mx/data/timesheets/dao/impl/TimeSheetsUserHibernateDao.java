@@ -89,7 +89,7 @@ public class TimeSheetsUserHibernateDao implements TimeSheetsUserDao {
 	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsUserDao#delete(com.millenniumit.mx.data.timesheets.domain.PortalUser)
 	 */
 	@Override
-	public void delete(PortalUser user) {
+	public void delete(TimeSheetsUser user) {
 		getSessionfactory().getCurrentSession().delete(user);
 		getSessionfactory().getCurrentSession().flush();
 	}	

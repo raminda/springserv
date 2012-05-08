@@ -30,7 +30,19 @@ public interface PortalUserProjectService {
 	
 	/**
 	 * 
+	 * @return
+	 */
+	public List<PortalUsersProject> getUsersProjects(PortalUser user);
+	
+	/**
+	 * 
 	 * @param usersProject
 	 */
 	public void saveUsersProject(PortalUsersProject usersProject);
+	
+	/**
+	 * 
+	 * @param usersProject
+	 */
+	public void deleteUsersProject(PortalUsersProject usersProject);
 }

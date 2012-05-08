@@ -29,4 +29,9 @@ public interface PortalDivisionDao {
 	 */
 	public void save(PortalDivision division);
 
+	/**
+	 * @param division
+	 */
+	public void delete(PortalDivision division);
+
 }

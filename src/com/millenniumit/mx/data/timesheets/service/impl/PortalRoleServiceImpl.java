@@ -52,6 +52,15 @@ public class PortalRoleServiceImpl implements PortalRoleService {
 	public void saveRole(PortalRole role) {
 		getRoleDao().save(role);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.service.PortalRoleService#saveRole(com.millenniumit.mx.data.timesheets.domain.PortalRole)
+	 */
+	@Override
+	@Transactional
+	public void deleteRole(PortalRole role) {
+		getRoleDao().delete(role);
+	}
 
 	/**
 	 * @return the roleDao

@@ -41,4 +41,14 @@ public interface PortalUserDao {
 	 */
 	public void save(PortalUser user);
 
+	/**
+	 * @param user
+	 */
+	public void delete(PortalUser user);
+
+	/**
+	 * @return
+	 */
+	public List<PortalUser> getNonTimeSheetsUsers();
+
 }

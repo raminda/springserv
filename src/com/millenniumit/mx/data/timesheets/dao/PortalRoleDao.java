@@ -31,4 +31,9 @@ public interface PortalRoleDao {
 	 */
 	public void save(PortalRole role);
 
+	/**
+	 * @param role
+	 */
+	public void delete(PortalRole role);
+
 }

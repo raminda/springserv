@@ -66,4 +66,13 @@ public class PortalProjectHibernateDao implements PortalProjectDao {
 		getSessionfactory().getCurrentSession().saveOrUpdate(project);
 		getSessionfactory().getCurrentSession().flush();
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.PortalProjectDao#save(com.millenniumit.mx.data.timesheets.domain.PortalProject)
+	 */
+	@Override
+	public void delete(PortalProject project) {
+		getSessionfactory().getCurrentSession().delete(project);
+		getSessionfactory().getCurrentSession().flush();
+	}
 }

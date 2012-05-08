@@ -32,5 +32,11 @@ public interface PortalRoleService {
 	 * @param role
 	 */
 	public void saveRole(PortalRole role);
+	
+	/**
+	 * 
+	 * @param role
+	 */
+	public void deleteRole(PortalRole role);
 
 }

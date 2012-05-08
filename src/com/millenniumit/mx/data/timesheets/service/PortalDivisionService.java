@@ -31,4 +31,10 @@ public interface PortalDivisionService {
 	 * @param division
 	 */
 	public void saveDivision(PortalDivision division);
+	
+	/**
+	 * 
+	 * @param division
+	 */
+	public void deleteDivision(PortalDivision division);
 }

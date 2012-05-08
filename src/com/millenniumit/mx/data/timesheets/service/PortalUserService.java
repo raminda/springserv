@@ -30,6 +30,12 @@ public interface PortalUserService {
 	 * 
 	 * @return
 	 */
+	public List<PortalUser> getNonTimeSheetsUsers();
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<PortalUser> getUsers(int offset, int limit);
 	
 	/**
@@ -43,5 +49,11 @@ public interface PortalUserService {
 	 * @param user
 	 */
 	public void saveUser(PortalUser user);
+	
+	/**
+	 * 
+	 * @param user
+	 */
+	public void deleteUser(PortalUser user);
 
 }

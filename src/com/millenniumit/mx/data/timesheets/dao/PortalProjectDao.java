@@ -29,4 +29,9 @@ public interface PortalProjectDao {
 	 */
 	public void save(PortalProject project);
 
+	/**
+	 * @param project
+	 */
+	public void delete(PortalProject project);
+
 }

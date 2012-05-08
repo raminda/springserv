@@ -43,6 +43,15 @@ public class PortalUsersProjectServiceImpl implements PortalUserProjectService {
 	public List<PortalUsersProject> getUsersProjects() {
 		return getUsersProjectDao().getUsersProjects();
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.service.PortalUserProjectService#getUsersProjects()
+	 */
+	@Override
+	@Transactional
+	public List<PortalUsersProject> getUsersProjects(PortalUser user) {
+		return getUsersProjectDao().getUsersProjects(user);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.timesheets.service.PortalUserProjectService#saveUsersProject(com.millenniumit.mx.data.timesheets.domain.PortalUsersProject)
@@ -51,6 +60,15 @@ public class PortalUsersProjectServiceImpl implements PortalUserProjectService {
 	@Transactional
 	public void saveUsersProject(PortalUsersProject usersProject) {
 		getUsersProjectDao().save(usersProject);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.service.PortalUserProjectService#saveUsersProject(com.millenniumit.mx.data.timesheets.domain.PortalUsersProject)
+	 */
+	@Override
+	@Transactional
+	public void deleteUsersProject(PortalUsersProject usersProject) {
+		getUsersProjectDao().delete(usersProject);
 	}
 
 	/**

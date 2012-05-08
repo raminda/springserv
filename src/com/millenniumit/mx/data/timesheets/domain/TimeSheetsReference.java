@@ -14,7 +14,7 @@ import javax.persistence.*;
  */
 
 @Entity(name = "TimeSheetsReference")
-@Table(name = "timesheets_reference")
+@Table(name = "timesheets_references")
 public class TimeSheetsReference implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

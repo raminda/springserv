@@ -51,6 +51,15 @@ public class PortalProjectServiceImpl implements PortalProjectService {
 	public void saveProject(PortalProject project) {
 		getProjectDao().save(project);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.service.PortalProjectService#saveProject(com.millenniumit.mx.data.timesheets.domain.PortalProject)
+	 */
+	@Override
+	@Transactional
+	public void deleteProject(PortalProject project) {
+		getProjectDao().delete(project);
+	}
 
 	/**
 	 * @return the projectDao

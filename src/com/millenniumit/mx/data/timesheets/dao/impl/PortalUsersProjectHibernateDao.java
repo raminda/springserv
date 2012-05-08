@@ -64,6 +64,16 @@ public class PortalUsersProjectHibernateDao implements PortalUsersProjectDao {
 		return getSessionfactory().getCurrentSession()
 				.createQuery("from PortalUsersProject").list();
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.PortalUsersProjectDao#getUsersProjects()
+	 */
+	@Override
+	public List<PortalUsersProject> getUsersProjects(PortalUser user) {
+		return getSessionfactory().getCurrentSession()
+				.createQuery("from PortalUsersProject where user=:user")
+				.setParameter("user", user).list();
+	}
 
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.timesheets.dao.PortalUsersProjectDao#save(com.millenniumit.mx.data.timesheets.domain.PortalUsersProject)
@@ -71,6 +81,15 @@ public class PortalUsersProjectHibernateDao implements PortalUsersProjectDao {
 	@Override
 	public void save(PortalUsersProject usersProject) {
 		getSessionfactory().getCurrentSession().saveOrUpdate(usersProject);
+		getSessionfactory().getCurrentSession().flush();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.PortalUsersProjectDao#save(com.millenniumit.mx.data.timesheets.domain.PortalUsersProject)
+	 */
+	@Override
+	public void delete(PortalUsersProject usersProject) {
+		getSessionfactory().getCurrentSession().delete(usersProject);
 		getSessionfactory().getCurrentSession().flush();
 	}
 

@@ -35,4 +35,15 @@ public interface PortalUsersProjectDao {
 	 */
 	public void save(PortalUsersProject usersProject);
 
+	/**
+	 * @param usersProject
+	 */
+	public void delete(PortalUsersProject usersProject);
+
+	/**
+	 * @param user
+	 * @return
+	 */
+	public List<PortalUsersProject> getUsersProjects(PortalUser user);
+
 }

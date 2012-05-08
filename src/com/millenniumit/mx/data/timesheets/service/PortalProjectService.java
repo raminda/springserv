@@ -31,5 +31,11 @@ public interface PortalProjectService {
 	 * @param project
 	 */
 	public void saveProject(PortalProject project);
+	
+	/**
+	 * 
+	 * @param project
+	 */
+	public void deleteProject(PortalProject project);
 
 }

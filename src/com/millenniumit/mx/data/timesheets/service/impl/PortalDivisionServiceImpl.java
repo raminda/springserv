@@ -50,6 +50,15 @@ public class PortalDivisionServiceImpl implements PortalDivisionService {
 	public void saveDivision(PortalDivision division) {
 		getDivisionDao().save(division);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.service.PortalDivisionService#deleteDivision(com.millenniumit.mx.data.timesheets.domain.PortalDivision)
+	 */
+	@Override
+	@Transactional
+	public void deleteDivision(PortalDivision division) {
+		getDivisionDao().delete(division);	
+	}
 
 	/**
 	 * @return the divisionDao
@@ -64,5 +73,4 @@ public class PortalDivisionServiceImpl implements PortalDivisionService {
 	public void setDivisionDao(PortalDivisionDao divisionDao) {
 		this.divisionDao = divisionDao;
 	}
-
 }

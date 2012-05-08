@@ -19,13 +19,16 @@ import com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService;
  */
 @Service("timeSheetsUserService")
 public class TimeSheetsUserServiceImpl implements TimeSheetsUserService {
-	
+
 	@Autowired
 	@Qualifier("timeSheetsUserDao")
 	private TimeSheetsUserDao timeSheetsUserDao;
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#getTimeSheetsUser(com.millenniumit.mx.data.timesheets.domain.PortalUser)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#
+	 * getTimeSheetsUser(com.millenniumit.mx.data.timesheets.domain.PortalUser)
 	 */
 	@Override
 	@Transactional
@@ -33,8 +36,11 @@ public class TimeSheetsUserServiceImpl implements TimeSheetsUserService {
 		return getTimeSheetsUserDao().getTimeSheetsUser(user);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#getTimeSheetsUsers()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#
+	 * getTimeSheetsUsers()
 	 */
 	@Override
 	@Transactional
@@ -42,8 +48,11 @@ public class TimeSheetsUserServiceImpl implements TimeSheetsUserService {
 		return getTimeSheetsUserDao().getTimeSheetsUsers();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#getTimeSheetsUsers(int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#
+	 * getTimeSheetsUsers(int, int)
 	 */
 	@Override
 	@Transactional
@@ -51,8 +60,11 @@ public class TimeSheetsUserServiceImpl implements TimeSheetsUserService {
 		return getTimeSheetsUserDao().getTimeSheetsUsers(offset, limit);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#getTimeSheetsUsersCount()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#
+	 * getTimeSheetsUsersCount()
 	 */
 	@Override
 	@Transactional
@@ -60,8 +72,12 @@ public class TimeSheetsUserServiceImpl implements TimeSheetsUserService {
 		return getTimeSheetsUserDao().getTimeSheetsUsersCount();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#saveTimeSheetsUser(com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#
+	 * saveTimeSheetsUser
+	 * (com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser)
 	 */
 	@Override
 	@Transactional
@@ -69,13 +85,17 @@ public class TimeSheetsUserServiceImpl implements TimeSheetsUserService {
 		getTimeSheetsUserDao().save(timeSheetsUser);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#deleteTimeSheetsUser(com.millenniumit.mx.data.timesheets.domain.PortalUser)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsUserService#
+	 * deleteTimeSheetsUser
+	 * (com.millenniumit.mx.data.timesheets.domain.PortalUser)
 	 */
 	@Override
 	@Transactional
 	public void deleteTimeSheetsUser(PortalUser user) {
-		getTimeSheetsUserDao().delete(user);		
+		getTimeSheetsUserDao().delete(getTimeSheetsUserDao().getTimeSheetsUser(user));
 	}
 
 	/**
@@ -86,7 +106,8 @@ public class TimeSheetsUserServiceImpl implements TimeSheetsUserService {
 	}
 
 	/**
-	 * @param timeSheetsUserDao the timeSheetsUserDao to set
+	 * @param timeSheetsUserDao
+	 *            the timeSheetsUserDao to set
 	 */
 	public void setTimeSheetsUserDao(TimeSheetsUserDao timeSheetsUserDao) {
 		this.timeSheetsUserDao = timeSheetsUserDao;

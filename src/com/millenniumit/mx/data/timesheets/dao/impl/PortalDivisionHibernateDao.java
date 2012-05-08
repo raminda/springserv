@@ -66,4 +66,13 @@ public class PortalDivisionHibernateDao implements PortalDivisionDao {
 		getSessionfactory().getCurrentSession().saveOrUpdate(division);
 		getSessionfactory().getCurrentSession().flush();
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.PortalDivisionDao#save(com.millenniumit.mx.data.timesheets.domain.PortalDivision)
+	 */
+	@Override
+	public void delete(PortalDivision division) {
+		getSessionfactory().getCurrentSession().delete(division);
+		getSessionfactory().getCurrentSession().flush();
+	}
 }

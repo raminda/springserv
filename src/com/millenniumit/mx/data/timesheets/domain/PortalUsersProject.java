@@ -89,5 +89,16 @@ public class PortalUsersProject {
 	public void setRole(PortalRole role) {
 		this.role = role;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {		
+		PortalUsersProject up = (PortalUsersProject)obj;
+		return up.getUser().getId().equals(this.getUser().getId()) && 
+				up.getProject().getId().equals(this.getProject().getId()) && 
+				up.getRole().getId().equals(this.getRole().getId());
+	}
 
 }

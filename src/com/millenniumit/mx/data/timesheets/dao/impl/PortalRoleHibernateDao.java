@@ -68,5 +68,14 @@ public class PortalRoleHibernateDao implements PortalRoleDao {
 		getSessionfactory().getCurrentSession().saveOrUpdate(role);
 		getSessionfactory().getCurrentSession().flush();
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.PortalRoleDao#save(com.millenniumit.mx.data.timesheets.domain.PortalRole)
+	 */
+	@Override
+	public void delete(PortalRole role) {
+		getSessionfactory().getCurrentSession().delete(role);
+		getSessionfactory().getCurrentSession().flush();
+	}
 
 }

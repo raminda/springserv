@@ -41,8 +41,8 @@ public interface TimeSheetsUserDao {
 	public void save(TimeSheetsUser timeSheetsUser);
 
 	/**
-	 * @param user
+	 * @param timeSheetsUser
 	 */
-	public void delete(PortalUser user);
+	public void delete(TimeSheetsUser timeSheetsUser);
 	
 }

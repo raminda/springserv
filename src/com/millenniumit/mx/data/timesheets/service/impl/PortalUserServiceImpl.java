@@ -42,6 +42,15 @@ public class PortalUserServiceImpl implements PortalUserService {
 	public List<PortalUser> getUsers() {
 		return getUserDao().getUsers();
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.service.PortalUserService#getNonTimeSheetsUsers()
+	 */
+	@Override
+	@Transactional
+	public List<PortalUser> getNonTimeSheetsUsers() {
+		return getUserDao().getNonTimeSheetsUsers();
+	}
 
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.timesheets.service.PortalUserService#getUsers(int, int)
@@ -69,6 +78,15 @@ public class PortalUserServiceImpl implements PortalUserService {
 	public void saveUser(PortalUser user) {
 		getUserDao().save(user);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.service.PortalUserService#saveUser(com.millenniumit.mx.data.timesheets.domain.PortalUser)
+	 */
+	@Override
+	@Transactional
+	public void deleteUser(PortalUser user) {
+		getUserDao().delete(user);
+	}
 
 	/**
 	 * @return the userDao
@@ -83,5 +101,4 @@ public class PortalUserServiceImpl implements PortalUserService {
 	public void setUserDao(PortalUserDao userDao) {
 		this.userDao = userDao;
 	}
-
 }

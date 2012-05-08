@@ -5,6 +5,9 @@ package com.millenniumit.mx.data.timesheets.domain;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 /**
  * This class represents a user from previous Portal.
  * Each of these users are matched(by email) to a single 
@@ -36,6 +39,7 @@ public class PortalUser {
 	
 	@ManyToOne
 	@JoinColumn(name = "role_id")
+	@NotFound( action = NotFoundAction.IGNORE )
 	private PortalRole defaultRole;
 
 	/**
