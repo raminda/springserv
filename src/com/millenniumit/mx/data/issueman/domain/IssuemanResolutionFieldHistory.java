@@ -3,6 +3,7 @@
  */
 package com.millenniumit.mx.data.issueman.domain;
 
+import javax.persistence.Cacheable;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -10,6 +11,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Where;
 
 /**
@@ -17,6 +19,8 @@ import org.hibernate.annotations.Where;
  *
  */
 @Entity(name = "IssuemanResolutionFieldHistory")
+@Cacheable
+@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("resolution")
 @Where(clause="field_id != 0")

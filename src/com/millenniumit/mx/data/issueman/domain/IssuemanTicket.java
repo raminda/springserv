@@ -9,6 +9,7 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
@@ -19,7 +20,9 @@ import org.hibernate.annotations.Where;
  * 
  */
 @Entity(name = "IssuemanTicket")
-@org.hibernate.annotations.Entity(selectBeforeUpdate=true)
+@Cacheable
+@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region = "Ticket")
+//@org.hibernate.annotations.Entity(selectBeforeUpdate=true)
 @Table(name = "tickets")
 //@Where(clause="reporter_id <> 0 and id <> 0")
 public class IssuemanTicket extends AuditFields implements Serializable {
@@ -51,7 +54,6 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reporter_id")
-	
 	private IssuemanUser reporter;
 
 	@Column(name = "description")

@@ -87,6 +87,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		query.setParameter("subType", subType);
 		query.setParameter("from", from);
 		query.setParameter("to", to);
+	
 		return (List<IssuemanTicket>) query.list();
 	}
 

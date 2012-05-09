@@ -83,15 +83,14 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
 			long subType, Date from, Date to) {
 
-		if (totalTicketsList == null) {
 			totalTicketsList = issuemanTicketDao.getTotalTickets(projectId,
 					type, subType, from, to);
-		}
 
 		return totalTicketsList;
 	}
 
 	// *********************************************************************************************
+	
 	/**
 	 * 
 	 */

@@ -78,5 +78,6 @@
 	<classpathentry kind="lib" path="lib/service.jar"/>
 	<classpathentry kind="lib" path="lib/log4j.jar"/>
 	<classpathentry kind="lib" path="lib/gson-1.7.1.jar"/>
+	<classpathentry kind="lib" path="D:/Mx/libraries/java/ehcache-2.5.2-distribution/ehcache-2.5.2/lib/ehcache-core-2.5.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
