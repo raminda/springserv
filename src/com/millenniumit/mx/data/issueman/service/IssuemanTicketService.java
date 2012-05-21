@@ -5,6 +5,8 @@ package com.millenniumit.mx.data.issueman.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 
 /**
@@ -14,9 +16,9 @@ import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
  */
 
 public interface IssuemanTicketService {
-	
+
 	public enum RoleCategory {
-		CLIENT, MIT, EXTQA, THINKSOFT, VIRTUSA, ALLIED
+		CLIENT, MIT, EXTQA, THINKSOFT, VIRTUSA, ALLIED, ALL
 	}
 
 	public enum IssueType {
@@ -155,4 +157,57 @@ public interface IssuemanTicketService {
 	public List<IssuemanTicket> getTicketsPerSeverity(long projectId,
 			long type, long subType, Date from, Date to, String severity,
 			IssueType issueType);
+
+	/**
+	 * 
+	 * @param projectId
+	 * @param type
+	 * @param subType
+	 * @param from
+	 * @param to
+	 * @param roleCategory
+	 * @param issueType
+	 * @return
+	 */
+	public Map<String, Integer> getTicketsCountByRoleCategory(long projectId,
+			long type, long subType, Date from, Date to,
+			RoleCategory roleCategory, IssueType issueType);
+
+	/**
+	 * 
+	 * @param projectId
+	 * @param type
+	 * @param subType
+	 * @param from
+	 * @param to
+	 * @param roleCategory
+	 * @param issueType
+	 * @param severity
+	 * @return
+	 */
+	public Map<String, Integer> getTicketsCountByRoleCategoryPerSeverity(
+			long projectId, long type, long subType, Date from, Date to,
+			RoleCategory roleCategory, IssueType issueType, String severity);
+
+	/**
+	 * 
+	 * @param critical
+	 * @param high
+	 * @param medium
+	 * @param low
+	 * @param total
+	 * @return
+	 */
+	public Float getDSI(int critical, int high, int medium, int low, int total);
+	
+	/**
+	 * 
+	 * @param mitValid
+	 * @param extQaValid
+	 * @param total
+	 * @return
+	 */
+	public Float getDRE(int mitValid, int extQaValid, int total);
+	
+
 }

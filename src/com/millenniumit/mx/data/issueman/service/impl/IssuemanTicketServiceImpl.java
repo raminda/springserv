@@ -3,10 +3,18 @@
  */
 package com.millenniumit.mx.data.issueman.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections.MultiHashMap;
+import org.apache.commons.collections.MultiMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -25,7 +33,6 @@ import com.millenniumit.mx.data.issueman.service.IssuemanTicketService;
  * @author Kalpag
  * 
  */
-
 @Service("issuemanTicketService")
 public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	private static String CLONERS = "Cloners";
@@ -33,6 +40,7 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	private static String COPIED_FROM = "Copied From";
 	private static String DUPLICATE = "DUPLICATE";
 	private static String CANCELLED = "CANCELLED";
+	private static String REJECTED = "REJECTED";
 	private static String CLOSED = "CLOSED";
 	private static String OPEN = "OPEN";
 
@@ -42,8 +50,6 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	private static String EXTQA = "Ext QA";
 	private static String CLIENT = "Client";
 	private static String CLIENT_ADMIN = "Client (Admin)";
-
-
 
 	private List<IssuemanTicket> totalTicketsList = null;
 	private List<IssuemanTicket> uncopiedTickets = null;
@@ -83,14 +89,13 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
 			long subType, Date from, Date to) {
 
-			totalTicketsList = issuemanTicketDao.getTotalTickets(projectId,
-					type, subType, from, to);
-
+		totalTicketsList = issuemanTicketDao.getTotalTickets(projectId, type,
+				subType, from, to);
 		return totalTicketsList;
 	}
 
 	// *********************************************************************************************
-	
+
 	/**
 	 * 
 	 */
@@ -121,13 +126,20 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 				String newStatus = issuemanStatusFieldHistory.getNewStatus()
 						.getName();
 
-				if (oldStatus.equals(DUPLICATE) && newStatus.equals(CLOSED)) {
+				if ((oldStatus.equals(DUPLICATE) && newStatus.equals(CLOSED))
+						|| (oldStatus.equals(REJECTED) && newStatus
+								.equals(CLOSED))) {
+					// if last transition state is rejected to closed or
+					// duplicate to closed
 					invalidHistory = true;
 				}
 			}
 
+			// if current status is duplicate cancelled or rejected
 			if ((currentStatus.equals(DUPLICATE) || currentStatus
-					.equals(CANCELLED)) || invalidHistory) {
+					.equals(CANCELLED))
+					|| currentStatus.equals(REJECTED)
+					|| invalidHistory) {
 				invalidTickets.add(ticket);
 			}
 		}
@@ -163,8 +175,8 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 
 	// *********************************************************************************************
 	/**
- * 
- */
+    * 
+    */
 	public List<IssuemanTicket> getCopiedTickets(long projectId, long type,
 			long subType, Date from, Date to) {
 
@@ -315,6 +327,9 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 		case THINKSOFT:
 			return getThinkSoftReportedTickets(projectId, type, subType, from,
 					to, issueType);
+		case ALL:
+			return getTicketsReportedByAll(projectId, type, subType, from, to,
+					issueType);
 		default:
 			break;
 		}
@@ -334,11 +349,12 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 			long subType, Date from, Date to, String roleName,
 			IssueType issueType) {
 
-		List<IssuemanTicket> ticketList = getTicketListForIssueType(subType,
-				subType, subType, to, to, issueType);
+		List<IssuemanTicket> ticketList = getTicketListForIssueType(projectId,
+				type, subType, from, to, issueType);
 		return getTicketsFilterByRole(roleName, ticketList);
 	}
-    //*********************************************************************************************
+
+	// *********************************************************************************************
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -352,13 +368,14 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	@Transactional
 	public List<IssuemanTicket> getTicketsByRoleCategoryPerSeverity(
 			long projectId, long type, long subType, Date from, Date to,
-			RoleCategory roles, IssueType issueType, String severity) {
+			RoleCategory roleCategory, IssueType issueType, String severity) {
 
-		List<IssuemanTicket> ticketList = getTicketsByRoleCategory(subType,
-				subType, subType, to, to, roles, issueType);
+		List<IssuemanTicket> ticketList = getTicketsByRoleCategory(projectId,
+				type, subType, from, to, roleCategory, issueType);
 		return getTicketsFilterBySeverity(ticketList, severity);
 	}
-    //*********************************************************************************************
+
+	// *********************************************************************************************
 
 	/*
 	 * (non-Javadoc)
@@ -373,9 +390,115 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 			long type, long subType, Date from, Date to, String severity,
 			IssueType issueType) {
 
-		List<IssuemanTicket> ticketList = getTicketListForIssueType(subType, subType, subType, to, to, issueType);
+		List<IssuemanTicket> ticketList = getTicketListForIssueType(projectId,
+				type, subType, from, to, issueType);
 		return getTicketsFilterBySeverity(ticketList, severity);
+	}
 
+	// *********************************************************************************************
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getTicketsCountByRoleCategory(long, long, long, java.util.Date,
+	 * java.util.Date,
+	 * com.millenniumit.mx.data.issueman.service.IssuemanTicketService
+	 * .RoleCategory,
+	 * com.millenniumit.mx.data.issueman.service.IssuemanTicketService
+	 * .IssueType)
+	 */
+	@Transactional
+	public Map<String, Integer> getTicketsCountByRoleCategory(long projectId,
+			long type, long subType, Date from, Date to,
+			RoleCategory roleCategory, IssueType issueType) {
+
+		List<IssuemanTicket> ticketList = getTicketsByRoleCategory(projectId,
+				type, subType, from, to, roleCategory, issueType);
+		return getTicketCountGroupByWeek(ticketList);
+	}
+
+	// *********************************************************************************************
+	/**
+	 * 
+	 * @param ticketList
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private Map<String, Integer> getTicketCountGroupByWeek(
+			List<IssuemanTicket> ticketList) {
+		MultiMap multiMap = new MultiHashMap();
+
+		// iterates the ticket list ordered by week and year
+		for (IssuemanTicket issuemanTicket : ticketList) {
+			Timestamp reportedDate = issuemanTicket.getReportedDate();
+			Calendar c = Calendar.getInstance();
+			c.setTime(reportedDate);
+			int weekofYear = c.get(Calendar.WEEK_OF_YEAR);
+			int year = c.get(Calendar.YEAR);
+			String yearweek = year + "-" + weekofYear;
+			multiMap.put(yearweek, issuemanTicket);
+		}
+
+		// System.out.println("Multimap ===     *************************");
+		// PrintMap(multiMap);
+
+		// multi map is iterated and no of issues are set as values
+		// key-> (week+year) , value->(no of tickets)
+		Map<String, Integer> ticketsMap = new HashMap<String, Integer>();
+		Set<String> keySet = multiMap.keySet();
+		Iterator keyIterator = keySet.iterator();
+
+		while (keyIterator.hasNext()) {
+			String key = (String) keyIterator.next(); // year + weekno
+			List<IssuemanTicket> values = (List<IssuemanTicket>) multiMap
+					.get(key);
+			ticketsMap.put(key, values.size()); // no of issues per week
+		}
+		return ticketsMap;
+	}
+
+	// *********************************************************************************************
+
+	/* Tentative */// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void PrintMap(Map<String, Integer> map) {
+		Iterator<String> iterator = map.keySet().iterator();
+
+		int count = 0;
+		while (iterator.hasNext()) {
+			String key = iterator.next().toString();
+			// int value = map.get(key);
+			// count += value;
+			System.out.println("key = " + key /* + "  " + " value = " + value */);
+		}
+		// System.out.println("Total Value = " + count);
+	}
+
+	/* Tentative */// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getTicketsCountByRoleCategoryPerSeverity(long, long, long,
+	 * java.util.Date, java.util.Date,
+	 * com.millenniumit.mx.data.issueman.service.
+	 * IssuemanTicketService.RoleCategory,
+	 * com.millenniumit.mx.data.issueman.service
+	 * .IssuemanTicketService.IssueType, java.lang.String)
+	 */
+	@Transactional
+	public Map<String, Integer> getTicketsCountByRoleCategoryPerSeverity(
+			long projectId, long type, long subType, Date from, Date to,
+			RoleCategory roleCategory, IssueType issueType, String severity) {
+
+		List<IssuemanTicket> ticketList = getTicketsByRoleCategory(projectId,
+				type, subType, from, to, roleCategory, issueType);
+		List<IssuemanTicket> tickets = getTicketsFilterBySeverity(ticketList,
+				severity);
+
+		return getTicketCountGroupByWeek(tickets);
 	}
 
 	// *********************************************************************************************
@@ -491,8 +614,8 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	private List<IssuemanTicket> getThinkSoftReportedTickets(long projectId,
 			long type, long subType, Date from, Date to, IssueType issueType) {
 
-		List<IssuemanTicket> ticketList = getTicketListForIssueType(subType,
-				subType, subType, to, to, issueType);
+		List<IssuemanTicket> ticketList = getTicketListForIssueType(projectId,
+				type, subType, from, to, issueType);
 		return getTicketsFilterByRole(EXTQA_THINKSOFT, ticketList);
 	}
 
@@ -587,6 +710,7 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	}
 
 	// *********************************************************************************************
+
 	/**
 	 * @param roleNames
 	 *            : criteria to filter(role names )
@@ -664,5 +788,54 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 			}
 		}
 		return filteredTickets;
+	}
+
+	// *********************************************************************************************
+
+	/**
+	 * @param projectId
+	 * @param type
+	 * @param subType
+	 * @param from
+	 * @param to
+	 * @param issueType
+	 * @return
+	 */
+	private List<IssuemanTicket> getTicketsReportedByAll(long projectId,
+			long type, long subType, Date from, Date to, IssueType issueType) {
+		List<IssuemanTicket> ticketList = getTicketListForIssueType(projectId,
+				type, subType, from, to, issueType);
+		return ticketList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getDSI
+	 * (int, int, int, int, int)
+	 */
+	@Transactional
+	public Float getDSI(int critical, int high, int medium, int low, int total) {
+		if (total < 1)
+			return (float) 0.0;
+		return (float) (((5 * critical) + (3 * high) + (2 * medium) + low) / total);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getDRE
+	 * (int, int, int)
+	 */
+	@Transactional
+	public Float getDRE(int mitValid, int extQaValid, int total) {
+		if (total < 1) {
+			return (float) 0.0;
+		}
+
+		float dre = ((mitValid + extQaValid) / total) * 100;
+		return dre;
 	}
 }

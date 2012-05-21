@@ -36,8 +36,7 @@ public class IssuemanProjectDaoImpl implements IssuemanProjectDao {
 		String queryString = "from IssuemanProject";
 		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
 				queryString);
-			
-		return (List<IssuemanProject>)query.list();
+			return (List<IssuemanProject>)query.list();
 	}
 
 	/**
@@ -54,5 +53,4 @@ public class IssuemanProjectDaoImpl implements IssuemanProjectDao {
 	public void setIssuemanSessionFactory(SessionFactory issuemanSessionFactory) {
 		this.issuemanSessionFactory = issuemanSessionFactory;
 	}
-
 }

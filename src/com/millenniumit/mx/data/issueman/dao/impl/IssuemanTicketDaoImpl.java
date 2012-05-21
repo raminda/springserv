@@ -79,7 +79,8 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 				+ " join ticket.currentType as currentType with currentType.fieldType = 'type' "
 				+ " where ticket.project.id = :projectId and "
 				+ " currentType.ticketType.id = :subType "
-				+ " and ticket.reportedDate < :to and ticket.reportedDate > :from ";
+				+ " and ticket.reportedDate < :to and ticket.reportedDate > :from "; 
+				
 
 		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
 				queryString);

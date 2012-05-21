@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao;
 import com.millenniumit.mx.data.issueman.dao.IssuemanTicketTypeDao;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicketType;
 import com.millenniumit.mx.data.issueman.service.IssuemanTicketTypeService;

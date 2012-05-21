@@ -139,6 +139,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="issuemanSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="issueman_abacusdb" />
+
+<!-- uncomment below section when you want to enable second level caching -->
+
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">
@@ -150,13 +153,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
 				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
 				<prop key="hibernate.cache.use_query_cache">true</prop>
-<!-- 				<prop key="hibernate.cache.use_structured_entries">true</prop> -->
-<!-- 				<prop key="hibernate.cache.generate_statistics">true</prop> -->
 			</props>
 		</property>
-
-
-
 		<property name="annotatedClasses">
 			<list>
 				<!-- Issueman Entities starts here -->
