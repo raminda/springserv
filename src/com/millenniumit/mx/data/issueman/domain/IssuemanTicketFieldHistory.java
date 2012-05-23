@@ -20,6 +20,7 @@ import org.hibernate.annotations.Where;
 @Entity(name = "IssuemanTicketFieldHistory")
 @Table(name = "ticket_field_history")
 @DiscriminatorColumn(name = "field_type")
+//@Cacheable
 @Where(clause="field_id <> 0 and ticket_id <> 0")
 public abstract class IssuemanTicketFieldHistory extends AuditFields implements Serializable {
 

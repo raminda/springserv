@@ -65,7 +65,7 @@ public class Main {
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-		String fromStr = "2005-01-01";
+		String fromStr = "2012-01-01";
 		String toStr = "2012-07-09";
 
 		Date from = new Date(dateFormat.parse(fromStr).getTime());
@@ -73,20 +73,43 @@ public class Main {
 
 		StopWatch stopWatch = new StopWatch("Stop watch");
 		stopWatch.start();
+		long project = 7;
+		long type = 1;
+		long subType = 7;
 
-//		Map<String, Integer> totalMap = main.issuemanTicketService
-//				.getTicketsCountByRoleCategoryPerSeverity(7, 1, 7, from, to,
-//						RoleCategory.ALL, IssueType.TOTAL, "HIGH");
-
+				
+//		List<IssuemanTicket> ctickets = main.issuemanTicketService
+//				.getTicketsByRoleCategory(project, type, subType, from, to,
+//						RoleCategory.EXTQA, IssueType.TOTAL);
 		
-		Map<String, Integer> totalMap = main.issuemanTicketService.getTicketsCountByRoleCategory(7, 1, 7, from, to,
-						RoleCategory.ALL, IssueType.TOTAL);
-		
-		
-		PrintMap(totalMap);
+		 Map<String, Integer> copiedTicketsCount = main.issuemanTicketService
+		 .getTicketsCountByRoleCategory(project, type, subType,
+		 from, to, RoleCategory.ALL,
+		 IssueType.COPIED);	
+		 
+		 	 
+		 Map<String, Integer> totalTicketsCount = main.issuemanTicketService
+		 .getTicketsCountByRoleCategory(project, type, subType,
+		 from, to, RoleCategory.ALL, IssueType.TOTAL);
+////		//
+		 Map<String, Integer> openTicketsCount = main.issuemanTicketService
+		 .getTicketsCountByRoleCategory(project, type, subType,
+		 from, to, RoleCategory.ALL,
+		 IssueType.CURRENTOPEN);
+		//
+		 Map<String, Integer> inValidTicketsCount = main.issuemanTicketService
+		 .getTicketsCountByRoleCategory(project, type, subType,
+		 from, to, RoleCategory.ALL,
+		 IssueType.INVALID);
+		//
+		 Map<String, Integer> validTicketsCount = main.issuemanTicketService
+		 .getTicketsCountByRoleCategory(project, type, subType,
+		 from, to, RoleCategory.ALL, IssueType.VALID);
+		// PrintMap(totalMap);
 		stopWatch.stop();
 		System.out.println(stopWatch.prettyPrint());
 		System.out.println("Total Time = " + stopWatch.getTotalTimeSeconds());
+
 	}
 
 	/**

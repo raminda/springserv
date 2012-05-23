@@ -98,5 +98,6 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	 */
 	public void updateSession(Object object) {
 		issuemanSessionFactory.getCurrentSession().update(object);
+		
 	}
 }

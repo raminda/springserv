@@ -89,8 +89,11 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
 			long subType, Date from, Date to) {
 
-		totalTicketsList = issuemanTicketDao.getTotalTickets(projectId, type,
-				subType, from, to);
+		if (totalTicketsList == null) {
+			totalTicketsList = issuemanTicketDao.getTotalTickets(projectId,
+					type, subType, from, to);
+		}
+		System.out.println("Total Tickets = " + totalTicketsList.size());
 		return totalTicketsList;
 	}
 
@@ -177,17 +180,19 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	/**
     * 
     */
+	@Transactional
 	public List<IssuemanTicket> getCopiedTickets(long projectId, long type,
 			long subType, Date from, Date to) {
 
 		copiedTickets = new ArrayList<IssuemanTicket>();
-		System.out
-				.println("Size of total tickets = " + totalTicketsList.size());
 
 		if (totalTicketsList == null) {
-			totalTicketsList = issuemanTicketDao.getTotalTickets(projectId,
-					type, subType, from, to);
+			totalTicketsList = getTotalTickets(projectId, type, subType, from,
+					to);
 		}
+
+		System.out
+				.println("Size of total tickets = " + totalTicketsList.size());
 
 		for (IssuemanTicket ticket : totalTicketsList) {
 			issuemanTicketDao.updateSession(ticket); // consider changing this
@@ -248,6 +253,7 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 		}
 
 		for (IssuemanTicket ticket : uncopiedTickets) {
+			issuemanTicketDao.updateSession(ticket);
 			String currentStatus = ticket.getCurrentStatus().get(0).getStatus()
 					.getName();
 
@@ -336,6 +342,16 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	private List<IssuemanTicket> getTicketsReportedByExtqaCategory(long projectId,long type,long subType,long from,
+			long to,long issueType){
+		
+		return null;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -447,7 +463,7 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 		// key-> (week+year) , value->(no of tickets)
 		Map<String, Integer> ticketsMap = new HashMap<String, Integer>();
 		Set<String> keySet = multiMap.keySet();
-		Iterator keyIterator = keySet.iterator();
+		Iterator<String> keyIterator = keySet.iterator();
 
 		while (keyIterator.hasNext()) {
 			String key = (String) keyIterator.next(); // year + weekno
@@ -461,7 +477,7 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	// *********************************************************************************************
 
 	/* Tentative */// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unused" })
 	private void PrintMap(Map<String, Integer> map) {
 		Iterator<String> iterator = map.keySet().iterator();
 
@@ -470,7 +486,7 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 			String key = iterator.next().toString();
 			// int value = map.get(key);
 			// count += value;
-			System.out.println("key = " + key /* + "  " + " value = " + value */);
+			System.out.println("key = " + key /* + "  " + " value = " + value */);                 
 		}
 		// System.out.println("Total Value = " + count);
 	}
@@ -803,23 +819,41 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	 */
 	private List<IssuemanTicket> getTicketsReportedByAll(long projectId,
 			long type, long subType, Date from, Date to, IssueType issueType) {
+
 		List<IssuemanTicket> ticketList = getTicketListForIssueType(projectId,
 				type, subType, from, to, issueType);
 		return ticketList;
 	}
 
-	/*
-	 * (non-Javadoc)
+	// *********************************************************************************************
+
+	/**
 	 * 
-	 * @see
-	 * com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getDSI
-	 * (int, int, int, int, int)
 	 */
 	@Transactional
+	public void resetSession() {
+
+		totalTicketsList = null;
+		uncopiedTickets = null;
+		invalidTickets = null;
+		validTickets = null;
+		copiedTickets = null;
+		currentOpenTickets = null;
+	}
+
+	// *********************************************************************************************
+
+	/**
+ * 
+ */
+	@Transactional
 	public Float getDSI(int critical, int high, int medium, int low, int total) {
+
 		if (total < 1)
 			return (float) 0.0;
-		return (float) (((5 * critical) + (3 * high) + (2 * medium) + low) / total);
+
+		float dsi = ((5 * critical) + (3 * high) + (2 * medium) + low) / total;
+		return dsi;
 	}
 
 	/*
@@ -831,11 +865,30 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	 */
 	@Transactional
 	public Float getDRE(int mitValid, int extQaValid, int total) {
+
 		if (total < 1) {
 			return (float) 0.0;
 		}
 
 		float dre = ((mitValid + extQaValid) / total) * 100;
 		return dre;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getDRR
+	 * (int, int)
+	 */
+	@Transactional
+	public Float getDRR(int valid, int invalid) {
+		int total = valid + invalid;
+
+		if (total < 1)
+			return (float) 0.0;
+
+		float drr = valid / total;
+		return drr;
 	}
 }

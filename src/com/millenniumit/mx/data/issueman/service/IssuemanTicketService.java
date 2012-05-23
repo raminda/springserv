@@ -199,7 +199,7 @@ public interface IssuemanTicketService {
 	 * @return
 	 */
 	public Float getDSI(int critical, int high, int medium, int low, int total);
-	
+
 	/**
 	 * 
 	 * @param mitValid
@@ -208,6 +208,18 @@ public interface IssuemanTicketService {
 	 * @return
 	 */
 	public Float getDRE(int mitValid, int extQaValid, int total);
-	
+
+	/**
+	 * 
+	 * @param valid
+	 * @param invalid
+	 * @return
+	 */
+	public Float getDRR(int valid, int invalid);
+
+	/**
+	 * 
+	 */
+	public void resetSession();
 
 }

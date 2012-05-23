@@ -9,22 +9,25 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.apache.commons.collections.functors.FalsePredicate;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 /**
  * 
- * @author kalpag
+// * @author kalpag
  * 
  */
 @Entity(name = "IssuemanTicket")
+//@Immutable
 @Cacheable
 @org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region = "Ticket")
-//@org.hibernate.annotations.Entity(selectBeforeUpdate=true)
+@org.hibernate.annotations.Entity(selectBeforeUpdate=true)
 @Table(name = "tickets")
-//@Where(clause="reporter_id <> 0 and id <> 0")
+//@Where(clause= "id <> 128488")
 public class IssuemanTicket extends AuditFields implements Serializable {
 
 	/**
@@ -33,6 +36,7 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY,generator="")
 	private Long id;
 
 	@Column(name = "native_id")
