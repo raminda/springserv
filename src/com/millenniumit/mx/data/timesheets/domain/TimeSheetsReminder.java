@@ -42,8 +42,8 @@ public class TimeSheetsReminder {
 	@Column(name = "date_sent")
 	private Timestamp dateSent;
 	
-	@Column(name = "date_recieved")
-	private Timestamp dateRecieved;
+	@Column(name = "date_received")
+	private Timestamp dateReceived;
 
 	/**
 	 * @return the id
@@ -144,16 +144,16 @@ public class TimeSheetsReminder {
 	}
 
 	/**
-	 * @return the dateRecieved
+	 * @return the dateReceived
 	 */
-	public Timestamp getDateRecieved() {
-		return dateRecieved;
+	public Timestamp getDateReceived() {
+		return dateReceived;
 	}
 
 	/**
-	 * @param dateRecieved the dateRecieved to set
+	 * @param dateReceived the dateReceived to set
 	 */
-	public void setDateRecieved(Timestamp dateRecieved) {
-		this.dateRecieved = dateRecieved;
+	public void setDateReceived(Timestamp dateReceived) {
+		this.dateReceived = dateReceived;
 	}
 }

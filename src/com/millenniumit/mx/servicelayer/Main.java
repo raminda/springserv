@@ -6,6 +6,7 @@ package com.millenniumit.mx.servicelayer;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.*;
 
@@ -39,6 +40,9 @@ public class Main {
 	// private JdbcTemplate issuemanJdbcTemplate;
 	
 	@Autowired
+	private TimeSheetsReminderService reminderService;
+	
+	@Autowired
 	private PortalDivisionService divisionService;
 
 	@Autowired
@@ -66,20 +70,23 @@ public class Main {
 		
 		//System.out.println("manager".split("rninr")[0]);
 		
-		PortalProject project = main.projectService.getProject("Exchange");
-		PortalRole role = main.roleService.getRole("Exchange", null);
 		
-		List<PortalDivision> pds = main.divisionService.getDivisions();
 		
-		List<PortalUser> users = main.userService.getNonTimeSheetsUsers();
 		
-		System.out.println(users.get(0).getEmail());
+		
+		List<PortalUser> users = main.userService.getUsers();
+		
+		
 		
 		List<PortalProject> projects = new ArrayList<PortalProject>();
 		List<PortalRole> roles = new ArrayList<PortalRole>();
 		//List<PortalUser> users = new ArrayList<PortalUser>();
-		Date startDate = new Date(109, 5, 12);
-		Date endDate = new Date(112, 5, 12);
+		Date startDate = new Date(110, 5, 12);
+		Date endDate = new Date(111, 5, 12);
+		
+Map<String, Integer> m = main.reminderService.getActivityPercentage(users, startDate, endDate);
+		
+		System.out.println(m.get("received"));
 		
 		//projects.add(project);
 		

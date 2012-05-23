@@ -81,6 +81,38 @@ public class TimeSheetsReminderHibernateDao implements TimeSheetsReminderDao {
 				.createQuery("from TimeSheetsReminder where user=:user")
 				.setParameter("user", user).list();
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsReminderDao#getReminders(java.util.List, java.sql.Date, java.sql.Date)
+	 */
+	@Override
+	public List<TimeSheetsReminder> getReminders(List<PortalUser> users,
+			Date startDate, Date endDate) {
+		if (startDate == null && endDate == null){
+			return getSessionfactory().getCurrentSession()
+					.createQuery("from TimeSheetsReminder where user in (:users)")
+					.setParameterList("users", users).list();
+		} else if (startDate == null){
+			return getSessionfactory().getCurrentSession()
+					.createQuery("from TimeSheetsReminder where user in (:users) and " +
+							"workDate <= :end")
+					.setParameterList("users", users)
+					.setParameter("end", endDate).list();
+		} else if (endDate == null){
+			return getSessionfactory().getCurrentSession()
+					.createQuery("from TimeSheetsReminder where user in (:users) and " +
+							"workDate >= :start")
+					.setParameterList("users", users)
+					.setParameter("start", startDate).list();
+		} else {
+			return getSessionfactory().getCurrentSession()
+					.createQuery("from TimeSheetsReminder where user in (:users) and " +
+							"workDate between :start and :end")
+					.setParameterList("users", users)
+					.setParameter("start", startDate)
+					.setParameter("end", endDate).list();
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsReminderDao#save(com.millenniumit.mx.data.timesheets.domain.TimeSheetsReminder)

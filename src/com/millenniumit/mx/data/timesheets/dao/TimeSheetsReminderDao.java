@@ -44,4 +44,13 @@ public interface TimeSheetsReminderDao {
 	 */
 	public void save(TimeSheetsReminder reminder);
 
+	/**
+	 * @param users
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public List<TimeSheetsReminder> getReminders(List<PortalUser> users,
+			Date startDate, Date endDate);
+
 }

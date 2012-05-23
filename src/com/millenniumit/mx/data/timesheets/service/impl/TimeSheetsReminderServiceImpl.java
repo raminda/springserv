@@ -4,7 +4,9 @@
 package com.millenniumit.mx.data.timesheets.service.impl;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,6 +63,31 @@ public class TimeSheetsReminderServiceImpl implements TimeSheetsReminderService 
 	@Transactional
 	public List<TimeSheetsReminder> getReminders(PortalUser user) {
 		return getReminderDao().getReminders(user);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.service.TimeSheetsReminderService#getActivityPercentage(java.util.List, java.sql.Date, java.sql.Date)
+	 */
+	@Override
+	@Transactional
+	public Map<String, Integer> getActivityPercentage(List<PortalUser> users,
+			Date startDate, Date endDate) {
+		List<TimeSheetsReminder> reminders = getReminderDao().getReminders(users, startDate, endDate);
+		// records the number of timesheets replied
+		int sentCount = 0;
+		// records the number of timesheets not replied
+		int notSentCount = 0;
+		for (TimeSheetsReminder reminder : reminders) {
+			if (reminder.getUpdateCount() > 0) {
+				sentCount++;
+			} else {
+				notSentCount++;
+			}
+		}
+		Map<String, Integer> percentages = new HashMap<String, Integer>();
+		percentages.put("received", sentCount);
+		percentages.put("notReceived", notSentCount);
+		return percentages;
 	}
 
 	/* (non-Javadoc)

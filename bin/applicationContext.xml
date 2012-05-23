@@ -48,14 +48,14 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/portal_test" />
+		<property name="url" value="jdbc:mysql://localhost/portal_test?zeroDateTimeBehavior=convertToNull" />
 		<property name="username" value="root" />
 		<property name="password" value="" />
 	</bean>
 	<bean id="timesheetsdb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/timesheets" />
+		<property name="url" value="jdbc:mysql://localhost/timesheets?zeroDateTimeBehavior=convertToNull" />
 		<property name="username" value="root" />
 		<property name="password" value="" />
 	</bean>
