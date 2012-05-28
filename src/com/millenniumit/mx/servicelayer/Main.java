@@ -20,9 +20,11 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.util.StopWatch;
 
 import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
+import com.millenniumit.mx.data.issueman.domain.IssuemanRole;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicketType;
 import com.millenniumit.mx.data.issueman.service.IssuemanProjectService;
+import com.millenniumit.mx.data.issueman.service.IssuemanRoleService;
 import com.millenniumit.mx.data.issueman.service.IssuemanTicketService;
 import com.millenniumit.mx.data.issueman.service.IssuemanTicketService.IssueType;
 import com.millenniumit.mx.data.issueman.service.IssuemanTicketTypeService;
@@ -51,6 +53,10 @@ public class Main {
 
 	@Autowired
 	private IssuemanTicketService issuemanTicketService;
+	
+	@Autowired
+	private IssuemanRoleService issuemanRoleService;
+	
 	@Autowired
 	private IssuemanProjectService issuemanProjectService;
 	private static ApplicationContextLoader contextLoader = new ApplicationContextLoader();
@@ -63,52 +69,40 @@ public class Main {
 		Main main = new Main();
 		contextLoader.load(main, "applicationContext.xml");
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-		String fromStr = "2012-01-01";
-		String toStr = "2012-07-09";
-
-		Date from = new Date(dateFormat.parse(fromStr).getTime());
-		Date to = new Date(dateFormat.parse(toStr).getTime());
-
-		StopWatch stopWatch = new StopWatch("Stop watch");
-		stopWatch.start();
-		long project = 7;
-		long type = 1;
-		long subType = 7;
+//		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//
+//		String fromStr = "2012-01-01";
+//		String toStr = "2012-07-09";
+//
+//		Date from = new Date(dateFormat.parse(fromStr).getTime());
+//		Date to = new Date(dateFormat.parse(toStr).getTime());
+//
+//		StopWatch stopWatch = new StopWatch("Stop watch");
+//		stopWatch.start();
+//		long project = 7;
+//		long type = 1;
+//		long subType = 7;
 
 				
 //		List<IssuemanTicket> ctickets = main.issuemanTicketService
 //				.getTicketsByRoleCategory(project, type, subType, from, to,
 //						RoleCategory.EXTQA, IssueType.TOTAL);
 		
-		 Map<String, Integer> copiedTicketsCount = main.issuemanTicketService
-		 .getTicketsCountByRoleCategory(project, type, subType,
-		 from, to, RoleCategory.ALL,
-		 IssueType.COPIED);	
-		 
-		 	 
-		 Map<String, Integer> totalTicketsCount = main.issuemanTicketService
-		 .getTicketsCountByRoleCategory(project, type, subType,
-		 from, to, RoleCategory.ALL, IssueType.TOTAL);
-////		//
-		 Map<String, Integer> openTicketsCount = main.issuemanTicketService
-		 .getTicketsCountByRoleCategory(project, type, subType,
-		 from, to, RoleCategory.ALL,
-		 IssueType.CURRENTOPEN);
-		//
-		 Map<String, Integer> inValidTicketsCount = main.issuemanTicketService
-		 .getTicketsCountByRoleCategory(project, type, subType,
-		 from, to, RoleCategory.ALL,
-		 IssueType.INVALID);
-		//
-		 Map<String, Integer> validTicketsCount = main.issuemanTicketService
-		 .getTicketsCountByRoleCategory(project, type, subType,
-		 from, to, RoleCategory.ALL, IssueType.VALID);
+		
+		List<String> names = main.issuemanRoleService.getEqaRoleNames();
+		for (String string : names) {
+			System.out.println(string);
+		}
+		
+		
+		
+		
+		
+
 		// PrintMap(totalMap);
-		stopWatch.stop();
-		System.out.println(stopWatch.prettyPrint());
-		System.out.println("Total Time = " + stopWatch.getTotalTimeSeconds());
+//		stopWatch.stop();
+//		System.out.println(stopWatch.prettyPrint());
+//		System.out.println("Total Time = " + stopWatch.getTotalTimeSeconds());
 
 	}
 

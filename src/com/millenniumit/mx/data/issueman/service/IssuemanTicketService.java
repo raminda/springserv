@@ -34,8 +34,8 @@ public interface IssuemanTicketService {
 	 * @param to
 	 * @return
 	 */
-	public List<IssuemanTicket> getInvalidTickets(long projectId, long type,
-			long subType, Date from, Date to);
+	public List<IssuemanTicket> getInvalidTickets(long projectId, long type, long subType,
+			Date from, Date to);
 
 	/**
 	 * 
@@ -46,8 +46,8 @@ public interface IssuemanTicketService {
 	 * @param to
 	 * @return
 	 */
-	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
-			long subType, Date from, Date to);
+	public List<IssuemanTicket> getTotalTickets(long projectId, long type, long subType, Date from,
+			Date to);
 
 	/**
 	 * 
@@ -58,8 +58,8 @@ public interface IssuemanTicketService {
 	 * @param to
 	 * @return
 	 */
-	public List<IssuemanTicket> getValidTickets(long projectId, long type,
-			long subType, Date from, Date to);
+	public List<IssuemanTicket> getValidTickets(long projectId, long type, long subType, Date from,
+			Date to);
 
 	/**
 	 * 
@@ -70,8 +70,8 @@ public interface IssuemanTicketService {
 	 * @param to
 	 * @return
 	 */
-	public List<IssuemanTicket> getCopiedTickets(long projectId, long type,
-			long subType, Date from, Date to);
+	public List<IssuemanTicket> getCopiedTickets(long projectId, long type, long subType,
+			Date from, Date to);
 
 	/**
 	 * 
@@ -82,8 +82,8 @@ public interface IssuemanTicketService {
 	 * @param to
 	 * @return
 	 */
-	public List<IssuemanTicket> getUncopiedTickets(long projectId, long type,
-			long subType, Date from, Date to);
+	public List<IssuemanTicket> getUncopiedTickets(long projectId, long type, long subType,
+			Date from, Date to);
 
 	/**
 	 * 
@@ -94,23 +94,8 @@ public interface IssuemanTicketService {
 	 * @param to
 	 * @return
 	 */
-	public List<IssuemanTicket> getCurrentOpenTickets(long projectId,
-			long type, long subType, Date from, Date to);
-
-	/**
-	 * 
-	 * @param projectId
-	 * @param type
-	 * @param subType
-	 * @param from
-	 * @param to
-	 * @param roleCategory
-	 * @param issueType
-	 * @return
-	 */
-	public List<IssuemanTicket> getTicketsByRoleCategory(long projectId,
-			long type, long subType, Date from, Date to,
-			RoleCategory roleCategory, IssueType issueType);
+	public List<IssuemanTicket> getCurrentOpenTickets(long projectId, long type, long subType,
+			Date from, Date to);
 
 	/**
 	 * 
@@ -123,9 +108,8 @@ public interface IssuemanTicketService {
 	 * @param issueType
 	 * @return
 	 */
-	public List<IssuemanTicket> getTicketsByRole(long projectId, long type,
-			long subType, Date from, Date to, String roleName,
-			IssueType issueType);
+	public List<IssuemanTicket> getTicketsByRole(long projectId, long type, long subType,
+			Date from, Date to, String roleName, IssueType issueType);
 
 	/**
 	 * 
@@ -134,14 +118,15 @@ public interface IssuemanTicketService {
 	 * @param subType
 	 * @param from
 	 * @param to
-	 * @param roleCategory
 	 * @param issueType
+	 * @param roles
+	 * @param invertRoles
 	 * @param severity
 	 * @return
 	 */
-	public List<IssuemanTicket> getTicketsByRoleCategoryPerSeverity(
-			long projectId, long type, long subType, Date from, Date to,
-			RoleCategory roleCategory, IssueType issueType, String severity);
+	public List<IssuemanTicket> getTicketsByRolesPerSeverity(long projectId, long type,
+			long subType, Date from, Date to, IssueType issueType, List<String> roles,
+			boolean invertRoles, String severity);
 
 	/**
 	 * 
@@ -154,40 +139,8 @@ public interface IssuemanTicketService {
 	 * @param issueType
 	 * @return
 	 */
-	public List<IssuemanTicket> getTicketsPerSeverity(long projectId,
-			long type, long subType, Date from, Date to, String severity,
-			IssueType issueType);
-
-	/**
-	 * 
-	 * @param projectId
-	 * @param type
-	 * @param subType
-	 * @param from
-	 * @param to
-	 * @param roleCategory
-	 * @param issueType
-	 * @return
-	 */
-	public Map<String, Integer> getTicketsCountByRoleCategory(long projectId,
-			long type, long subType, Date from, Date to,
-			RoleCategory roleCategory, IssueType issueType);
-
-	/**
-	 * 
-	 * @param projectId
-	 * @param type
-	 * @param subType
-	 * @param from
-	 * @param to
-	 * @param roleCategory
-	 * @param issueType
-	 * @param severity
-	 * @return
-	 */
-	public Map<String, Integer> getTicketsCountByRoleCategoryPerSeverity(
-			long projectId, long type, long subType, Date from, Date to,
-			RoleCategory roleCategory, IssueType issueType, String severity);
+	public List<IssuemanTicket> getTicketsPerSeverity(long projectId, long type, long subType,
+			Date from, Date to, String severity, IssueType issueType);
 
 	/**
 	 * 
@@ -221,5 +174,74 @@ public interface IssuemanTicketService {
 	 * 
 	 */
 	public void resetSession();
+
+	/**
+	 * 
+	 * @param projectId
+	 * @param type
+	 * @param subType
+	 * @param from
+	 * @param to
+	 * @param roles
+	 * @param issueType
+	 * @param severity
+	 * @param invertRoles
+	 * @return
+	 */
+	public Map<String, Integer> getTicketsCountByRolesPerSeverity(long projectId, long type,
+			long subType, Date from, Date to, List<String> roles, IssueType issueType,
+			String severity, boolean invertRoles);
+
+	/**
+	 * 
+	 * overload of getTicketsCountByRolesPerSeverity()
+	 * 
+	 *  if tickets reported by all is needed pass "all" for role parameter
+	 *  
+	 * @param projectId
+	 * @param type
+	 * @param subType
+	 * @param from
+	 * @param to
+	 * @param roles
+	 * @param issueType
+	 * @param severity
+	 * @return
+	 */
+	public Map<String, Integer> getTicketsCountByRolePerSeverity(long projectId, long type,
+			long subType, Date from, Date to, String role, IssueType issueType, String severity);
+
+	/**
+	 * @param projectId
+	 * @param type
+	 * @param subType
+	 * @param from
+	 * @param to
+	 * @param roles
+	 * @param issueType
+	 * @param invertRoles
+	 * @return
+	 */
+	public Map<String, Integer> getTicketsCountByRoles(long projectId, long type, long subType,
+			Date from, Date to, List<String> roles, IssueType issueType, boolean invertRoles);
+
+	/**
+	 * 
+	 * ////overload of getTicketsCountByRoles() /////
+	 *  
+	 *  if tickets reported by all is needed pass "all" for role parameter
+	 * 
+	 * @param projectId
+	 * @param type
+	 * @param subType
+	 * @param from
+	 * @param to
+	 * @param roles
+	 * @param issueType
+	 * @return
+	 */
+
+	public Map<String, Integer> getTicketsCountByRole(long projectId, long type, long subType,
+			Date from, Date to, String role, IssueType issueType);
 
 }
