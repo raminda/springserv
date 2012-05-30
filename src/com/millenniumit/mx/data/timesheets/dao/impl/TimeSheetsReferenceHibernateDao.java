@@ -11,38 +11,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.timesheets.dao.TimeSheetsReferenceDao;
+import com.millenniumit.mx.data.timesheets.domain.PortalDivision;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsReference;
 
 /**
  * @author Kalpag
  * 
  */
-@Repository("timesheetsReferenceDao")
+@SuppressWarnings("unchecked")
+@Repository("timeSheetsReferenceDao")
 public class TimeSheetsReferenceHibernateDao implements TimeSheetsReferenceDao {
 
 	@Autowired
-	@Qualifier("sessionFactory")
+	@Qualifier("timeSheetsSessionFactory")
 	private SessionFactory sessionfactory;
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<TimeSheetsReference> getTimeSheetsReferences() {
-		String queryString = "from TimeSheetsReference";
-		List<TimeSheetsReference> timesheetsRefList = (List<TimeSheetsReference>) getSessionfactory()
-				.getCurrentSession().createQuery(queryString).list();
-		return timesheetsRefList;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<TimeSheetsReference> getTimeSheetsReferences(long divisionId) {
-	
-		String queryString = "from TimeSheetsReference where divisionId = '"+divisionId+"' ";
-		List<TimeSheetsReference> timesheetsRefList = (List<TimeSheetsReference>) getSessionfactory()
-				.getCurrentSession().createQuery(queryString).list();
-
-		return timesheetsRefList;
-	}
 
 	/**
 	 * @return the sessionfactory
@@ -59,4 +41,44 @@ public class TimeSheetsReferenceHibernateDao implements TimeSheetsReferenceDao {
 		this.sessionfactory = sessionfactory;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsReferenceDao#getTimeSheetsReference(java.lang.String, com.millenniumit.mx.data.timesheets.domain.PortalDivision)
+	 */
+	@Override
+	public TimeSheetsReference getTimeSheetsReference(String name,
+			PortalDivision division) {
+		return (TimeSheetsReference) getSessionfactory().getCurrentSession()
+				.createQuery("from TimeSheetsReference where name=:name and division=:division")
+				.setParameter("name", name)
+				.setParameter("division", division).uniqueResult();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsReferenceDao#getTimeSheetsReferences()
+	 */
+	@Override
+	public List<TimeSheetsReference> getTimeSheetsReferences() {
+		return getSessionfactory().getCurrentSession()
+				.createQuery("from TimeSheetsReference").list();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsReferenceDao#getTimeSheetsReferences(com.millenniumit.mx.data.timesheets.domain.PortalDivision)
+	 */
+	@Override
+	public List<TimeSheetsReference> getTimeSheetsReferences(
+			PortalDivision division) {
+		return getSessionfactory().getCurrentSession()
+				.createQuery("from TimeSheetsReference where division=:division")
+				.setParameter("division", division).list();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.timesheets.dao.TimeSheetsReferenceDao#save(com.millenniumit.mx.data.timesheets.domain.TimeSheetsReference)
+	 */
+	@Override
+	public void save(TimeSheetsReference reference) {
+		getSessionfactory().getCurrentSession().saveOrUpdate(reference);
+		getSessionfactory().getCurrentSession().flush();
+	}
 }

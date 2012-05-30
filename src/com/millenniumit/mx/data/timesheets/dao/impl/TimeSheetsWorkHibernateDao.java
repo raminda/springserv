@@ -1,51 +1,35 @@
 package com.millenniumit.mx.data.timesheets.dao.impl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.log4j.Logger;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.google.gson.Gson;
-import com.millenniumit.mx.data.timesheets.dao.TimeSheetsWorkDao;
+import com.millenniumit.mx.data.timesheets.dao.WorkDao;
+import com.millenniumit.mx.data.timesheets.domain.PortalProject;
+import com.millenniumit.mx.data.timesheets.domain.PortalRole;
+import com.millenniumit.mx.data.timesheets.domain.PortalUser;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork;
-import com.millenniumit.mx.data.timesheets.util.TimeSheetsWorkCriteria;
-
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  * 
  */
+@SuppressWarnings("unchecked")
+@Repository("timeSheetsWorkDao")
+public class TimeSheetsWorkHibernateDao implements WorkDao<TimeSheetsWork> {
 
-@Repository("timesheetsWorkDao")
-public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
-
-	private static final Logger LOG = Logger
-			.getLogger(TimeSheetsWorkHibernateDao.class);
-	@Autowired
-	@Qualifier("sessionFactory")
-	private SessionFactory sessionfactory;
-	private long timeSheetsWorkRowCount;
-
-	/*
-	 * * @see
-	 * com.millenniumit.mx.data.timesheets.dao.TimeSheetsWorkDao#getTimeSheetsWork
-	 * ()
+	/**
+	 * 
 	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<TimeSheetsWork> getTimeSheetsWork() {
-		return sessionfactory.getCurrentSession()
-				.createQuery("from TimeSheetsWork").list();
-	}
+	@Autowired
+	@Qualifier("timeSheetsSessionFactory")
+	private SessionFactory sessionfactory;
 
 	/**
 	 * @return the sessionfactory
@@ -62,231 +46,415 @@ public class TimeSheetsWorkHibernateDao implements TimeSheetsWorkDao {
 		this.sessionfactory = sessionfactory;
 	}
 
-	
-	@Override
-	public List<Object> getTimeSheetsWork(long offset, long limit) {
-
-		String queryString = " select new map(t.divisionId as divisionId,t.projectId as projectId,t.roleId as roleId,"
-				+ "	t.userId as userId, t.reference as reference,"
-				+ "	t.note as note,"
-				+ " sum(t.hoursPlanned) as hoursPlanned,sum(t.hoursUnplanned) as hoursUnplanned,"
-				+ " sum(t.hoursPlanned) + sum(t.hoursUnplanned) as total) from TimeSheetsWork t "
-				+ " group by t.divisionId, t.userId, t.projectId, t.roleId";
-
-		return getPaginatedResultSet(queryString, offset, limit);
-	}
-
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param queryString
-	 * @param offset
-	 * @param limit
-	 * @return
+	 * @see
+	 * com.millenniumit.mx.data.timesheets.dao.WorkDao#getTimeSheetsUserWork
+	 * (com.millenniumit.mx.data.timesheets.domain.PortalUser,
+	 * com.millenniumit.mx.data.timesheets.domain.PortalProject,
+	 * com.millenniumit.mx.data.timesheets.domain.PortalRole, java.sql.Date)
 	 */
-	@SuppressWarnings("unchecked")
-	private List<Object> getPaginatedResultSet(String queryString, long offset,
-			long limit) {
-
-		Query query = sessionfactory.getCurrentSession().createQuery(
-				queryString);
-		int first = (int) offset;
-		int last = (int) limit;
-		query.setFirstResult(first);
-		query.setMaxResults(last);
-		return (List<Object>) query.list();
-	}
-
 	@Override
-	public long getTotalTimeSheetsWorkCount() {
-		Query q = sessionfactory.getCurrentSession().createQuery(
-				"select count(*) from TimeSheetsWork");
-		long result = Long.parseLong(q.list().get(0).toString());
-		return result;
+	public TimeSheetsWork getTimeSheetsUserWork(PortalUser user,
+			PortalProject project, PortalRole role, Date workDate, String reference) {
+		return (TimeSheetsWork) getSessionfactory()
+				.getCurrentSession()
+				.createQuery(
+						"from TimeSheetsWork where user=:user and "
+								+ "project=:project and role=:role and " +
+								"workDate=:workDate and reference=:reference")
+				.setParameter("user", user).setParameter("project", project)
+				.setParameter("role", role).setParameter("workDate", workDate)
+				.setParameter("reference", reference)
+				.uniqueResult();
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
+	 * @see com.millenniumit.mx.data.timesheets.dao.WorkDao#getTimeSheetsWork()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object> getTimeSheetsWork(long offset, long limit,
-			TimeSheetsWorkCriteria workcriteria) {
-
-		boolean whereFlag = false;
-		String selectString = " select new map(t.divisionId as divisionId,"
-				+ "t.projectId as projectId,t.roleId as roleId,"
-				+ "t.userId as userId, t.reference as reference,"
-				+ "t.note as note,"
-				+ "sum(t.hoursPlanned) as hoursPlanned,sum(t.hoursUnplanned) as hoursUnplanned,"
-				+ "sum(t.hoursPlanned) + sum(t.hoursUnplanned) as total) from TimeSheetsWork t";
-
-		String countSelectString = "select count(*) from TimeSheetsWork t";
-		String groupString = " group by t.divisionId,t.userId,t.projectId,t.roleId";
-		String criteriaString = "";
-		String queryString = "";
-		String countQueryString = "";
-
-		if (workcriteria.getUserIds() != null) {
-			criteriaString += getCriteriaString(whereFlag, "t.userId", "in",
-					":_users");
-			whereFlag = true;
-		}
-
-		if (workcriteria.getDivisionIds() != null) {
-			criteriaString += getCriteriaString(whereFlag, "t.divisionId",
-					"in", ":_divisions");
-			whereFlag = true;
-		}
-
-		if (workcriteria.getRoleIds() != null) {
-			criteriaString += getCriteriaString(whereFlag, "t.roleId", "in",
-					":_roles");
-			whereFlag = true;
-		}
-
-		if (workcriteria.getProjectIds() != null) {
-			criteriaString += getCriteriaString(whereFlag, "t.projectId", "in",
-					":_projects");
-			whereFlag = true;
-		}
-
-		if ((workcriteria.getStartDate() != null)) {
-			criteriaString += getCriteriaString(whereFlag, "t.workDate", ">",
-					":_startdate");
-			whereFlag = true;
-		}
-
-		if ((workcriteria.getEndDate() != null)) {
-			criteriaString += getCriteriaString(whereFlag, "t.workDate", "<",
-					":_enddate");
-			whereFlag = true;
-		}
-
-		queryString += selectString + criteriaString + groupString;
-		countQueryString = countSelectString + criteriaString + groupString;
-
-		Query query = sessionfactory.getCurrentSession().createQuery(
-				queryString);
-		Query countHQLQuery = getSessionfactory().getCurrentSession()
-				.createQuery(countQueryString);
-
-		DateFormat formatter;
-		formatter = new SimpleDateFormat("yyyy/MM/dd");
-		Date startdate = null;
-		Date enddate = null;
-
-		if (workcriteria.getProjectIds() != null) {
-			query.setParameterList("_projects", workcriteria.getProjectIds());
-			countHQLQuery.setParameterList("_projects",
-					workcriteria.getProjectIds());
-		}
-		if (workcriteria.getUserIds() != null) {
-			query.setParameterList("_users", workcriteria.getUserIds());
-			countHQLQuery.setParameterList("_users", workcriteria.getUserIds());
-		}
-		if (workcriteria.getDivisionIds() != null) {
-			query.setParameterList("_divisions", workcriteria.getDivisionIds());
-			countHQLQuery.setParameterList("_divisions",
-					workcriteria.getDivisionIds());
-		}
-		if (workcriteria.getEndDate() != null) {
-			try {
-				enddate = (Date) formatter.parse(workcriteria.getEndDate());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			query.setParameter("_enddate", enddate);
-			countHQLQuery.setParameter("_enddate", enddate);
-		}
-
-		if (workcriteria.getStartDate() != null) {
-			try {
-				startdate = (Date) formatter.parse(workcriteria.getStartDate());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			query.setParameter("_startdate", startdate);
-			countHQLQuery.setParameter("_startdate", startdate);
-		}
-		if (workcriteria.getRoleIds() != null) {
-			query.setParameterList("_roles", workcriteria.getRoleIds());
-			countHQLQuery.setParameterList("_roles", workcriteria.getRoleIds());
-		}
-		long returnedRowcount = countHQLQuery.list().size();
-		setTimeSheetsWorkRowCount(returnedRowcount);
-
-		LOG.debug("Returned rowCount is " + returnedRowcount);
-		LOG.debug("HQL Query = "+queryString);
-		
-		
-		int first = (int) offset;
-		int last = (int) limit;
-		query.setFirstResult(first);
-		query.setMaxResults(last);
-	
-		return (List<Object>) query.list();
+	public List<TimeSheetsWork> getTimeSheetsWork() {
+		return getSessionfactory().getCurrentSession()
+				.createQuery("from TimeSheetsWork").list();
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param whereFlag
-	 * @param operand
-	 * @param operator
-	 * @param parameter
-	 * @return
+	 * @see
+	 * com.millenniumit.mx.data.timesheets.dao.WorkDao#getTimeSheetsWork(long,
+	 * long)
 	 */
-	private String getCriteriaString(boolean whereFlag, String operand,
-			String operator, String parameter) {
-
-		if (whereFlag)
-			return " and " + operand + " " + operator + " " + parameter;
-		else
-			return " where " + operand + " " + operator + " " + parameter;
+	@Override
+	public List<TimeSheetsWork> getTimeSheetsWork(int offset, int limit) {
+		return getSessionfactory().getCurrentSession()
+				.createQuery("from TimeSheetsWork").setFirstResult(offset)
+				.setMaxResults(limit).list();
 	}
 
-	/**
-	 * @return the timeSheetsWorkRowCount
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.timesheets.dao.WorkDao#getTimeSheetsWorkCount()
 	 */
-	public long getTimeSheetsWorkRowCount() {
-		return timeSheetsWorkRowCount;
+	@Override
+	public Long getTimeSheetsWorkCount() {
+		Map<String, Long> m = (Map<String, Long>) sessionfactory
+				.getCurrentSession()
+				.createQuery(
+						"select new map(count(*) as total) "
+								+ "from TimeSheetsWork").uniqueResult();
+		return m.get("total");
 	}
 
-	/**
-	 * @param timeSheetsWorkRowCount
-	 *            the timeSheetsWorkRowCount to set
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.timesheets.dao.WorkDao#getTimeSheetsWork(java
+	 * .util.List, java.util.List, java.util.List, java.sql.Date, java.sql.Date)
 	 */
-	public void setTimeSheetsWorkRowCount(long timeSheetsWorkRowCount) {
-		this.timeSheetsWorkRowCount = timeSheetsWorkRowCount;
-	}
-
 	@Override
-	public long getTimeSheetWorkReturnedRowCount() {
-		return getTimeSheetsWorkRowCount();
+	public List<TimeSheetsWork> getTimeSheetsWork(List<PortalUser> users,
+			List<PortalProject> projects, List<PortalRole> roles,
+			Date startDate, Date endDate) {
+		if (users.isEmpty() && projects.isEmpty() && roles.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where workDate "
+									+ "between :startDate and :endDate")
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).list();
+		}
+
+		else if (users.isEmpty() && projects.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).list();
+		}
+
+		else if (projects.isEmpty() && roles.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where user in :users and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).list();
+		}
+
+		else if (users.isEmpty() && roles.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where project in :projects and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("projects", projects)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).list();
+		}
+
+		else if (users.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where project in :projects "
+									+ "and role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("projects", projects)
+					.setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).list();
+		}
+
+		else if (projects.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where user in :users "
+									+ "and role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users).setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).list();
+		}
+
+		else if (roles.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where user in :users "
+									+ "and project in :projects and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users)
+					.setParameterList("projects", projects)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).list();
+		}
+
+		else {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where user in :users "
+									+ "and project in :projects and role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users)
+					.setParameterList("projects", projects)
+					.setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).list();
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.timesheets.dao.WorkDao#getTimeSheetsWork(java
+	 * .util.List, java.util.List, java.util.List, java.sql.Date, java.sql.Date,
+	 * int, int)
+	 */
 	@Override
-	public void saveTimeSheetsWork(TimeSheetsWork timesheetWork) {
-		// sessionfactory.getCurrentSession().save(timesheetWork);
-		Gson gs = new Gson();
+	public List<TimeSheetsWork> getTimeSheetsWork(List<PortalUser> users,
+			List<PortalProject> projects, List<PortalRole> roles,
+			Date startDate, Date endDate, int offset, int limit) {
+		if (users.isEmpty() && projects.isEmpty() && roles.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where workDate "
+									+ "between :startDate and :endDate")
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).setFirstResult(offset)
+					.setMaxResults(limit).list();
+		}
 
-		sessionfactory.getCurrentSession().save(timesheetWork);
-		sessionfactory.getCurrentSession().flush();
-	
-		LOG.debug("Saved ID  = " + timesheetWork.getId());
-		//
-		// sessionfactory.getCurrentSession().clear();
+		else if (users.isEmpty() && projects.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).setFirstResult(offset)
+					.setMaxResults(limit).list();
+		}
 
+		else if (projects.isEmpty() && roles.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where user in :users and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).setFirstResult(offset)
+					.setMaxResults(limit).list();
+		}
+
+		else if (users.isEmpty() && roles.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where project in :projects and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("projects", projects)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).setFirstResult(offset)
+					.setMaxResults(limit).list();
+		}
+
+		else if (users.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where project in :projects "
+									+ "and role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("projects", projects)
+					.setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).setFirstResult(offset)
+					.setMaxResults(limit).list();
+		}
+
+		else if (projects.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where user in :users "
+									+ "and role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users).setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).setFirstResult(offset)
+					.setMaxResults(limit).list();
+		}
+
+		else if (roles.isEmpty()) {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where user in :users "
+									+ "and project in :projects and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users)
+					.setParameterList("projects", projects)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).setFirstResult(offset)
+					.setMaxResults(limit).list();
+		}
+
+		else {
+			return getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"from TimeSheetsWork where user in :users "
+									+ "and project in :projects and role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users)
+					.setParameterList("projects", projects)
+					.setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).setFirstResult(offset)
+					.setMaxResults(limit).list();
+		}
 	}
 
-	@SuppressWarnings("unchecked")
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.timesheets.dao.WorkDao#getTimeSheetsWorkCount
+	 * (java.util.List, java.util.List, java.util.List, java.sql.Date,
+	 * java.sql.Date)
+	 */
 	@Override
-	public List<TimeSheetsWork> getAllTimeSheetsWork(long offset, long limit) {
-		Query query = sessionfactory.getCurrentSession().createQuery(
-				"from TimeSheetsWork");
-		int first = (int) offset;
-		int last = (int) limit;
-		query.setFirstResult(first);
-		query.setMaxResults(last);
-		return query.list();
+	public Long getTimeSheetsWorkCount(List<PortalUser> users,
+			List<PortalProject> projects, List<PortalRole> roles,
+			Date startDate, Date endDate) {
+		Map<String, Long> m;
+		if (users.isEmpty() && projects.isEmpty() && roles.isEmpty()) {
+			m = (Map<String, Long>) getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"select new map(count(*) as total) from TimeSheetsWork where workDate "
+									+ "between :startDate and :endDate")
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).uniqueResult();
+		}
+
+		else if (users.isEmpty() && projects.isEmpty()) {
+			m = (Map<String, Long>) getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"select new map(count(*) as total) from TimeSheetsWork where role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).uniqueResult();
+		}
+
+		else if (projects.isEmpty() && roles.isEmpty()) {
+			m = (Map<String, Long>) getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"select new map(count(*) as total) from TimeSheetsWork where user in :users and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).uniqueResult();
+		}
+
+		else if (users.isEmpty() && roles.isEmpty()) {
+			m = (Map<String, Long>) getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"select new map(count(*) as total) from TimeSheetsWork where project in :projects and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("projects", projects)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).uniqueResult();
+		}
+
+		else if (users.isEmpty()) {
+			m = (Map<String, Long>) getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"select new map(count(*) as total) from TimeSheetsWork where project in :projects "
+									+ "and role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("projects", projects)
+					.setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).uniqueResult();
+		}
+
+		else if (projects.isEmpty()) {
+			m = (Map<String, Long>) getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"select new map(count(*) as total) from TimeSheetsWork where user in :users "
+									+ "and role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users).setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).uniqueResult();
+		}
+
+		else if (roles.isEmpty()) {
+			m = (Map<String, Long>) getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"select new map(count(*) as total) from TimeSheetsWork where user in :users "
+									+ "and project in :projects and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users)
+					.setParameterList("projects", projects)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).uniqueResult();
+		}
+
+		else {
+			m = (Map<String, Long>) getSessionfactory()
+					.getCurrentSession()
+					.createQuery(
+							"select new map(count(*) as total) from TimeSheetsWork where user in :users "
+									+ "and project in :projects and role in :roles and workDate "
+									+ "between :startDate and :endDate")
+					.setParameterList("users", users)
+					.setParameterList("projects", projects)
+					.setParameterList("roles", roles)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).uniqueResult();
+		}
+		return m.get("total");
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.timesheets.dao.WorkDao#save(com.millenniumit
+	 * .mx.data.timesheets.domain.TimeSheetsWork)
+	 */
+	@Override
+	public void save(TimeSheetsWork timesheetWork) {
+		getSessionfactory().getCurrentSession().save(timesheetWork);
+		getSessionfactory().getCurrentSession().flush();
+	}
+
 }
