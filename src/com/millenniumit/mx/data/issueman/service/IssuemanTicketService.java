@@ -243,5 +243,10 @@ public interface IssuemanTicketService {
 
 	public Map<String, Integer> getTicketsCountByRole(long projectId, long type, long subType,
 			Date from, Date to, String role, IssueType issueType);
+	
+	
+	
+	public List<IssuemanTicket> getTotalTicketsPerTbdir(long projectId, long type, long subType,
+			Date from, Date to,String tbdir);
 
 }

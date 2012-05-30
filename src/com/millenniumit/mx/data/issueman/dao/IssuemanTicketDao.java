@@ -17,6 +17,10 @@ public interface IssuemanTicketDao {
 
 	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
 			long subType, Date from, Date to);
+	
+
+	public List<IssuemanTicket> getTotalTicketsPerTbdir(long projectId, long type,
+			long subType, Date from, Date to, String tbdir);
 
 	public List<IssuemanUserProjectRole> getUserProjectRoles(long projectId) ;
 	public void updateSession(Object object);

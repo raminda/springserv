@@ -44,7 +44,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		this.issuemanSessionFactory = sessionfactory;
 	}
 
-	// *************************************************************************************************
+	// *********************************************************************************************
 	/**
 	 * 
 	 * @param projectId
@@ -54,8 +54,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	public List<IssuemanUserProjectRole> getUserProjectRoles(long projectId) {
 
 		String queryString = "from IssuemanUserProjectRole where project.id = :projectId";
-		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
-				queryString);
+		Query query = issuemanSessionFactory.getCurrentSession().createQuery(queryString);
 		query.setParameter("projectId", projectId);
 		List<IssuemanUserProjectRole> userProjectRoles = (List<IssuemanUserProjectRole>) query
 				.list();
@@ -63,7 +62,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		return userProjectRoles;
 	}
 
-	// *************************************************************************************************
+	// *********************************************************************************************
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -73,22 +72,41 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<IssuemanTicket> getTotalTickets(long projectId, long type,
-			long subType, Date from, Date to) {
+	public List<IssuemanTicket> getTotalTickets(long projectId, long type, long subType, Date from,
+			Date to) {
 		String queryString = "select distinct ticket from IssuemanTicket ticket"
 				+ " join ticket.currentType as currentType with currentType.fieldType = 'type' "
 				+ " where ticket.project.id = :projectId and "
 				+ " currentType.ticketType.id = :subType "
-				+ " and ticket.reportedDate < :to and ticket.reportedDate > :from "; 
-				
+				+ " and ticket.reportedDate < :to and ticket.reportedDate > :from ";
 
-		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
-				queryString);
+		Query query = issuemanSessionFactory.getCurrentSession().createQuery(queryString);
 		query.setParameter("projectId", projectId);
 		query.setParameter("subType", subType);
 		query.setParameter("from", from);
 		query.setParameter("to", to);
-	
+
+		return (List<IssuemanTicket>) query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<IssuemanTicket> getTotalTicketsPerTbdir(long projectId, long type, long subType,
+			Date from, Date to, String tbdir) {
+
+		String queryString = "select distinct ticket from IssuemanTicket ticket"
+				+ " join ticket.currentType as currentType with currentType.fieldType = 'type'"
+				+ " join ticket.tbdir as tbdir with tbdir.fieldType = 'release'"
+				+ " where ticket.project.id = :projectId "
+				+ " and tbdir.release.name = :tbdir"
+				+ " and currentType.ticketType.id = :subType "
+				+ " and ticket.reportedDate < :to and ticket.reportedDate > :from ";
+
+		Query query = issuemanSessionFactory.getCurrentSession().createQuery(queryString);
+		query.setParameter("projectId", projectId);
+		query.setParameter("subType", subType);
+		query.setParameter("from", from);
+		query.setParameter("to", to);
+		query.setParameter("tbdir", tbdir);
 		return (List<IssuemanTicket>) query.list();
 	}
 
@@ -98,6 +116,6 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	 */
 	public void updateSession(Object object) {
 		issuemanSessionFactory.getCurrentSession().update(object);
-		
+
 	}
 }

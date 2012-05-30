@@ -314,7 +314,7 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 
 		List<IssuemanTicket> ticketList = getTicketListForIssueType(projectId, type, subType, from,
 				to, issueType);
-		
+
 		if (roleName.toUpperCase().equals("ALL")) {
 			return ticketList;
 		}
@@ -720,6 +720,20 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 		float drr = valid / total;
 		return drr;
 	}
+
 	// *********************************************************************************************
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#
+	 * getTotalTicketsPerTbdir(long, long, long, java.util.Date, java.util.Date,
+	 * java.lang.String)
+	 */
+	@Transactional
+	public List<IssuemanTicket> getTotalTicketsPerTbdir(long projectId, long type, long subType,
+			Date from, Date to, String tbdir) {
+		return issuemanTicketDao.getTotalTicketsPerTbdir(projectId, type, subType, from, to, tbdir);
+	}
 
 }

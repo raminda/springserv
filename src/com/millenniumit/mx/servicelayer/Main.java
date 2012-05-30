@@ -53,10 +53,10 @@ public class Main {
 
 	@Autowired
 	private IssuemanTicketService issuemanTicketService;
-	
+
 	@Autowired
 	private IssuemanRoleService issuemanRoleService;
-	
+
 	@Autowired
 	private IssuemanProjectService issuemanProjectService;
 	private static ApplicationContextLoader contextLoader = new ApplicationContextLoader();
@@ -69,40 +69,39 @@ public class Main {
 		Main main = new Main();
 		contextLoader.load(main, "applicationContext.xml");
 
-//		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//
-//		String fromStr = "2012-01-01";
-//		String toStr = "2012-07-09";
-//
-//		Date from = new Date(dateFormat.parse(fromStr).getTime());
-//		Date to = new Date(dateFormat.parse(toStr).getTime());
-//
-//		StopWatch stopWatch = new StopWatch("Stop watch");
-//		stopWatch.start();
-//		long project = 7;
-//		long type = 1;
-//		long subType = 7;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-				
-//		List<IssuemanTicket> ctickets = main.issuemanTicketService
-//				.getTicketsByRoleCategory(project, type, subType, from, to,
-//						RoleCategory.EXTQA, IssueType.TOTAL);
+		String fromStr = "2012-01-01";
+		String toStr = "2012-01-09";
+		//
+		Date from = new Date(dateFormat.parse(fromStr).getTime());
+		Date to = new Date(dateFormat.parse(toStr).getTime());
+
+		// StopWatch stopWatch = new StopWatch("Stop watch");
+		// stopWatch.start();
+		long project = 11;
+		long type = 1;
+		long subType = 7;
+		String tbdir = "7.10.17.0.i10";
+
+		List<IssuemanTicket> tickets = main.issuemanTicketService.getTotalTicketsPerTbdir(project,
+				type, subType, from, to, tbdir);
 		
 		
-		List<String> names = main.issuemanRoleService.getEqaRoleNames();
-		for (String string : names) {
-			System.out.println(string);
+		for (IssuemanTicket issuemanTicket : tickets) {
+			//System.out.println(issuemanTicket.getTbdir().get(0).getRelease().getName());
+		System.out.println("ddd");
 		}
 		
-		
-		
-		
-		
+		// List<IssuemanTicket> ctickets = main.issuemanTicketService
+		// .getTicketsByRoleCategory(project, type, subType, from, to,
+		// RoleCategory.EXTQA, IssueType.TOTAL);
 
 		// PrintMap(totalMap);
-//		stopWatch.stop();
-//		System.out.println(stopWatch.prettyPrint());
-//		System.out.println("Total Time = " + stopWatch.getTotalTimeSeconds());
+		// stopWatch.stop();
+		// System.out.println(stopWatch.prettyPrint());
+		// System.out.println("Total Time = " +
+		// stopWatch.getTotalTimeSeconds());
 
 	}
 

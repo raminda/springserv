@@ -27,7 +27,6 @@ import org.hibernate.annotations.Where;
 @org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region = "Ticket")
 @org.hibernate.annotations.Entity(selectBeforeUpdate=true)
 @Table(name = "tickets")
-//@Where(clause= "id <> 128488")
 public class IssuemanTicket extends AuditFields implements Serializable {
 
 	/**
@@ -95,6 +94,13 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	@Where(clause = "field_type ='severity'")
 	private List<IssuemanSeverityFieldCurrent> currentSeverity;
 
+
+	@OneToMany(targetEntity = IssuemanReleaseFieldCurrent.class)
+	@JoinColumn(name = "ticket_id")
+	@Where(clause = "field_type ='release'")
+	private List<IssuemanReleaseFieldCurrent> tbdir;
+
+	
 	/**
 	 * @return the id
 	 */
@@ -318,5 +324,19 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	 */
 	public void setStatusHistory(List<IssuemanStatusFieldHistory> statusHistory) {
 		this.statusHistory = statusHistory;
+	}
+
+	/**
+	 * @return the tbdir
+	 */
+	public List<IssuemanReleaseFieldCurrent> getTbdir() {
+		return tbdir;
+	}
+
+	/**
+	 * @param tbdir the tbdir to set
+	 */
+	public void setTbdir(List<IssuemanReleaseFieldCurrent> tbdir) {
+		this.tbdir = tbdir;
 	}
 }
