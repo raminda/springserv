@@ -10,7 +10,7 @@ import java.util.Map;
 public class MetricsConfiguration {
 	
 	/**
-	 * This is the Hibernate entity name representing the metric table for
+	 * This is the Hibernate entity name representing the lowest association level for
 	 * the currently configured metric
 	 */
 	private String lowestAssociationLevelEntity;
