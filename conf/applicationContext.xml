@@ -28,7 +28,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 		<property name="username" value="root" />
 		<property name="password" value="kalpa" />
 	</bean>
-	
+
 	<bean id="issueman_abacusdb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -37,13 +37,14 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 		<property name="password" value="" />
 	</bean>
 
-<!-- 	<bean id="issuemandb_server" class="org.apache.commons.dbcp.BasicDataSource" -->
-<!-- 		destroy-method="close"> -->
-<!-- 		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-<!-- 		<property name="url" value="jdbc:mysql://172.25.40.135/issueman_abacus" /> -->
-<!-- 		<property name="username" value="portaluser" /> -->
-<!-- 		<property name="password" value="p0rt41u53r123" /> -->
-<!-- 	</bean> -->
+	<!-- <bean id="issuemandb_server" class="org.apache.commons.dbcp.BasicDataSource" -->
+	<!-- destroy-method="close"> -->
+	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+	<!-- <property name="url" value="jdbc:mysql://172.25.40.135/issueman_abacus" 
+		/> -->
+	<!-- <property name="username" value="portaluser" /> -->
+	<!-- <property name="password" value="p0rt41u53r123" /> -->
+	<!-- </bean> -->
 
 	<bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -140,10 +141,26 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="issuemanSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="issueman_abacusdb" />
+
+<!-- uncomment below section when you want to enable second level caching -->
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+			</props>
+		</property>
 		<property name="annotatedClasses">
 			<list>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicket
@@ -174,7 +191,8 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 				</value>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanPriorityFieldCurrent
 				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanPriority</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanPriority
+				</value>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketType
 				</value>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanRelease
@@ -190,14 +208,21 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 				</value>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketStatus
 				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldHistory</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanResolutionFieldHistory</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldHistory </value> 
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStringFieldHistory</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanUserProjectRole</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldHistory
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanResolutionFieldHistory
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldHistory
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStringFieldHistory
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanUserProjectRole
+				</value>
 				<value>com.millenniumit.mx.data.issueman.domain.IssuemanRole</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanSeverity</value>
-			<value>com.millenniumit.mx.data.issueman.domain.IssuemanSeverityFieldCurrent</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanSeverity
+				</value>
+				<value>com.millenniumit.mx.data.issueman.domain.IssuemanSeverityFieldCurrent
+				</value>
 			</list>
 		</property>
 	</bean>
@@ -254,5 +279,5 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	
 	<bean id="testClass" class="com.millenniumit.mx.servicelayer.TestClass">
 	</bean>
-	
+
 </beans>

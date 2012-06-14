@@ -12,7 +12,8 @@ import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 /**
- * @author Vimukthi
+ * 
+ * @author kalpag
  *
  */
 @Entity(name = "IssuemanTicketType")
@@ -25,6 +26,7 @@ public class IssuemanTicketType extends AuditFields implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+
 	@Id 
     private Long id;
 	

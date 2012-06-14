@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Where;
 
 /**
@@ -16,6 +19,9 @@ import org.hibernate.annotations.Where;
 
 @Entity(name = "IssuemanTicketFieldCurrent")
 @Table(name = "ticket_field_current")
+@Cacheable
+@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+@org.hibernate.annotations.Entity(selectBeforeUpdate=true)
 @DiscriminatorColumn(
 	    name="field_type",
 	    discriminatorType=DiscriminatorType.STRING

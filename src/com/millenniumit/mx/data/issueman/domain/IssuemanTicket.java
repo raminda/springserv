@@ -8,16 +8,25 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import javax.persistence.*;
+
+import org.apache.commons.collections.functors.FalsePredicate;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 /**
  * 
- * @author kalpag
+// * @author kalpag
  * 
  */
 @Entity(name = "IssuemanTicket")
+//@Immutable
+@Cacheable
+@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region = "Ticket")
+@org.hibernate.annotations.Entity(selectBeforeUpdate=true)
 @Table(name = "tickets")
-@Where(clause="reporter_id <> 0 and id <> 0")
 public class IssuemanTicket extends AuditFields implements Serializable {
 
 	/**
@@ -26,6 +35,7 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY,generator="")
 	private Long id;
 
 	@Column(name = "native_id")
@@ -62,7 +72,7 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	@OneToMany(targetEntity = IssuemanStatusFieldHistory.class)
 	@JoinColumn(name = "ticket_id")
 	@Where(clause = "field_type ='status'")
-	private List<IssuemanStatusFieldHistory> statusHistoy;
+	private List<IssuemanStatusFieldHistory> statusHistory;
 
 	@OneToMany(targetEntity = IssuemanStatusFieldCurrent.class)
 	@JoinColumn(name = "ticket_id")
@@ -84,6 +94,13 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	@Where(clause = "field_type ='severity'")
 	private List<IssuemanSeverityFieldCurrent> currentSeverity;
 
+
+	@OneToMany(targetEntity = IssuemanReleaseFieldCurrent.class)
+	@JoinColumn(name = "ticket_id")
+	@Where(clause = "field_type ='release'")
+	private List<IssuemanReleaseFieldCurrent> tbdir;
+
+	
 	/**
 	 * @return the id
 	 */
@@ -235,21 +252,6 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	}
 
 	/**
-	 * @return the statusHistoy
-	 */
-	public List<IssuemanStatusFieldHistory> getStatusHistoy() {
-		return statusHistoy;
-	}
-
-	/**
-	 * @param statusHistoy
-	 *            the statusHistoy to set
-	 */
-	public void setStatusHistoy(List<IssuemanStatusFieldHistory> statusHistoy) {
-		this.statusHistoy = statusHistoy;
-	}
-
-	/**
 	 * @return the currentType
 	 */
 	public List<IssuemanTypeFieldCurrent> getCurrentType() {
@@ -308,5 +310,33 @@ public class IssuemanTicket extends AuditFields implements Serializable {
 	public void setCurrentSeverity(
 			List<IssuemanSeverityFieldCurrent> currentSeverity) {
 		this.currentSeverity = currentSeverity;
+	}
+
+	/**
+	 * @return the statusHistory
+	 */
+	public List<IssuemanStatusFieldHistory> getStatusHistory() {
+		return statusHistory;
+	}
+
+	/**
+	 * @param statusHistory the statusHistory to set
+	 */
+	public void setStatusHistory(List<IssuemanStatusFieldHistory> statusHistory) {
+		this.statusHistory = statusHistory;
+	}
+
+	/**
+	 * @return the tbdir
+	 */
+	public List<IssuemanReleaseFieldCurrent> getTbdir() {
+		return tbdir;
+	}
+
+	/**
+	 * @param tbdir the tbdir to set
+	 */
+	public void setTbdir(List<IssuemanReleaseFieldCurrent> tbdir) {
+		this.tbdir = tbdir;
 	}
 }
