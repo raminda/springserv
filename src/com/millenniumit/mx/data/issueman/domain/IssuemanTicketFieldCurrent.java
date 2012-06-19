@@ -19,8 +19,8 @@ import org.hibernate.annotations.Where;
 
 @Entity(name = "IssuemanTicketFieldCurrent")
 @Table(name = "ticket_field_current")
-@Cacheable
-@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+//@Cacheable
+//@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
 @org.hibernate.annotations.Entity(selectBeforeUpdate=true)
 @DiscriminatorColumn(
 	    name="field_type",

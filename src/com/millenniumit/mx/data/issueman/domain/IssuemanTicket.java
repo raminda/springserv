@@ -23,8 +23,8 @@ import org.hibernate.annotations.Where;
  */
 @Entity(name = "IssuemanTicket")
 //@Immutable
-@Cacheable
-@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region = "Ticket")
+//@Cacheable
+//@org.hibernate.annotations.Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region = "Ticket")
 @org.hibernate.annotations.Entity(selectBeforeUpdate=true)
 @Table(name = "tickets")
 public class IssuemanTicket extends AuditFields implements Serializable {

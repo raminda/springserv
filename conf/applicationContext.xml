@@ -21,18 +21,18 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<!-- <property name="username" value="vimukthi" /> -->
 	<!-- <property name="password" value="Vimuk7h1" /> -->
 	<!-- </bean> -->
-	<bean id="issueman_jiradb" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_jira" />
-		<property name="username" value="root" />
-		<property name="password" value="kalpa" />
-	</bean>
+<!-- 	<bean id="issueman_jiradb" class="org.apache.commons.dbcp.BasicDataSource" -->
+<!-- 		destroy-method="close"> -->
+<!-- 		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+<!-- 		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_jira" /> -->
+<!-- 		<property name="username" value="root" /> -->
+<!-- 		<property name="password" value="kalpa" /> -->
+<!-- 	</bean> -->
 
 	<bean id="issueman_abacusdb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_test" />
+		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_test?zeroDateTimeBehavior=convertToNull" />
 		<property name="username" value="root" />
 		<property name="password" value="" />
 	</bean>
@@ -99,45 +99,10 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="portaldb" />
-		<property name="annotatedClasses">
+		<property name="packagesToScan">
 			<list>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanActivity
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanUser</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanProject
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanRelease
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanBaseComponent
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanBaseRelease
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanCodeItem
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanCodeItemFile
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanCurrentCodeItemFile
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanGroup</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanItemType
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanCurrentVersion
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanLogicalLayer
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanModule</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanProjectLevelActivity
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanRelation
-				</value>
-				<value>com.millenniumit.mx.data.relman.domain.RelmanCurrentReleaseInfo
-				</value>
-
-				<!-- Metrics Entities starts here -->
-				<value>com.millenniumit.mx.data.metrics.metric.Loc
-				</value>
-				<value>com.millenniumit.mx.data.metrics.metric.Mcc
-				</value>
+				<value>com.millenniumit.mx.data.relman.domain</value>
+				<value>com.millenniumit.mx.data.metrics.metric</value>
 			</list>
 		</property>
 	</bean>
@@ -145,84 +110,9 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<bean id="issuemanSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="issueman_abacusdb" />
-
-<!-- uncomment below section when you want to enable second level caching -->
-
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">
-					org.hibernate.dialect.MySQLDialect
-				</prop>
-
-				<prop key="hibernate.show_sql">false</prop>
-				<prop key="hibernate.cache.use_second_level_cache">true</prop>
-				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
-				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
-				<prop key="hibernate.cache.use_query_cache">true</prop>
-			</props>
-		</property>
-		<property name="annotatedClasses">
+		<property name="packagesToScan">
 			<list>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicket
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanComponent
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanProject
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanUser
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldCurrent
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketField
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanReleaseFieldCurrent
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanUserFieldCurrent
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanPriorityFieldCurrent
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStringFieldCurrent
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTypeFieldCurrent
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanResolutionFieldCurrent
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldCurrent
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanPriorityFieldCurrent
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanPriority
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketType
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanRelease
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketStatus
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanResolution
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanUser</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketLinkType
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketLink
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketStatus
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStatusFieldHistory
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanResolutionFieldHistory
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanTicketFieldHistory
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanStringFieldHistory
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanUserProjectRole
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanRole</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanSeverity
-				</value>
-				<value>com.millenniumit.mx.data.issueman.domain.IssuemanSeverityFieldCurrent
-				</value>
+				<value>com.millenniumit.mx.data.issueman.domain</value>
 			</list>
 		</property>
 	</bean>
@@ -230,31 +120,9 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<bean id="timeSheetsSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="timesheetsdb" />
-		<property name="annotatedClasses">
-			<list>				
-				<value>com.millenniumit.mx.data.timesheets.domain.PortalDivision
-				</value>
-				<value>com.millenniumit.mx.data.timesheets.domain.PortalProject
-				</value>
-				<value>com.millenniumit.mx.data.timesheets.domain.PortalRole
-				</value>
-				<value>com.millenniumit.mx.data.timesheets.domain.PortalUser
-				</value>
-				<value>com.millenniumit.mx.data.timesheets.domain.PortalUsersProject
-				</value>
-				<value>com.millenniumit.mx.data.timesheets.domain.TimeSheetsReference
-				</value>
-				<value>com.millenniumit.mx.data.timesheets.domain.TimeSheetsReminder
-				</value>
-				<value>com.millenniumit.mx.data.timesheets.domain.TimeSheetsUser
-				</value>
-				<value>com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork
-				</value>
-				<value>com.millenniumit.mx.data.timesheets.domain.TimeSheetsWorkOverwrite
-				</value>
-				<value>
-					com.millenniumit.mx.data.timesheets.domain.TimeSheetsWorkOverwritten
-				</value>
+		<property name="packagesToScan">
+			<list>
+				<value>com.millenniumit.mx.data.timesheets.domain</value>
 			</list>
 		</property>
 	</bean>
