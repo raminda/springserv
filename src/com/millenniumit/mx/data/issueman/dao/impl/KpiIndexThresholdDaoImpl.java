@@ -7,17 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.millenniumit.mx.data.issueman.dao.KpiScoringSchemeDao;
-import com.millenniumit.mx.data.issueman.domain.KpiScoringScheme;
+import com.millenniumit.mx.data.issueman.dao.KpiIndexThresholdDao;
+import com.millenniumit.mx.data.issueman.domain.KpiIndex;
+import com.millenniumit.mx.data.issueman.domain.KpiIndexThreshold;
 
 /**
  * 
  * @author Vimukthi
  *
  */
-@Repository("kpiScoringSchemeDao")
+@Repository("kpiIndexThresholdDao")
 @SuppressWarnings("unchecked")
-public class KpiScoringSchemeDaoImpl implements KpiScoringSchemeDao {
+public class KpiIndexThresholdDaoImpl implements KpiIndexThresholdDao {
 	
 	@Autowired
 	@Qualifier("issuemanSessionFactory")
@@ -41,30 +42,40 @@ public class KpiScoringSchemeDaoImpl implements KpiScoringSchemeDao {
 	 * @see com.millenniumit.mx.data.issueman.dao.Dao#get(java.lang.Long)
 	 */
 	@Override
-	public KpiScoringScheme get(Long id) {
-		return (KpiScoringScheme) getIssuemanSessionFactory().getCurrentSession()
-		.createQuery("from KpiScoringScheme where id=:param")
-		.setParameter("param", id).uniqueResult();
+	public KpiIndexThreshold get(Long id) {
+		return (KpiIndexThreshold) getIssuemanSessionFactory().getCurrentSession()
+				.createQuery("from KpiIndexThreshold where id=:param")
+				.setParameter("param", id).uniqueResult();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.dao.KpiIndexThresholdDao#getKpiIndexThreshold(com.millenniumit.mx.data.issueman.domain.KpiKpiInstance)
+	 */
+	@Override
+	public KpiIndexThreshold getKpiIndexThreshold(KpiIndex index) {
+		return (KpiIndexThreshold) getIssuemanSessionFactory().getCurrentSession()
+				.createQuery("from KpiIndexThreshold where index=:index")
+				.setParameter("index", index).uniqueResult();
 	}
 
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.issueman.dao.Dao#getAll()
 	 */
 	@Override
-	public List<KpiScoringScheme> getAll() {
+	public List<KpiIndexThreshold> getAll() {
 		return getIssuemanSessionFactory()
 				.getCurrentSession()
-				.createQuery("from KpiScoringScheme").list();
+				.createQuery("from KpiIndexThreshold").list();
 	}
 
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.issueman.dao.Dao#getAll(int, int)
 	 */
 	@Override
-	public List<KpiScoringScheme> getAll(int start, int limit) {
+	public List<KpiIndexThreshold> getAll(int start, int limit) {
 		return getIssuemanSessionFactory()
 				.getCurrentSession()
-				.createQuery("from KpiScoringScheme")
+				.createQuery("from KpiIndexThreshold")
 				.setFirstResult(start).setMaxResults(limit).list();
 	}
 
@@ -72,20 +83,18 @@ public class KpiScoringSchemeDaoImpl implements KpiScoringSchemeDao {
 	 * @see com.millenniumit.mx.data.issueman.dao.Dao#save(java.lang.Object)
 	 */
 	@Override
-	public Long save(KpiScoringScheme score) {
-		getIssuemanSessionFactory().getCurrentSession().save(score);
+	public Long save(KpiIndexThreshold threshold) {
+		getIssuemanSessionFactory().getCurrentSession().save(threshold);
 		getIssuemanSessionFactory().getCurrentSession().flush();
-		return score.getId();
+		return threshold.getId();
 	}
 
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.issueman.dao.Dao#delete(java.lang.Object)
 	 */
 	@Override
-	public void delete(KpiScoringScheme score) {
-		getIssuemanSessionFactory().getCurrentSession().delete(score);
+	public void delete(KpiIndexThreshold threshold) {
+		getIssuemanSessionFactory().getCurrentSession().delete(threshold);
 		getIssuemanSessionFactory().getCurrentSession().flush();
-	}
-
-	
+	}	
 }

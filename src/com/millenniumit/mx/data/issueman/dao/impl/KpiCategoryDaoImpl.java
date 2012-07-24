@@ -12,7 +12,7 @@ import com.millenniumit.mx.data.issueman.domain.KpiCategory;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 @Repository("kpiCategoryDao")

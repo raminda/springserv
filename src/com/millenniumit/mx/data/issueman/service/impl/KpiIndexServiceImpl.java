@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.millenniumit.mx.data.issueman.dao.KpiIndexDao;
+import com.millenniumit.mx.data.issueman.domain.KpiCategory;
 import com.millenniumit.mx.data.issueman.domain.KpiIndex;
 import com.millenniumit.mx.data.issueman.service.KpiIndexService;
 
@@ -89,5 +90,22 @@ public class KpiIndexServiceImpl implements KpiIndexService {
 	@Transactional
 	public void deleteKpiIndex(KpiIndex index) {
 		getKpiIndexDao().delete(index);		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.service.KpiIndexService#getKpiIndexes(com.millenniumit.mx.data.issueman.domain.KpiCategory, java.lang.String)
+	 */
+	@Override
+	@Transactional
+	public List<KpiIndex> getKpiIndexes(KpiCategory category, String scope) {
+		if (category == null && scope.equals(null)){
+			return getKpiIndexDao().getAll();
+		} else if (category == null){
+			return getKpiIndexDao().getKpiIndexes(scope);
+		} else if (scope == null){
+			return getKpiIndexDao().getKpiIndexes(category);
+		} else {
+			return getKpiIndexDao().getKpiIndexes(category, scope);
+		}
 	}
 }

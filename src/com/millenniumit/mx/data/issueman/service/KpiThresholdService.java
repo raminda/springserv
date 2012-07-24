@@ -2,13 +2,14 @@ package com.millenniumit.mx.data.issueman.service;
 
 import java.util.List;
 
+import com.millenniumit.mx.data.issueman.domain.KpiKpiInstance;
 import com.millenniumit.mx.data.issueman.domain.KpiThreshold;
 
 
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 public interface KpiThresholdService {
@@ -19,6 +20,13 @@ public interface KpiThresholdService {
 	 * @return
 	 */
 	public KpiThreshold getKpiThreshold(Long id);
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public KpiThreshold getKpiThreshold(KpiKpiInstance instance);
 	
 	/**
 	 * 

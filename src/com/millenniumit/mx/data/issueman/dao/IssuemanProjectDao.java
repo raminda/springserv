@@ -13,6 +13,16 @@ import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
  *
  */
 public interface IssuemanProjectDao {
+	
+	/**
+	 * @param id
+	 * @return
+	 */
+	public IssuemanProject getIssuemanProject(Long id);
 
-	List<IssuemanProject> getIssuemanProjects();
+	/**
+	 * 
+	 * @return
+	 */
+	public List<IssuemanProject> getIssuemanProjects();
 }

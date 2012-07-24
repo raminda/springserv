@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.issueman.dao.KpiIndexDao;
+import com.millenniumit.mx.data.issueman.domain.KpiCategory;
 import com.millenniumit.mx.data.issueman.domain.KpiIndex;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 @Repository("kpiIndexDao")
@@ -64,7 +65,7 @@ public class KpiIndexDaoImpl implements KpiIndexDao {
 	public List<KpiIndex> getAll() {
 		return getIssuemanSessionFactory()
 				.getCurrentSession()
-				.createQuery("from KpiIndex").list();
+				.createQuery("from KpiIndex order by name").list();
 	}
 
 	/* (non-Javadoc)
@@ -74,8 +75,42 @@ public class KpiIndexDaoImpl implements KpiIndexDao {
 	public List<KpiIndex> getAll(int start, int limit) {
 		return getIssuemanSessionFactory()
 				.getCurrentSession()
-				.createQuery("from KpiIndex")
+				.createQuery("from KpiIndex order by name")
 				.setFirstResult(start).setMaxResults(limit).list();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.dao.KpiIndexDao#getKpiIndexes(java.lang.String)
+	 */
+	@Override
+	public List<KpiIndex> getKpiIndexes(String scope) {
+		return getIssuemanSessionFactory()
+				.getCurrentSession()
+				.createQuery("from KpiIndex where scope=:scope order by name")
+				.setParameter("scope", scope).list();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.dao.KpiIndexDao#getKpiIndexes(com.millenniumit.mx.data.issueman.domain.KpiCategory)
+	 */
+	@Override
+	public List<KpiIndex> getKpiIndexes(KpiCategory category) {
+		return getIssuemanSessionFactory()
+				.getCurrentSession()
+				.createQuery("from KpiIndex where category=:category order by name")
+				.setParameter("category", category).list();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.dao.KpiIndexDao#getKpiIndexes(com.millenniumit.mx.data.issueman.domain.KpiCategory, java.lang.String)
+	 */
+	@Override
+	public List<KpiIndex> getKpiIndexes(KpiCategory category, String scope) {
+		return getIssuemanSessionFactory()
+				.getCurrentSession()
+				.createQuery("from KpiIndex where scope=:scope and category=:category order by name")
+				.setParameter("scope", scope)
+				.setParameter("category", category).list();
 	}
 
 	/* (non-Javadoc)

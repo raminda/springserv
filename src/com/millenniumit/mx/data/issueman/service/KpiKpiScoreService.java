@@ -2,13 +2,16 @@ package com.millenniumit.mx.data.issueman.service;
 
 import java.util.List;
 
+import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
+import com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease;
+import com.millenniumit.mx.data.issueman.domain.KpiKpiInstance;
 import com.millenniumit.mx.data.issueman.domain.KpiKpiScore;
 
 
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 public interface KpiKpiScoreService {
@@ -19,6 +22,26 @@ public interface KpiKpiScoreService {
 	 * @return
 	 */
 	public KpiKpiScore getKpiKpiScore(Long id);
+	
+	/**
+	 * 
+	 * @param instance
+	 * @param project
+	 * @param release
+	 * @return
+	 */
+	public KpiKpiScore getCurrentKpiScore(KpiKpiInstance instance, 
+			IssuemanProject project, KpiWatchedRelease release);
+	
+	/**
+	 * 
+	 * @param instance
+	 * @param project
+	 * @param release
+	 * @return
+	 */
+	public KpiKpiScore getPreviousKpiScore(KpiKpiInstance instance, 
+			IssuemanProject project, KpiWatchedRelease release);
 	
 	/**
 	 * 
@@ -33,6 +56,24 @@ public interface KpiKpiScoreService {
 	 * @return
 	 */
 	public List<KpiKpiScore> getKpiKpiScores(int start, int limit);
+	
+	/**
+	 * 
+	 * @param instance
+	 * @param project
+	 * @param release
+	 * @param weekLimit
+	 * @return
+	 */
+	public List<KpiKpiScore> getKpiScores(KpiKpiInstance instance, 
+			IssuemanProject project, KpiWatchedRelease release, String asAt, int weekLimit);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<String> getWeeksAvailable(KpiKpiInstance instance,
+			IssuemanProject project, KpiWatchedRelease release, int limit);
 	
 	/**
 	 * 

@@ -6,26 +6,26 @@ package com.millenniumit.mx.data.issueman.service;
 import java.util.List;
 
 import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
-import com.millenniumit.mx.data.issueman.domain.IssuemanRelease;
+import com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease;
 
 /**
  * @author Vimukthi
  *
  */
-public interface IssuemanReleaseService {
+public interface KpiWatchedReleaseService {
 	
 	/**
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public IssuemanRelease getIssuemanRelease(Long id);
+	public KpiWatchedRelease getWatchedRelease(Long id);
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public List<IssuemanRelease> getIssuemanReleases();
+	public List<KpiWatchedRelease> getWatchedReleases();
 	
 	/**
 	 * 
@@ -33,5 +33,5 @@ public interface IssuemanReleaseService {
 	 * @param type
 	 * @return
 	 */
-	public List<IssuemanRelease> getIssuemanReleases(IssuemanProject project, String type);
+	public List<KpiWatchedRelease> getWatchedReleases(IssuemanProject project, String status);
 }

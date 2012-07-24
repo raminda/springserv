@@ -8,7 +8,7 @@ import com.millenniumit.mx.data.issueman.domain.KpiScoringScheme;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 public interface KpiScoringSchemeService {

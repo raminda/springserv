@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.issueman.dao.KpiThresholdDao;
+import com.millenniumit.mx.data.issueman.domain.KpiKpiInstance;
 import com.millenniumit.mx.data.issueman.domain.KpiThreshold;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 @Repository("kpiThresholdDao")
@@ -45,6 +46,16 @@ public class KpiThresholdDaoImpl implements KpiThresholdDao {
 		return (KpiThreshold) getIssuemanSessionFactory().getCurrentSession()
 				.createQuery("from KpiThreshold where id=:param")
 				.setParameter("param", id).uniqueResult();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.dao.KpiThresholdDao#getKpiThreshold(com.millenniumit.mx.data.issueman.domain.KpiKpiInstance)
+	 */
+	@Override
+	public KpiThreshold getKpiThreshold(KpiKpiInstance instance) {
+		return (KpiThreshold) getIssuemanSessionFactory().getCurrentSession()
+				.createQuery("from KpiThreshold where instance=:instance")
+				.setParameter("instance", instance).uniqueResult();
 	}
 
 	/* (non-Javadoc)
@@ -85,7 +96,5 @@ public class KpiThresholdDaoImpl implements KpiThresholdDao {
 	public void delete(KpiThreshold score) {
 		getIssuemanSessionFactory().getCurrentSession().delete(score);
 		getIssuemanSessionFactory().getCurrentSession().flush();
-	}
-
-	
+	}	
 }

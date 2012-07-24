@@ -24,12 +24,15 @@ public class IssuemanRelease extends AuditFields implements Serializable {
 	@Column(name = "native_id")
 	private Long nativeId;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "project_id")
 	private IssuemanProject project;
 	
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "type")
+	private String type;
 	
 	@Column(name = "description")
 	private String description;
@@ -102,6 +105,20 @@ public class IssuemanRelease extends AuditFields implements Serializable {
 	 */
 	public void setProject(IssuemanProject project) {
 		this.project = project;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

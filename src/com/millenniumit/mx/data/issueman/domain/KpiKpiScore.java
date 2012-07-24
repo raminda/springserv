@@ -9,7 +9,7 @@ import org.hibernate.annotations.NotFoundAction;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 @Entity(name = "KpiKpiScore")
@@ -29,9 +29,9 @@ public class KpiKpiScore extends AuditFields2 implements Serializable {
 	private IssuemanProject project;
 	
 	@ManyToOne
-	@JoinColumn(name = "release_id")
+	@JoinColumn(name = "watched_release_id")
 	@NotFound( action = NotFoundAction.IGNORE )
-	private IssuemanRelease release;
+	private KpiWatchedRelease release;
 	
 	@ManyToOne
 	@JoinColumn(name = "kpi_instance_id")
@@ -89,14 +89,14 @@ public class KpiKpiScore extends AuditFields2 implements Serializable {
 	/**
 	 * @return the release
 	 */
-	public IssuemanRelease getRelease() {
+	public KpiWatchedRelease getRelease() {
 		return release;
 	}
 
 	/**
 	 * @param release the release to set
 	 */
-	public void setRelease(IssuemanRelease release) {
+	public void setRelease(KpiWatchedRelease release) {
 		this.release = release;
 	}
 

@@ -16,12 +16,23 @@ import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
  * @author kalpag
  * 
  */
+@SuppressWarnings("unchecked")
 @Repository("issuemanProjectDao")
 public class IssuemanProjectDaoImpl implements IssuemanProjectDao {
 
 	@Autowired
 	@Qualifier("issuemanSessionFactory")
 	private SessionFactory issuemanSessionFactory;
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanProjectDao#getIssuemanProject(java.lang.Long)
+	 */
+	@Override
+	public IssuemanProject getIssuemanProject(Long id) {
+		return (IssuemanProject) getIssuemanSessionFactory().getCurrentSession()
+				.createQuery("from IssuemanProject where id=:param")
+				.setParameter("param", id).uniqueResult();
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -30,10 +41,9 @@ public class IssuemanProjectDaoImpl implements IssuemanProjectDao {
 	 * com.millenniumit.mx.data.issueman.dao.IssuemanProjectDao#getIssuemanProjects
 	 * ()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<IssuemanProject> getIssuemanProjects() {
-		String queryString = "from IssuemanProject";
+		String queryString = "from IssuemanProject order by key";
 		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
 				queryString);
 			return (List<IssuemanProject>)query.list();

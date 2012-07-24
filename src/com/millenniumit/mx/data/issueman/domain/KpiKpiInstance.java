@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 @Entity(name = "KpiKpiInstance")
@@ -27,7 +27,7 @@ public class KpiKpiInstance extends AuditFields2 implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "kpi_definition_id")
-	private KpiKpiDefinition kpiDefinition;
+	private KpiKpiDefinition definition;
 	
 	@Column(name = "weight")
 	private Integer weight;
@@ -64,20 +64,6 @@ public class KpiKpiInstance extends AuditFields2 implements Serializable {
 	}
 
 	/**
-	 * @return the kpiDefinition
-	 */
-	public KpiKpiDefinition getKpiDefinition() {
-		return kpiDefinition;
-	}
-
-	/**
-	 * @param kpiDefinition the kpiDefinition to set
-	 */
-	public void setKpiDefinition(KpiKpiDefinition kpiDefinition) {
-		this.kpiDefinition = kpiDefinition;
-	}
-
-	/**
 	 * @return the weight
 	 */
 	public Integer getWeight() {
@@ -103,5 +89,19 @@ public class KpiKpiInstance extends AuditFields2 implements Serializable {
 	 */
 	public void setGoNoGo(String goNoGo) {
 		this.goNoGo = goNoGo;
+	}
+
+	/**
+	 * @return the definition
+	 */
+	public KpiKpiDefinition getDefinition() {
+		return definition;
+	}
+
+	/**
+	 * @param definition the definition to set
+	 */
+	public void setDefinition(KpiKpiDefinition definition) {
+		this.definition = definition;
 	}
 }

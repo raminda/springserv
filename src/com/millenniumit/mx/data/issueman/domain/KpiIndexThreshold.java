@@ -9,9 +9,9 @@ import javax.persistence.*;
  * @author Vimukthi
  *
  */
-@Entity(name = "KpiThreshold")
-@Table(name = "kpi_thresholds")
-public class KpiThreshold extends AuditFields2 implements Serializable {
+@Entity(name = "KpiIndexThreshold")
+@Table(name = "kpi_index_thresholds")
+public class KpiIndexThreshold extends AuditFields2 implements Serializable {
 
 	/**
 	 * 
@@ -22,8 +22,8 @@ public class KpiThreshold extends AuditFields2 implements Serializable {
     private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "kpi_instance_id")
-	private KpiKpiInstance instance;
+	@JoinColumn(name = "index_id")
+	private KpiIndex index;
 	
 	@Column(name = "green_threshold")
 	private Integer greenThreshold;
@@ -43,20 +43,6 @@ public class KpiThreshold extends AuditFields2 implements Serializable {
 	 */
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the instance
-	 */
-	public KpiKpiInstance getInstance() {
-		return instance;
-	}
-
-	/**
-	 * @param instance the instance to set
-	 */
-	public void setInstance(KpiKpiInstance instance) {
-		this.instance = instance;
 	}
 
 	/**
@@ -85,5 +71,19 @@ public class KpiThreshold extends AuditFields2 implements Serializable {
 	 */
 	public void setAmberThreshold(Integer amberThreshold) {
 		this.amberThreshold = amberThreshold;
+	}
+
+	/**
+	 * @return the index
+	 */
+	public KpiIndex getIndex() {
+		return index;
+	}
+
+	/**
+	 * @param index the index to set
+	 */
+	public void setIndex(KpiIndex index) {
+		this.index = index;
 	}
 }

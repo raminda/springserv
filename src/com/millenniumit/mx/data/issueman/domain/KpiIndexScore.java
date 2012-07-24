@@ -9,7 +9,7 @@ import org.hibernate.annotations.NotFoundAction;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 @Entity(name = "KpiIndexScore")
@@ -33,9 +33,9 @@ public class KpiIndexScore extends AuditFields2 implements Serializable {
 	private IssuemanProject project;
 	
 	@ManyToOne
-	@JoinColumn(name = "release_id")
+	@JoinColumn(name = "watched_release_id")
 	@NotFound( action = NotFoundAction.IGNORE )
-	private IssuemanRelease release;
+	private KpiWatchedRelease release;
 	
 	@ManyToOne
 	@JoinColumn(name = "index_id")
@@ -46,6 +46,12 @@ public class KpiIndexScore extends AuditFields2 implements Serializable {
 	
 	@Column(name = "as_at")
 	private String asAt;
+	
+	@Column(name = "sum_score")
+	private Double sumScore;
+	
+	@Column(name = "sum_weight")
+	private int sumWeight;
 	
 	@Column(name = "score")
 	private Double score;
@@ -95,14 +101,14 @@ public class KpiIndexScore extends AuditFields2 implements Serializable {
 	/**
 	 * @return the release
 	 */
-	public IssuemanRelease getRelease() {
+	public KpiWatchedRelease getRelease() {
 		return release;
 	}
 
 	/**
 	 * @param release the release to set
 	 */
-	public void setRelease(IssuemanRelease release) {
+	public void setRelease(KpiWatchedRelease release) {
 		this.release = release;
 	}
 
@@ -160,5 +166,33 @@ public class KpiIndexScore extends AuditFields2 implements Serializable {
 	 */
 	public void setScore(Double score) {
 		this.score = score;
+	}
+
+	/**
+	 * @return the sumScore
+	 */
+	public Double getSumScore() {
+		return sumScore;
+	}
+
+	/**
+	 * @param sumScore the sumScore to set
+	 */
+	public void setSumScore(Double sumScore) {
+		this.sumScore = sumScore;
+	}
+
+	/**
+	 * @return the sumWeight
+	 */
+	public int getSumWeight() {
+		return sumWeight;
+	}
+
+	/**
+	 * @param sumWeight the sumWeight to set
+	 */
+	public void setSumWeight(int sumWeight) {
+		this.sumWeight = sumWeight;
 	}	
 }

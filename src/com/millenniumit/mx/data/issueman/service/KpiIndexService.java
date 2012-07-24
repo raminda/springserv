@@ -2,6 +2,7 @@ package com.millenniumit.mx.data.issueman.service;
 
 import java.util.List;
 
+import com.millenniumit.mx.data.issueman.domain.KpiCategory;
 import com.millenniumit.mx.data.issueman.domain.KpiIndex;
 
 
@@ -32,6 +33,12 @@ public interface KpiIndexService {
 	 * @return
 	 */
 	public List<KpiIndex> getKpiIndexes();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<KpiIndex> getKpiIndexes(KpiCategory category, String scope);
 	
 	/**
 	 * 

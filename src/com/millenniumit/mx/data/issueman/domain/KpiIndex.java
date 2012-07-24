@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 @Entity(name = "KpiIndex")
@@ -30,6 +30,9 @@ public class KpiIndex extends AuditFields2 implements Serializable {
 	
 	@Column(name = "acronym")
 	private String acronym;
+	
+	@Column(name = "scope")
+	private String scope;
 
 	/**
 	 * @return the id
@@ -85,5 +88,19 @@ public class KpiIndex extends AuditFields2 implements Serializable {
 	 */
 	public void setAcronym(String acronym) {
 		this.acronym = acronym;
+	}
+
+	/**
+	 * @return the scope
+	 */
+	public String getScope() {
+		return scope;
+	}
+
+	/**
+	 * @param scope the scope to set
+	 */
+	public void setScope(String scope) {
+		this.scope = scope;
 	}
 }

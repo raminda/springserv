@@ -19,10 +19,21 @@ import com.millenniumit.mx.data.issueman.service.IssuemanProjectService;
 @Service("issuemanProjectService")
 public class IssuemanProjectServiceImpl implements IssuemanProjectService {
 
-	
+	/**
+	 * 
+	 */	
 	@Autowired
 	@Qualifier("issuemanProjectDao")
 	private IssuemanProjectDao issuemanProjectDao;
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanProjectService#getIssuemanProject(java.lang.Long)
+	 */
+	@Override
+	@Transactional
+	public IssuemanProject getIssuemanProject(Long id) {
+		return issuemanProjectDao.getIssuemanProject(id);
+	}
 	
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.issueman.service.IssuemanProjectService#getIssuemanProjects()

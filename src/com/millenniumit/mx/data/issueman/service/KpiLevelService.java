@@ -6,7 +6,7 @@ import com.millenniumit.mx.data.issueman.domain.KpiLevel;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 public interface KpiLevelService {

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.millenniumit.mx.data.issueman.dao.KpiKpiInstanceDao;
+import com.millenniumit.mx.data.issueman.domain.KpiIndex;
 import com.millenniumit.mx.data.issueman.domain.KpiKpiInstance;
+import com.millenniumit.mx.data.issueman.domain.KpiLevel;
 import com.millenniumit.mx.data.issueman.service.KpiKpiInstanceService;
 
 /**
@@ -62,6 +64,16 @@ public class KpiKpiInstanceServiceImpl implements KpiKpiInstanceService {
 	@Transactional
 	public List<KpiKpiInstance> getKpiKpiInstances(int start, int limit) {
 		return getKpiKpiInstanceDao().getAll(start, limit);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.service.KpiKpiInstanceService#getKpiKpiInstances(com.millenniumit.mx.data.issueman.domain.KpiIndex, com.millenniumit.mx.data.issueman.domain.KpiLevel)
+	 */
+	@Override
+	@Transactional
+	public List<KpiKpiInstance> getKpiKpiInstances(KpiIndex index,
+			KpiLevel level) {
+		return getKpiKpiInstanceDao().getKpiKpiInstances(index, level);
 	}
 
 	/* (non-Javadoc)

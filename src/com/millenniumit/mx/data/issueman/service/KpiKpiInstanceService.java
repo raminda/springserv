@@ -2,12 +2,14 @@ package com.millenniumit.mx.data.issueman.service;
 
 import java.util.List;
 
+import com.millenniumit.mx.data.issueman.domain.KpiIndex;
 import com.millenniumit.mx.data.issueman.domain.KpiKpiInstance;
+import com.millenniumit.mx.data.issueman.domain.KpiLevel;
 
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 public interface KpiKpiInstanceService {
@@ -24,6 +26,12 @@ public interface KpiKpiInstanceService {
 	 * @return
 	 */
 	public List<KpiKpiInstance> getKpiKpiInstances();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<KpiKpiInstance> getKpiKpiInstances(KpiIndex index, KpiLevel level);
 	
 	/**
 	 * 

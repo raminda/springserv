@@ -30,15 +30,23 @@ import org.springframework.util.StopWatch;
 
 
 
+import com.millenniumit.mx.data.issueman.domain.IssuemanProject;
+import com.millenniumit.mx.data.issueman.domain.IssuemanRelease;
 import com.millenniumit.mx.data.issueman.domain.KpiKpiDefinition;
+import com.millenniumit.mx.data.issueman.domain.KpiKpiInstance;
+import com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease;
+import com.millenniumit.mx.data.issueman.service.IssuemanProjectService;
+import com.millenniumit.mx.data.issueman.service.IssuemanReleaseService;
 import com.millenniumit.mx.data.issueman.service.KpiCategoryService;
 import com.millenniumit.mx.data.issueman.service.KpiIndexScoreService;
 import com.millenniumit.mx.data.issueman.service.KpiIndexService;
 import com.millenniumit.mx.data.issueman.service.KpiKpiDefinitionService;
 import com.millenniumit.mx.data.issueman.service.KpiKpiInstanceService;
 import com.millenniumit.mx.data.issueman.service.KpiKpiScoreService;
+import com.millenniumit.mx.data.issueman.service.KpiLevelService;
 import com.millenniumit.mx.data.issueman.service.KpiScoringSchemeService;
 import com.millenniumit.mx.data.issueman.service.KpiThresholdService;
+import com.millenniumit.mx.data.issueman.service.KpiWatchedReleaseService;
 import com.millenniumit.mx.data.timesheets.domain.PortalDivision;
 import com.millenniumit.mx.data.timesheets.domain.PortalProject;
 import com.millenniumit.mx.data.timesheets.domain.PortalRole;
@@ -83,7 +91,28 @@ public class Main {
 //	private PortalRoleService roleService;
 	
 	@Autowired
-	private KpiThresholdService iService;
+	private IssuemanProjectService projectService;
+	
+	@Autowired
+	private KpiCategoryService categoryService;
+	
+	@Autowired
+	private KpiIndexService indexService;
+	
+	@Autowired
+	private KpiKpiInstanceService instanceService;
+	
+	@Autowired
+	private KpiLevelService levelService;
+	
+	@Autowired
+	private KpiIndexScoreService indexScoreService;
+	
+	@Autowired
+	private KpiKpiScoreService kpiScoreService;
+	
+	@Autowired
+	private KpiWatchedReleaseService releaseService;
 	
 //	@Autowired
 //	@Qualifier(value="timeSheetsWorkService")
@@ -117,7 +146,11 @@ public class Main {
 		// comment this when testing
 		contextLoader.load(main, "applicationContext.xml");
 		
-		System.out.println(main.iService.getKpiThresholds().get(0).getGreenThreshold());
+		IssuemanProject p = main.projectService.getIssuemanProject(11L);
+		KpiWatchedRelease r = main.releaseService.getWatchedRelease(2L);
+		KpiKpiInstance i = main.instanceService.getKpiKpiInstance(12L);
+		
+		System.out.println(main.releaseService.getWatchedReleases(p, null));
 		
 	}
 

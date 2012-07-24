@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 /**
  * 
- * @author Kalpag
+ * @author Vimukthi
  *
  */
 @Entity(name = "KpiCategory")

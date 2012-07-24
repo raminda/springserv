@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.millenniumit.mx.data.issueman.dao.KpiThresholdDao;
+import com.millenniumit.mx.data.issueman.domain.KpiKpiInstance;
 import com.millenniumit.mx.data.issueman.domain.KpiThreshold;
 import com.millenniumit.mx.data.issueman.service.KpiThresholdService;
 
@@ -45,6 +46,15 @@ public class KpiThresholdServiceImpl implements KpiThresholdService {
 	public KpiThreshold getKpiThreshold(Long id) {
 		return getKpiThresholdDao().get(id);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.service.KpiThresholdService#getKpiThreshold(com.millenniumit.mx.data.issueman.domain.KpiKpiInstance)
+	 */
+	@Override
+	@Transactional
+	public KpiThreshold getKpiThreshold(KpiKpiInstance instance) {
+		return getKpiThresholdDao().getKpiThreshold(instance);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.issueman.service.KpiThresholdService#getKpiThresholds()
@@ -80,6 +90,5 @@ public class KpiThresholdServiceImpl implements KpiThresholdService {
 	@Transactional
 	public void deleteKpiThreshold(KpiThreshold threshold) {
 		getKpiThresholdDao().delete(threshold);
-	}
-	
+	}	
 }
