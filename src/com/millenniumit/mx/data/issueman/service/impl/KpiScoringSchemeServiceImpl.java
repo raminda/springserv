@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.millenniumit.mx.data.issueman.dao.KpiScoringSchemeDao;
+import com.millenniumit.mx.data.issueman.domain.KpiKpiInstance;
 import com.millenniumit.mx.data.issueman.domain.KpiScoringScheme;
 import com.millenniumit.mx.data.issueman.service.KpiScoringSchemeService;
 
@@ -80,5 +81,21 @@ public class KpiScoringSchemeServiceImpl implements KpiScoringSchemeService {
 	@Transactional
 	public void deleteKpiScoringScheme(KpiScoringScheme scoringScheme) {
 		getKpiScoringSchemeDao().delete(scoringScheme);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.service.KpiScoringSchemeService#getScoringScheme(com.millenniumit.mx.data.issueman.domain.KpiKpiInstance)
+	 */
+	@Transactional
+	public KpiScoringScheme getScoringScheme(long instanceId) {
+		 return	getKpiScoringSchemeDao().getScoringScheme(instanceId);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.service.KpiScoringSchemeService#getScoringScheme(com.millenniumit.mx.data.issueman.domain.KpiKpiInstance)
+	 */
+	@Transactional
+	public KpiScoringScheme getScoringScheme(KpiKpiInstance kpiInstance) {
+		return getKpiScoringSchemeDao().getScoringScheme(kpiInstance);
 	}
 }

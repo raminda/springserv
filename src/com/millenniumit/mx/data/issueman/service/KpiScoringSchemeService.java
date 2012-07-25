@@ -2,17 +2,26 @@ package com.millenniumit.mx.data.issueman.service;
 
 import java.util.List;
 
+import com.millenniumit.mx.data.issueman.domain.KpiKpiInstance;
 import com.millenniumit.mx.data.issueman.domain.KpiScoringScheme;
 
 
 
 /**
  * 
- * @author Vimukthi
+ * @author Kalpag
  *
  */
 public interface KpiScoringSchemeService {
 
+	
+	/**
+	 * 
+	 * @param kpiInstance
+	 * @return
+	 */
+	public KpiScoringScheme getScoringScheme(long instanceId);
+	
 	/**
 	 * 
 	 * @param id
@@ -46,5 +55,12 @@ public interface KpiScoringSchemeService {
 	 * @param scoringScheme
 	 */
 	public void deleteKpiScoringScheme(KpiScoringScheme scoringScheme);
+	
+	/**
+	 * 
+	 * @param kpiInstance
+	 * @return
+	 */
+	public KpiScoringScheme getScoringScheme(KpiKpiInstance kpiInstance);
 	
 }

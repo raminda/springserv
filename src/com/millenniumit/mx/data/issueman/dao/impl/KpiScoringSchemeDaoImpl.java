@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.issueman.dao.KpiScoringSchemeDao;
+import com.millenniumit.mx.data.issueman.domain.KpiKpiInstance;
 import com.millenniumit.mx.data.issueman.domain.KpiScoringScheme;
 
 /**
  * 
- * @author Vimukthi
+ * @author Kalpag
  *
  */
 @Repository("kpiScoringSchemeDao")
@@ -41,12 +42,29 @@ public class KpiScoringSchemeDaoImpl implements KpiScoringSchemeDao {
 	 * @see com.millenniumit.mx.data.issueman.dao.Dao#get(java.lang.Long)
 	 */
 	@Override
-	public KpiScoringScheme get(Long id) {
+	public KpiScoringScheme getKpiScoringScheme(Long id) {
 		return (KpiScoringScheme) getIssuemanSessionFactory().getCurrentSession()
 		.createQuery("from KpiScoringScheme where id=:param")
 		.setParameter("param", id).uniqueResult();
 	}
 
+	@Override
+	public KpiScoringScheme getScoringScheme(long instanceId) {
+		
+		return (KpiScoringScheme) getIssuemanSessionFactory().getCurrentSession()
+				.createQuery("from KpiScoringScheme where instance.id=:param")
+				.setParameter("param", instanceId).uniqueResult();
+	}
+	
+	@Override
+	public KpiScoringScheme getScoringScheme(KpiKpiInstance kpiInstance) {
+		
+		return (KpiScoringScheme) getIssuemanSessionFactory().getCurrentSession()
+				.createQuery("from KpiScoringScheme where instance=:param")
+				.setParameter("param", kpiInstance).uniqueResult();
+	}
+	
+	
 	/* (non-Javadoc)
 	 * @see com.millenniumit.mx.data.issueman.dao.Dao#getAll()
 	 */
@@ -87,5 +105,13 @@ public class KpiScoringSchemeDaoImpl implements KpiScoringSchemeDao {
 		getIssuemanSessionFactory().getCurrentSession().flush();
 	}
 
-	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.dao.Dao#get(java.lang.Long)
+	 */
+	@Override
+	public KpiScoringScheme get(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

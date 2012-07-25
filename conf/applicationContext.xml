@@ -29,36 +29,37 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 <!-- 		<property name="password" value="kalpa" /> -->
 <!-- 	</bean> -->
 
-	<bean id="issueman_abacusdb" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1/issueman_test?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
-	</bean>
+<!-- 	<bean id="issueman_abacusdb" class="org.apache.commons.dbcp.BasicDataSource" -->
+<!-- 		destroy-method="close"> -->
+<!-- 		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+<!-- 		<property name="url" value="jdbc:mysql://172.25.40.135/issueman_abacus?zeroDateTimeBehavior=convertToNull" /> -->
+<!-- 		<property name="username" value="root" /> -->
+<!-- 		<property name="password" value="kalpa" /> -->
+<!-- 	</bean> -->
 
-	<!-- <bean id="issuemandb_server" class="org.apache.commons.dbcp.BasicDataSource" -->
-	<!-- destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-	<!-- <property name="url" value="jdbc:mysql://172.25.40.135/issueman_abacus" 
-		/> -->
-	<!-- <property name="username" value="portaluser" /> -->
-	<!-- <property name="password" value="p0rt41u53r123" /> -->
-	<!-- </bean> -->
+	<bean id="issuemandb_server" class="org.apache.commons.dbcp.BasicDataSource"
+	destroy-method="close">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	<property name="url" value="jdbc:mysql://172.25.40.135/issueman_abacus?zeroDateTimeBehavior=convertToNull" 
+		/>
+	<property name="username" value="portaluser" />
+	<property name="password" value="p0rt41u53r123" />
+	</bean>
 
 	<bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/portal_test?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="url" value="jdbc:mysql://172.25.40.135/portal_20111209_test?zeroDateTimeBehavior=convertToNull" />
+		<property name="username" value="portaluser" />
+		<property name="password" value="p0rt41u53r123" />
 	</bean>
+	
 	<bean id="timesheetsdb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/timesheets?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="url" value="jdbc:mysql://172.25.40.135/timesheets?zeroDateTimeBehavior=convertToNull" />
+		<property name="username" value="portaluser" />
+		<property name="password" value="p0rt41u53r123" />
 	</bean>
 	<!-- Test databases (Comment out on production) -->
 	<!-- <bean id="jiradb" class="org.apache.commons.dbcp.BasicDataSource" -->
@@ -92,9 +93,9 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	<!-- </bean> -->
 
 	
-	<bean id="timesheetsJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="timesheetsdb" />
-	</bean>	
+<!-- 	<bean id="timesheetsJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> -->
+<!-- 		<property name="dataSource" ref="timesheetsdb" /> -->
+<!-- 	</bean>	 -->
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
@@ -109,7 +110,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
 	<bean id="issuemanSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="issueman_abacusdb" />
+		<property name="dataSource" ref="issuemandb_server" />
 		<property name="packagesToScan">
 			<list>
 				<value>com.millenniumit.mx.data.issueman.domain</value>
@@ -118,14 +119,14 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	</bean>
 	
 	<bean id="timeSheetsSessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="timesheetsdb" />
-		<property name="packagesToScan">
-			<list>
-				<value>com.millenniumit.mx.data.timesheets.domain</value>
-			</list>
-		</property>
-	</bean>
+	class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<property name="dataSource" ref="timesheetsdb" />
+	<property name="packagesToScan">
+		<list>
+			<value>com.millenniumit.mx.data.timesheets.domain</value>
+		</list>
+	</property>
+</bean>
 	
 	<tx:annotation-driven transaction-manager="txManager" />
 	<bean id="txManager"
@@ -147,5 +148,4 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 	
 	<bean id="testClass" class="com.millenniumit.mx.servicelayer.TestClass">
 	</bean>
-
 </beans>

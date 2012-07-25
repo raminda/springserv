@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <project name="build-service" basedir="." default="build-service">
 	<target name="build-service">
 		<mkdir dir="service-classes" />
