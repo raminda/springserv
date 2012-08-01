@@ -3,6 +3,7 @@
  */
 package com.millenniumit.mx.servicelayer;
 
+import java.io.File;
 import java.net.URL;
 import java.sql.Date;
 
@@ -15,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,7 @@ import com.millenniumit.mx.data.timesheets.domain.PortalUser;
 import com.millenniumit.mx.data.timesheets.domain.TimeSheetsWork;
 import com.millenniumit.mx.data.timesheets.service.*;
 import com.millenniumit.mx.data.timesheets.util.TimeSheetsWorkCriteria;
+import com.millenniumit.mx.utils.excelexporter.ExcelExporter;
 import com.millenniumit.spring.consoleutil.ApplicationContextLoader;
 
 /**
@@ -90,29 +93,29 @@ public class Main {
 //	@Autowired
 //	private PortalRoleService roleService;
 	
-	@Autowired
-	private IssuemanProjectService projectService;
-	
-	@Autowired
-	private KpiCategoryService categoryService;
-	
-	@Autowired
-	private KpiIndexService indexService;
-	
-	@Autowired
-	private KpiKpiInstanceService instanceService;
-	
-	@Autowired
-	private KpiLevelService levelService;
-	
-	@Autowired
-	private KpiIndexScoreService indexScoreService;
-	
-	@Autowired
-	private KpiKpiScoreService kpiScoreService;
-	
-	@Autowired
-	private KpiWatchedReleaseService releaseService;
+//	@Autowired
+//	private IssuemanProjectService projectService;
+//	
+//	@Autowired
+//	private KpiCategoryService categoryService;
+//	
+//	@Autowired
+//	private KpiIndexService indexService;
+//	
+//	@Autowired
+//	private KpiKpiInstanceService instanceService;
+//	
+//	@Autowired
+//	private KpiLevelService levelService;
+//	
+//	@Autowired
+//	private KpiIndexScoreService indexScoreService;
+//	
+//	@Autowired
+//	private KpiKpiScoreService kpiScoreService;
+//	
+//	@Autowired
+//	private KpiWatchedReleaseService releaseService;
 	
 //	@Autowired
 //	@Qualifier(value="timeSheetsWorkService")
@@ -146,11 +149,66 @@ public class Main {
 		// comment this when testing
 		contextLoader.load(main, "applicationContext.xml");
 		
-		IssuemanProject p = main.projectService.getIssuemanProject(11L);
-		KpiWatchedRelease r = main.releaseService.getWatchedRelease(2L);
-		KpiKpiInstance i = main.instanceService.getKpiKpiInstance(12L);
 		
-		System.out.println(main.releaseService.getWatchedReleases(p, null));
+		File file = new File("C:\\Users\\kalpag\\Desktop\\exporterTest.xls");
+		file.createNewFile();
+		
+		Map<String, Object> sMap = new HashMap<String, Object>();	
+		Map<String, Object> tMap = new HashMap<String, Object>();	
+		Map<String, Object> uMap = new HashMap<String, Object>();	
+		
+		sMap.put("name","kalpa");
+		sMap.put("age","24");
+		sMap.put("town","panadura");
+		
+		tMap.put("name","vihangi");
+		tMap.put("age","23");
+		tMap.put("town","wadduwa");
+		
+		uMap.put("name","prarthana");
+		uMap.put("age","15");
+		uMap.put("town","borella");
+		
+	
+		List<Map<String, Object>> valuesList = new ArrayList<Map<String,Object>>();
+		valuesList.add(sMap);
+		valuesList.add(tMap);
+		valuesList.add(uMap);
+		
+		
+		
+		Map<String, Object> sMap1 = new HashMap<String, Object>();	
+		Map<String, Object> tMap1 = new HashMap<String, Object>();	
+		Map<String, Object> uMap1 = new HashMap<String, Object>();	
+		
+		sMap1.put("name","sunera");
+		sMap1.put("age","25");
+		sMap1.put("town","kalutara");
+		
+		tMap1.put("name","dilan");
+		tMap1.put("age","25");
+		tMap1.put("town","wadiyamankada");
+		
+		uMap1.put("name","ruwanthi");
+		uMap1.put("age","26");
+		uMap1.put("town","hospital");
+		
+		
+		
+		List<Map<String, Object>> valuesList2 = new ArrayList<Map<String,Object>>();
+		valuesList2.add(sMap1);
+		valuesList2.add(tMap1);
+		valuesList2.add(uMap1);
+		
+		ExcelExporter ex = new ExcelExporter(file);
+		ex.createExcelSheet("firstSheet", 0, valuesList);
+		ex.createExcelSheet("secondsheet", 1, valuesList2);
+		ex.export();
+//		IssuemanProject p = main.projectService.getIssuemanProject(11L);
+//		KpiWatchedRelease r = main.releaseService.getWatchedRelease(2L);
+//		KpiKpiInstance i = main.instanceService.getKpiKpiInstance(12L);
+//		
+//		System.out.println(main.releaseService.getWatchedReleases(p, null));
 		
 	}
 

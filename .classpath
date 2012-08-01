@@ -78,5 +78,7 @@
 	<classpathentry kind="lib" path="lib/log4j.jar"/>
 	<classpathentry kind="lib" path="lib/gson-1.7.1.jar"/>
 	<classpathentry kind="lib" path="lib/mx-service.jar"/>
+	<classpathentry kind="lib" path="D:/Mx/libraries/java/jexcelapi_2_6_12/jexcelapi/jxl.jar"/>
+	<classpathentry kind="lib" path="D:/Mx/libraries/java/commons-lang3-3.1-bin/commons-lang3-3.1/commons-lang3-3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
