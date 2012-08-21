@@ -41,6 +41,7 @@ public class ExcelExporter {
 	 * @throws Exception
 	 */
 	public ExcelExporter(OutputStream outputStream) throws Exception {
+		
 		if (this.workbook != null) {
 			throw new Exception("Workbook already created using filestream");
 		}
@@ -53,7 +54,7 @@ public class ExcelExporter {
 	 * @throws WriteException
 	 * @throws IOException
 	 */
-	public void export() throws WriteException, IOException {
+	public void export() throws Exception {
 
 		workbook.write();
 		workbook.close();
@@ -113,7 +114,6 @@ public class ExcelExporter {
 		}
 
 		int rowCount = 1;
-
 		for (Map<String, Object> map : valuesList) {
 
 			for (int i = 0; i < colNames.length; i++) {

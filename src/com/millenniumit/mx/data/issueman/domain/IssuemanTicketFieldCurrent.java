@@ -7,9 +7,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Where;
 
 /**

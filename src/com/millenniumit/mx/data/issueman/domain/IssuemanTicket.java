@@ -9,11 +9,7 @@ import java.util.*;
 
 import javax.persistence.*;
 
-import org.apache.commons.collections.functors.FalsePredicate;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Immutable;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+
 import org.hibernate.annotations.Where;
 
 /**
