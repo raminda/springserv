@@ -48,6 +48,9 @@ public class KpiKpiScore extends AuditFields2 implements Serializable {
 	@Column(name = "value")
 	private Double value;
 	
+	@Column(name = "avg_value")
+	private Double avgValue;
+	
 	@Column(name = "raw_percentage")
 	private Double rawPercentage;
 	
@@ -212,5 +215,19 @@ public class KpiKpiScore extends AuditFields2 implements Serializable {
 	 */
 	public void setWeightedScore(Double weightedScore) {
 		this.weightedScore = weightedScore;
+	}
+
+	/**
+	 * @return the avgValue
+	 */
+	public Double getAvgValue() {
+		return avgValue;
+	}
+
+	/**
+	 * @param avgValue the avgValue to set
+	 */
+	public void setAvgValue(Double avgValue) {
+		this.avgValue = avgValue;
 	}	
 }

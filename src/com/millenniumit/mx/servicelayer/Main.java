@@ -9,6 +9,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.*;
+
+import com.google.gson.Gson;
+import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
+import com.millenniumit.mx.data.kpi.service.IssuemanProjectService;
 import com.millenniumit.spring.consoleutil.ApplicationContextLoader;
 
 /**
@@ -85,6 +89,9 @@ public class Main {
 
 	@Autowired
 	TestClass tc;
+	
+	@Autowired
+	IssuemanProjectService ks;
 
 	/**
 	 * @param args
@@ -99,6 +106,10 @@ public class Main {
 		
 		// Initialize the Spring application main
 		Main main = new Main();
+		
+		//System.out.println(new Gson().toJson(main.ks.getIssuemanProjects()));
+		
+		
 		// comment this when testing
 		contextLoader.load(main, "applicationContext.xml");
 		main.tc.TestKpis();

@@ -143,11 +143,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 		<property name="packagesToScan">
 			<list>
 				<value>com.millenniumit.mx.data.kpi.domain</value>
-				<value>com.millenniumit.mx.data.issueman.domain </value>
-				<value>com.millenniumit.mx.data.issueman.dao.impl</value>
-				<value>com.millenniumit.mx.data.issueman.dao</value>
-				<value>com.millenniumit.mx.data.issueman.service.impl</value>
-				<value>com.millenniumit.mx.data.issueman.service.impl</value>
 			</list>
 		</property>
 	</bean>
