@@ -5,7 +5,7 @@ package com.millenniumit.mx.data.kpi.service;
 
 import java.util.List;
 
-import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
+import com.millenniumit.mx.data.kpi.domain.KpiProject;
 import com.millenniumit.mx.data.kpi.domain.KpiWatchedRelease;
 
 /**
@@ -33,5 +33,5 @@ public interface KpiWatchedReleaseService {
 	 * @param type
 	 * @return
 	 */
-	public List<KpiWatchedRelease> getWatchedReleases(IssuemanProject project, String status);
+	public List<KpiWatchedRelease> getWatchedReleases(KpiProject project, String status);
 }

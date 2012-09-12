@@ -11,8 +11,8 @@ import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.*;
 
 import com.google.gson.Gson;
-import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
-import com.millenniumit.mx.data.kpi.service.IssuemanProjectService;
+import com.millenniumit.mx.data.kpi.domain.KpiProject;
+import com.millenniumit.mx.data.kpi.service.KpiProjectService;
 import com.millenniumit.spring.consoleutil.ApplicationContextLoader;
 
 /**
@@ -50,7 +50,7 @@ public class Main {
 //	private PortalRoleService roleService;
 	
 //	@Autowired
-//	private IssuemanProjectService projectService;
+//	private KpiProjectService projectService;
 //	
 //	@Autowired
 //	private KpiCategoryService categoryService;
@@ -91,7 +91,7 @@ public class Main {
 	TestClass tc;
 	
 	@Autowired
-	IssuemanProjectService ks;
+	KpiProjectService ks;
 
 	/**
 	 * @param args
@@ -107,7 +107,7 @@ public class Main {
 		// Initialize the Spring application main
 		Main main = new Main();
 		
-		//System.out.println(new Gson().toJson(main.ks.getIssuemanProjects()));
+		//System.out.println(new Gson().toJson(main.ks.getKpiProjects()));
 		
 		
 		// comment this when testing

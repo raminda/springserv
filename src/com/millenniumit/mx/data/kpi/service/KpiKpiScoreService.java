@@ -2,7 +2,7 @@ package com.millenniumit.mx.data.kpi.service;
 
 import java.util.List;
 
-import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
+import com.millenniumit.mx.data.kpi.domain.KpiProject;
 import com.millenniumit.mx.data.kpi.domain.KpiKpiInstance;
 import com.millenniumit.mx.data.kpi.domain.KpiKpiScore;
 import com.millenniumit.mx.data.kpi.domain.KpiWatchedRelease;
@@ -30,7 +30,7 @@ public interface KpiKpiScoreService {
 	 * @return
 	 */
 	public KpiKpiScore getCurrentKpiScore(KpiKpiInstance instance, 
-			IssuemanProject project, KpiWatchedRelease release);
+			KpiProject project, KpiWatchedRelease release);
 	
 	/**
 	 * 
@@ -40,7 +40,7 @@ public interface KpiKpiScoreService {
 	 * @return
 	 */
 	public KpiKpiScore getPreviousKpiScore(KpiKpiInstance instance, 
-			IssuemanProject project, KpiWatchedRelease release);
+			KpiProject project, KpiWatchedRelease release);
 	
 	/**
 	 * 
@@ -65,7 +65,7 @@ public interface KpiKpiScoreService {
 	 * @return
 	 */
 	public List<KpiKpiScore> getKpiScores(KpiKpiInstance instance, 
-			IssuemanProject project, KpiWatchedRelease release, String asAt, int weekLimit);
+			KpiProject project, KpiWatchedRelease release, String asAt, int weekLimit);
 	
 	
 
@@ -75,7 +75,7 @@ public interface KpiKpiScoreService {
 	 * @return
 	 */
 	public List<String> getWeeksAvailable(KpiKpiInstance instance,
-			IssuemanProject project, KpiWatchedRelease release, int limit);
+			KpiProject project, KpiWatchedRelease release, int limit);
 	
 	/**
 	 * 

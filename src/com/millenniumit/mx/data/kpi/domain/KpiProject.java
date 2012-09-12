@@ -9,9 +9,9 @@ import javax.persistence.*;
  * @author Kalpag
  *
  */
-@Entity(name = "IssuemanProject")
+@Entity(name = "KpiProject")
 @Table(name = "projects")
-public class IssuemanProject extends AuditFields implements Serializable {
+public class KpiProject extends AuditFields implements Serializable {
 
 	/**
 	 * 

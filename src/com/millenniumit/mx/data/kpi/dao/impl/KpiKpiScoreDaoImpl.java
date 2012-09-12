@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.kpi.dao.KpiKpiScoreDao;
-import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
+import com.millenniumit.mx.data.kpi.domain.KpiProject;
 import com.millenniumit.mx.data.kpi.domain.KpiWatchedRelease;
 import com.millenniumit.mx.data.kpi.domain.KpiKpiInstance;
 import com.millenniumit.mx.data.kpi.domain.KpiKpiScore;
@@ -62,11 +62,11 @@ public class KpiKpiScoreDaoImpl implements KpiKpiScoreDao {
 	}	
 
 	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.dao.KpiKpiScoreDao#getKpiScore(com.millenniumit.mx.data.issueman.domain.KpiKpiInstance, com.millenniumit.mx.data.issueman.domain.IssuemanProject, com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease, java.lang.String, java.lang.String)
+	 * @see com.millenniumit.mx.data.issueman.dao.KpiKpiScoreDao#getKpiScore(com.millenniumit.mx.data.issueman.domain.KpiKpiInstance, com.millenniumit.mx.data.issueman.domain.KpiProject, com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public KpiKpiScore getKpiScore(KpiKpiInstance instance,
-			IssuemanProject project, KpiWatchedRelease release, String asAt,
+			KpiProject project, KpiWatchedRelease release, String asAt,
 			String week) {
 		if (release == null) {
 			try {
@@ -117,11 +117,11 @@ public class KpiKpiScoreDaoImpl implements KpiKpiScoreDao {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.dao.KpiKpiScoreDao#getKpiScores(com.millenniumit.mx.data.issueman.domain.KpiKpiInstance, com.millenniumit.mx.data.issueman.domain.IssuemanProject, com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease, java.lang.String, java.util.List)
+	 * @see com.millenniumit.mx.data.issueman.dao.KpiKpiScoreDao#getKpiScores(com.millenniumit.mx.data.issueman.domain.KpiKpiInstance, com.millenniumit.mx.data.issueman.domain.KpiProject, com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease, java.lang.String, java.util.List)
 	 */
 	@Override
 	public List<KpiKpiScore> getKpiScores(KpiKpiInstance instance,
-			IssuemanProject project, KpiWatchedRelease release, String asAt,
+			KpiProject project, KpiWatchedRelease release, String asAt,
 			List<String> lastCalculatedWeeks) {
 		if (release == null) {
 			return getIssuemanSessionFactory().getCurrentSession()
@@ -152,7 +152,7 @@ public class KpiKpiScoreDaoImpl implements KpiKpiScoreDao {
 	 */
 	@Override
 	public List<String> getAsAtsSorted(KpiKpiInstance instance,
-			IssuemanProject project, KpiWatchedRelease release, int limit) {
+			KpiProject project, KpiWatchedRelease release, int limit) {
 		if (release == null) {
 			return getIssuemanSessionFactory()
 					.getCurrentSession()
@@ -180,7 +180,7 @@ public class KpiKpiScoreDaoImpl implements KpiKpiScoreDao {
 	 */
 	@Override
 	public List<String> getWeeksSorted(KpiKpiInstance instance,
-			IssuemanProject project, KpiWatchedRelease release, int limit) {
+			KpiProject project, KpiWatchedRelease release, int limit) {
 		if (release == null) {
 			return getIssuemanSessionFactory()
 					.getCurrentSession()

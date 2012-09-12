@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
 import com.millenniumit.mx.data.kpi.service.KpiLevelService;
+import com.millenniumit.mx.data.kpi.service.KpiProjectService;
 import com.millenniumit.mx.data.kpi.service.KpiWatchedReleaseService;
 
 /**
@@ -20,6 +21,9 @@ public class TestClass {
 
 	@Autowired
 	KpiWatchedReleaseService kpiWatchedReleaseService;
+	
+	@Autowired
+	KpiProjectService kpiProjectService;
 
 	public void testHello() {
 		System.out.println("hello    tessssssst");
@@ -30,7 +34,7 @@ public class TestClass {
 		try {
 
 			Gson gs = new Gson();
-			String op = gs.toJson(kpiWatchedReleaseService.getWatchedReleases());
+			String op = gs.toJson(kpiProjectService.getKpiProjects());
 			System.out.println("Output = " + op);
 
 		} catch (Exception ex) {

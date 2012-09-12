@@ -2,15 +2,15 @@ package com.millenniumit.mx.data.kpi.dao;
 
 import java.util.List;
 
-import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
+import com.millenniumit.mx.data.kpi.domain.KpiProject;
 import com.millenniumit.mx.data.kpi.domain.KpiWatchedRelease;
 import com.millenniumit.mx.data.kpi.domain.KpiKpiInstance;
 import com.millenniumit.mx.data.kpi.domain.KpiKpiScore;
 
 /**
  * 
- * @author Vimukthi
- * 
+ * @author kalpag
+ *
  */
 public interface KpiKpiScoreDao extends Dao<KpiKpiScore> {
 
@@ -23,7 +23,7 @@ public interface KpiKpiScoreDao extends Dao<KpiKpiScore> {
 	 * @return
 	 */
 	public List<String> getAsAtsSorted(KpiKpiInstance instance,
-			IssuemanProject project, KpiWatchedRelease release, int limit);
+			KpiProject project, KpiWatchedRelease release, int limit);
 
 	/**
 	 * 
@@ -34,7 +34,7 @@ public interface KpiKpiScoreDao extends Dao<KpiKpiScore> {
 	 * @return
 	 */
 	public List<String> getWeeksSorted(KpiKpiInstance instance,
-			IssuemanProject project, KpiWatchedRelease release, int limit);
+			KpiProject project, KpiWatchedRelease release, int limit);
 
 	/**
 	 * @param instance
@@ -45,7 +45,7 @@ public interface KpiKpiScoreDao extends Dao<KpiKpiScore> {
 	 * @return
 	 */
 	public KpiKpiScore getKpiScore(KpiKpiInstance instance,
-			IssuemanProject project, KpiWatchedRelease release, String asAt,
+			KpiProject project, KpiWatchedRelease release, String asAt,
 			String week);
 
 	/**
@@ -57,7 +57,7 @@ public interface KpiKpiScoreDao extends Dao<KpiKpiScore> {
 	 * @return
 	 */
 	public List<KpiKpiScore> getKpiScores(KpiKpiInstance instance,
-			IssuemanProject project, KpiWatchedRelease release, String asAt,
+			KpiProject project, KpiWatchedRelease release, String asAt,
 			List<String> lastCalculatedWeeks);
 
 }

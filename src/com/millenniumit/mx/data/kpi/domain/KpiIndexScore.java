@@ -7,7 +7,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
+import com.millenniumit.mx.data.kpi.domain.KpiProject;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class KpiIndexScore extends AuditFields2 implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "project_id")
-	private IssuemanProject project;
+	private KpiProject project;
 	
 	@ManyToOne
 	@JoinColumn(name = "watched_release_id")
@@ -89,14 +89,14 @@ public class KpiIndexScore extends AuditFields2 implements Serializable {
 	/**
 	 * @return the project
 	 */
-	public IssuemanProject getProject() {
+	public KpiProject getProject() {
 		return project;
 	}
 
 	/**
 	 * @param project the project to set
 	 */
-	public void setProject(IssuemanProject project) {
+	public void setProject(KpiProject project) {
 		this.project = project;
 	}
 

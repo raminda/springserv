@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
+import com.millenniumit.mx.data.kpi.domain.KpiProject;
 
 /**
  * 
@@ -25,7 +25,7 @@ public class KpiWatchedRelease extends AuditFields2 implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "project_id")
-	private IssuemanProject project;
+	private KpiProject project;
 	
 	@Column(name = "release_name_prefix")
 	private String prefix;
@@ -50,14 +50,14 @@ public class KpiWatchedRelease extends AuditFields2 implements Serializable {
 	/**
 	 * @return the project
 	 */
-	public IssuemanProject getProject() {
+	public KpiProject getProject() {
 		return project;
 	}
 
 	/**
 	 * @param project the project to set
 	 */
-	public void setProject(IssuemanProject project) {
+	public void setProject(KpiProject project) {
 		this.project = project;
 	}
 

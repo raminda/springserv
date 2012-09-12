@@ -2,7 +2,7 @@ package com.millenniumit.mx.data.kpi.service;
 
 import java.util.List;
 
-import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
+import com.millenniumit.mx.data.kpi.domain.KpiProject;
 import com.millenniumit.mx.data.kpi.domain.KpiIndex;
 import com.millenniumit.mx.data.kpi.domain.KpiIndexScore;
 import com.millenniumit.mx.data.kpi.domain.KpiLevel;
@@ -34,7 +34,7 @@ public interface KpiIndexScoreService {
 	 * @return
 	 */
 	public KpiIndexScore getCurrentKpiIndexScore(KpiIndex index, KpiLevel level, 
-			IssuemanProject project, KpiWatchedRelease release);
+			KpiProject project, KpiWatchedRelease release);
 	
 	/**
 	 * 
@@ -45,7 +45,7 @@ public interface KpiIndexScoreService {
 	 * @return
 	 */
 	public KpiIndexScore getPreviousKpiIndexScore(KpiIndex index, KpiLevel level, 
-			IssuemanProject project, KpiWatchedRelease release);
+			KpiProject project, KpiWatchedRelease release);
 	
 	/**
 	 * 
@@ -72,7 +72,7 @@ public interface KpiIndexScoreService {
 	 * @return
 	 */
 	public List<KpiIndexScore> getKpiIndexScores(KpiIndex index, KpiLevel level, 
-			IssuemanProject project, KpiWatchedRelease release, String asAt, int weekLimit);
+			KpiProject project, KpiWatchedRelease release, String asAt, int weekLimit);
 	
 	/**
 	 * 

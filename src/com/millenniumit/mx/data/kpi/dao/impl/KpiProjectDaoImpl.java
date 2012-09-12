@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.millenniumit.mx.data.kpi.dao.IssuemanProjectDao;
-import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
+import com.millenniumit.mx.data.kpi.dao.KpiProjectDao;
+import com.millenniumit.mx.data.kpi.domain.KpiProject;
 
 /**
  * 
@@ -18,19 +18,19 @@ import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
  */
 @SuppressWarnings("unchecked")
 @Repository("kpiProjectDao")
-public class IssuemanProjectDaoImpl implements IssuemanProjectDao {
+public class KpiProjectDaoImpl implements KpiProjectDao {
 
 	@Autowired
 	@Qualifier("kpiSessionFactory")
 	private SessionFactory issuemanSessionFactory;
 	
 	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanProjectDao#getIssuemanProject(java.lang.Long)
+	 * @see com.millenniumit.mx.data.issueman.dao.KpiProjectDao#getKpiProject(java.lang.Long)
 	 */
 	@Override
-	public IssuemanProject getIssuemanProject(Long id) {
-		return (IssuemanProject) getIssuemanSessionFactory().getCurrentSession()
-				.createQuery("from IssuemanProject where id=:param")
+	public KpiProject getKpiProject(Long id) {
+		return (KpiProject) getIssuemanSessionFactory().getCurrentSession()
+				.createQuery("from KpiProject where id=:param")
 				.setParameter("param", id).uniqueResult();
 	}
 
@@ -38,15 +38,15 @@ public class IssuemanProjectDaoImpl implements IssuemanProjectDao {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.millenniumit.mx.data.issueman.dao.IssuemanProjectDao#getIssuemanProjects
+	 * com.millenniumit.mx.data.issueman.dao.KpiProjectDao#getKpiProjects
 	 * ()
 	 */
 	@Override
-	public List<IssuemanProject> getIssuemanProjects() {
-		String queryString = "from IssuemanProject order by key";
+	public List<KpiProject> getKpiProjects() {
+		String queryString = "from KpiProject order by key";
 		Query query = issuemanSessionFactory.getCurrentSession().createQuery(
 				queryString);
-			return (List<IssuemanProject>)query.list();
+			return (List<KpiProject>)query.list();
 	}
 
 	/**

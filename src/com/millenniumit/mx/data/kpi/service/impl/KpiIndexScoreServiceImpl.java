@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.millenniumit.mx.data.kpi.dao.KpiIndexScoreDao;
-import com.millenniumit.mx.data.kpi.domain.IssuemanProject;
+import com.millenniumit.mx.data.kpi.domain.KpiProject;
 import com.millenniumit.mx.data.kpi.domain.KpiWatchedRelease;
 import com.millenniumit.mx.data.kpi.domain.KpiIndex;
 import com.millenniumit.mx.data.kpi.domain.KpiIndexScore;
@@ -93,12 +93,12 @@ public class KpiIndexScoreServiceImpl implements KpiIndexScoreService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.KpiIndexScoreService#getCurrentKpiIndexScore(com.millenniumit.mx.data.issueman.domain.KpiIndex, com.millenniumit.mx.data.issueman.domain.KpiLevel, com.millenniumit.mx.data.issueman.domain.IssuemanProject, com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease)
+	 * @see com.millenniumit.mx.data.issueman.service.KpiIndexScoreService#getCurrentKpiIndexScore(com.millenniumit.mx.data.issueman.domain.KpiIndex, com.millenniumit.mx.data.issueman.domain.KpiLevel, com.millenniumit.mx.data.issueman.domain.KpiProject, com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease)
 	 */
 	@Override
 	@Transactional
 	public KpiIndexScore getCurrentKpiIndexScore(KpiIndex index,
-			KpiLevel level, IssuemanProject project, KpiWatchedRelease release) {
+			KpiLevel level, KpiProject project, KpiWatchedRelease release) {
 		String currentWeek = "";
 		String lastCalculatedWeek = "";
 		try {
@@ -115,12 +115,12 @@ public class KpiIndexScoreServiceImpl implements KpiIndexScoreService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.KpiIndexScoreService#getPreviousKpiIndexScore(com.millenniumit.mx.data.issueman.domain.KpiIndex, com.millenniumit.mx.data.issueman.domain.KpiLevel, com.millenniumit.mx.data.issueman.domain.IssuemanProject, com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease)
+	 * @see com.millenniumit.mx.data.issueman.service.KpiIndexScoreService#getPreviousKpiIndexScore(com.millenniumit.mx.data.issueman.domain.KpiIndex, com.millenniumit.mx.data.issueman.domain.KpiLevel, com.millenniumit.mx.data.issueman.domain.KpiProject, com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease)
 	 */
 	@Override
 	@Transactional
 	public KpiIndexScore getPreviousKpiIndexScore(KpiIndex index, 
-			KpiLevel level, IssuemanProject project, KpiWatchedRelease release) {
+			KpiLevel level, KpiProject project, KpiWatchedRelease release) {
 		String currentWeek = "";
 		String weekBeforeLastCalculatedWeek = "";
 		try {
@@ -137,12 +137,12 @@ public class KpiIndexScoreServiceImpl implements KpiIndexScoreService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.issueman.service.KpiIndexScoreService#getKpiIndexScores(com.millenniumit.mx.data.issueman.domain.KpiIndex, com.millenniumit.mx.data.issueman.domain.KpiLevel, com.millenniumit.mx.data.issueman.domain.IssuemanProject, com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease, java.lang.String, int)
+	 * @see com.millenniumit.mx.data.issueman.service.KpiIndexScoreService#getKpiIndexScores(com.millenniumit.mx.data.issueman.domain.KpiIndex, com.millenniumit.mx.data.issueman.domain.KpiLevel, com.millenniumit.mx.data.issueman.domain.KpiProject, com.millenniumit.mx.data.issueman.domain.KpiWatchedRelease, java.lang.String, int)
 	 */
 	@Override
 	@Transactional
 	public List<KpiIndexScore> getKpiIndexScores(KpiIndex index,
-			KpiLevel level, IssuemanProject project, KpiWatchedRelease release,
+			KpiLevel level, KpiProject project, KpiWatchedRelease release,
 			String asAt, int weekLimit) {
 		List<String> lastCalculatedWeeks = getKpiIndexScoreDao().getWeeksSorted(index, level, 
 				project, release, weekLimit);
