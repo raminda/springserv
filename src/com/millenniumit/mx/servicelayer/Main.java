@@ -3,15 +3,17 @@
  */
 package com.millenniumit.mx.servicelayer;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.gson.Gson;
-import com.millenniumit.mx.data.kpi.domain.KpiProject;
 import com.millenniumit.mx.data.kpi.service.KpiProjectService;
 import com.millenniumit.spring.consoleutil.ApplicationContextLoader;
 
@@ -112,7 +114,15 @@ public class Main {
 		
 		// comment this when testing
 		contextLoader.load(main, "applicationContext.xml");
+		
+		String myString = "Kalpa Gamage is my name";
+		StringSelection stringSelection = new StringSelection (myString);
+		Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
+		clpbrd.setContents (stringSelection, null);
+	
 		main.tc.TestKpis();
+
+	
 	}
 
 	/**
