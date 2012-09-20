@@ -31,10 +31,10 @@ public class MetricServiceImpl implements MetricService {
 
 	@Transactional
 	@Override
-	public String getTickets(long as_at, long week, long projectId, long roleCategoryId,
-			String tableName, String columnName, String weekOperator) {
-		return getMetricDao().getTickets(as_at, week, projectId, roleCategoryId, tableName,
-				columnName, weekOperator);
+	public String getSourceTickets(long as_at, long week, long projectId, long watchedReleaseId,
+			long roleCategoryId, String tableName, String columnName, String weekOperator) {
+		return getMetricDao().getSourceTickets(as_at, week, projectId, watchedReleaseId,
+				roleCategoryId, tableName, columnName, weekOperator);
 	}
 
 	/**

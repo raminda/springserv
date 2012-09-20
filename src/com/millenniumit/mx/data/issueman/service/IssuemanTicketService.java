@@ -249,4 +249,12 @@ public interface IssuemanTicketService {
 	public List<IssuemanTicket> getTotalTicketsPerTbdir(long projectId, long type, long subType,
 			Date from, Date to,String tbdir);
 
+	/**
+	 * 
+	 * @param tickets
+	 * @return
+	 */
+	public String getNativeTickets(String tickets);
+	
+	
 }

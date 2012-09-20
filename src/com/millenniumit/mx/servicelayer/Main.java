@@ -3,9 +3,6 @@
  */
 package com.millenniumit.mx.servicelayer;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
@@ -115,12 +112,9 @@ public class Main {
 		// comment this when testing
 		contextLoader.load(main, "applicationContext.xml");
 		
-		String myString = "Kalpa Gamage is my name";
-		StringSelection stringSelection = new StringSelection (myString);
-		Clipboard clpbrd = Toolkit.getDefaultToolkit ().getSystemClipboard ();
-		clpbrd.setContents (stringSelection, null);
+		
 	
-		main.tc.TestKpis();
+		main.tc.TestMetrics();
 
 	
 	}

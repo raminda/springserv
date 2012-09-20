@@ -1,20 +1,16 @@
 package com.millenniumit.mx.data.issueman.dao.impl;
 
 import java.util.Date;
-
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao;
-
 import com.millenniumit.mx.data.issueman.domain.IssuemanTicket;
-
 import com.millenniumit.mx.data.issueman.domain.IssuemanUserProjectRole;
 
 /**
@@ -96,8 +92,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		String queryString = "select distinct ticket from IssuemanTicket ticket"
 				+ " join ticket.currentType as currentType with currentType.fieldType = 'type'"
 				+ " join ticket.tbdir as tbdir with tbdir.fieldType = 'release'"
-				+ " where ticket.project.id = :projectId "
-				+ " and tbdir.release.name = :tbdir"
+				+ " where ticket.project.id = :projectId " + " and tbdir.release.name = :tbdir"
 				+ " and currentType.ticketType.id = :subType "
 				+ " and ticket.reportedDate < :to and ticket.reportedDate > :from ";
 
@@ -118,4 +113,26 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		issuemanSessionFactory.getCurrentSession().update(object);
 
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getNativeTickets
+	 * (java.lang.String)
+	 */
+	@Override
+	public String getNativeTickets(String tickets) {
+
+		String queryString = "select native_id from tickets where id in(" + tickets + ")";
+		Query query = issuemanSessionFactory.getCurrentSession().createSQLQuery(queryString);
+		// query.setParameter("tickets", tickets);
+		@SuppressWarnings("unchecked")
+		List<Integer> list = query.list();
+
+		String natives = org.springframework.util.StringUtils
+				.collectionToCommaDelimitedString(list);
+		return natives;
+	}
+
 }

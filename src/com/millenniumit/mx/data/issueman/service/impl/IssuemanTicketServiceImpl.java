@@ -736,4 +736,16 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 		return issuemanTicketDao.getTotalTicketsPerTbdir(projectId, type, subType, from, to, tbdir);
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getNativeTickets(java.lang.String)
+	 * returns comma delimited string of native tickets for a given comma delimited tickets string
+	 */
+	@Transactional
+	@Override
+	public String getNativeTickets(String tickets) {
+		// TODO Auto-generated method stub
+		return issuemanTicketDao.getNativeTickets(tickets);
+	}
+
 }

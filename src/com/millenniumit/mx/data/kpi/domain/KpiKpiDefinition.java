@@ -45,6 +45,10 @@ public class KpiKpiDefinition extends AuditFields2 implements Serializable {
 	
 	@Column(name = "source_column")
 	private String sourceColumn;
+	
+	@Column(name = "source_tickets_column")
+	private String sourceTicketsColumn;
+	
 
 	/**
 	 * @return the id
@@ -170,5 +174,19 @@ public class KpiKpiDefinition extends AuditFields2 implements Serializable {
 	 */
 	public void setSourceColumn(String sourceColumn) {
 		this.sourceColumn = sourceColumn;
+	}
+
+	/**
+	 * @return the sourceTicketsColumn
+	 */
+	public String getSourceTicketsColumn() {
+		return sourceTicketsColumn;
+	}
+
+	/**
+	 * @param sourceTicketsColumn the sourceTicketsColumn to set
+	 */
+	public void setSourceTicketsColumn(String sourceTicketsColumn) {
+		this.sourceTicketsColumn = sourceTicketsColumn;
 	}	
 }

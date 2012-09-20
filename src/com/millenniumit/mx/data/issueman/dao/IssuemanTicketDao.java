@@ -24,4 +24,7 @@ public interface IssuemanTicketDao {
 
 	public List<IssuemanUserProjectRole> getUserProjectRoles(long projectId) ;
 	public void updateSession(Object object);
+	
+	public String getNativeTickets(String tickets);
+	
 }
