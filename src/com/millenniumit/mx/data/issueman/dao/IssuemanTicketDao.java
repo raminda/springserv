@@ -27,4 +27,6 @@ public interface IssuemanTicketDao {
 	
 	public String getNativeTickets(String tickets);
 	
+	public String getTicketIkeys(String ticketIds);
+	
 }

@@ -256,5 +256,11 @@ public interface IssuemanTicketService {
 	 */
 	public String getNativeTickets(String tickets);
 	
+	/**
+	 * 
+	 * @param ticketIds
+	 * @return
+	 */
+	public String getTicketIkeys(String ticketIds);
 	
 }

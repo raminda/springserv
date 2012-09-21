@@ -3,6 +3,8 @@
  */
 package com.millenniumit.mx.data.kpi.dao.impl;
 
+import java.util.Map;
+
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,50 @@ public class MetricDaoImpl implements MetricDao {
 	 */
 	public void setKpiSessionFactory(SessionFactory kpiSessionFactory) {
 		this.kpiSessionFactory = kpiSessionFactory;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.kpi.dao.MetricDao#getSourceTickets(long, long, long, long, long, java.lang.String[], java.lang.String[], java.lang.String)
+	 */
+	@Override
+	public String getSourceTickets(long as_at, long week, long projectId, long watchedReleaseId,
+			long roleCategoryId, Map<String, String> tablecolumns, String weekOperator) {
+		
+		
+		String ticketString = ""; 
+		
+		for( Map.Entry<String, String> entry :tablecolumns.entrySet()){
+			
+			String table = entry.getKey();
+			String column = entry.getValue();
+			
+			String sql = "select group_concat(" + column + ") " + " from " + table
+					+ " where" +
+					" as_at = :asAt and week " + weekOperator + " :week "
+					+ "and role_category_id = :role " + "and project_id = :project";
+
+			if (watchedReleaseId != 0) {
+				sql += " and watched_release_id = :watchedReleaseId ";
+			}
+
+			Query query = getKpiSessionFactory().getCurrentSession().createSQLQuery(sql);
+
+			query.setParameter("asAt", as_at);
+			query.setParameter("week", week);
+			query.setParameter("role", roleCategoryId);
+			query.setParameter("project", projectId);
+			
+			System.out.println(query.getQueryString());
+
+			if (watchedReleaseId != 0) {
+				query.setParameter("watchedReleaseId", watchedReleaseId);
+			}
+	
+			ticketString += (String)query.uniqueResult();
+			
+			System.out.println("tickets = " + ticketString);
+		}
+		return ticketString;
 	}
 
 }

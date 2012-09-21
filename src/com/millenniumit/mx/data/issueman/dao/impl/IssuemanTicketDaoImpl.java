@@ -135,4 +135,17 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		return natives;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.dao.IssuemanTicketDao#getTicketIkeys(java.lang.String)
+	 */
+	@Override
+	public String getTicketIkeys(String ticketIds) {
+		
+		String queryString = "select group_concat(ikey) from tickets where id in(" + ticketIds + ")";
+		Query query = issuemanSessionFactory.getCurrentSession().createSQLQuery(queryString);
+		
+		return (String)query.uniqueResult();
+		
+	}
+
 }

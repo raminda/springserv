@@ -748,4 +748,13 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 		return issuemanTicketDao.getNativeTickets(tickets);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.millenniumit.mx.data.issueman.service.IssuemanTicketService#getTicketIkeys(java.lang.String)
+	 */
+	@Transactional
+	@Override
+	public String getTicketIkeys(String ticketIds) {
+		return issuemanTicketDao.getTicketIkeys(ticketIds);
+	}
+
 }

@@ -11,33 +11,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 	<context:component-scan base-package="com.millenniumit.mx" />
 
-	<!-- Production databases (Comment out on testing) -->
-	<!-- <bean id="jiradb" class="org.apache.commons.dbcp.BasicDataSource" -->
-	<!-- destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="oracle.jdbc.OracleDriver" /> -->
-	<!-- <property name="url" value="jdbc:oracle:thin:@172.25.31.123:1521/JIRADB" 
-		/> -->
-	<!-- <property name="username" value="vimukthi" /> -->
-	<!-- <property name="password" value="Vimuk7h1" /> -->
-	<!-- </bean> -->
-	<!-- <bean id="issueman_jiradb" class="org.apache.commons.dbcp.BasicDataSource" -->
-	<!-- destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-	<!-- <property name="url" value="jdbc:mysql://127.0.0.1/issueman_jira" /> -->
-	<!-- <property name="username" value="root" /> -->
-	<!-- <property name="password" value="kalpa" /> -->
-	<!-- </bean> -->
-
-	<!-- <bean id="issueman_abacusdb" class="org.apache.commons.dbcp.BasicDataSource" -->
-	<!-- destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-	<!-- <property name="url" value="jdbc:mysql://172.25.40.135/issueman_abacus?zeroDateTimeBehavior=convertToNull" 
-		/> -->
-	<!-- <property name="username" value="root" /> -->
-	<!-- <property name="password" value="kalpa" /> -->
-	<!-- </bean> -->
-
-	<bean id="issuemandb_server" class="org.apache.commons.dbcp.BasicDataSource"
+	<bean id="issuemanabacus" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url"
@@ -45,6 +19,16 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 		<property name="username" value="portaluser" />
 		<property name="password" value="p0rt41u53r123" />
 	</bean>
+	
+	<bean id="issuemanjira" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://172.25.40.135/issueman_jira?zeroDateTimeBehavior=convertToNull" />
+		<property name="username" value="portaluser" />
+		<property name="password" value="p0rt41u53r123" />
+	</bean>
+	
 
 	<bean id="kpidb" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -149,7 +133,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 
 	<bean id="issuemanSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="issuemandb_server" />
+		<property name="dataSource" ref="issuemanabacus" />
 		<property name="packagesToScan">
 			<list>
 				<value>com.millenniumit.mx.data.issueman.domain</value>
