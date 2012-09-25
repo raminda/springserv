@@ -3,6 +3,7 @@
  */
 package com.millenniumit.mx.data.kpi.service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,6 +16,12 @@ public interface MetricService {
 			long roleCategoryId, String tableName, String columnName, String weekOperator);
 	
 	public String getSourceTickets(long as_at, long week, long projectId, long watchedReleaseId,
+			long roleCategoryId, Map<String, String> tablecolumns, String weekOperator);
+	
+	public List<String> getSourceTicketsList(long as_at, long week, long projectId, long watchedReleaseId,
+			long roleCategoryId, String tableName, String columnName, String weekOperator);
+	
+	public List<String> getSourceTicketsList(long as_at, long week, long projectId, long watchedReleaseId,
 			long roleCategoryId, Map<String, String> tablecolumns, String weekOperator);
 	
 

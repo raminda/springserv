@@ -743,7 +743,7 @@ public class IssuemanTicketServiceImpl implements IssuemanTicketService {
 	 */
 	@Transactional
 	@Override
-	public String getNativeTickets(String tickets) {
+	public List<Integer>  getNativeTickets(String tickets) {
 		// TODO Auto-generated method stub
 		return issuemanTicketDao.getNativeTickets(tickets);
 	}

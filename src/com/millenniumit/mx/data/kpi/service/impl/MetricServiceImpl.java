@@ -38,8 +38,12 @@ public class MetricServiceImpl implements MetricService {
 	@Override
 	public String getSourceTickets(long as_at, long week, long projectId, long watchedReleaseId,
 			long roleCategoryId, String tableName, String columnName, String weekOperator) {
-		return getMetricDao().getSourceTickets(as_at, week, projectId, watchedReleaseId,
-				roleCategoryId, tableName, columnName, weekOperator);
+
+		List<String> ids = getMetricDao().getSourceTickets(as_at, week, projectId,
+				watchedReleaseId, roleCategoryId, tableName, columnName, weekOperator);
+
+		String ticketString = StringUtils.collectionToCommaDelimitedString(ids);
+		return ticketString;
 	}
 
 	/**
@@ -69,22 +73,78 @@ public class MetricServiceImpl implements MetricService {
 	@Override
 	public String getSourceTickets(long as_at, long week, long projectId, long watchedReleaseId,
 			long roleCategoryId, Map<String, String> tablecolumns, String weekOperator) {
-		
-		
-		String ids =  metricDao.getSourceTickets(as_at, week, projectId, watchedReleaseId, roleCategoryId,
-				 tablecolumns, weekOperator);
-		
-		List<String> tickets = new ArrayList<String>();
-		String[] idarr = ids.split(",");
-		
-		for (String t : idarr) {
+
+		List<String> ids = metricDao.getSourceTickets(as_at, week, projectId, watchedReleaseId,
+				roleCategoryId, tablecolumns, weekOperator);
+
+		if (ids == null) {
+			return "";
+		}
+
+		String ticketString = StringUtils.collectionToCommaDelimitedString(ids);
+		return ticketString;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.kpi.service.MetricService#getSourceTicketsList
+	 * (long, long, long, long, long, java.lang.String, java.lang.String,
+	 * java.lang.String)
+	 */
+	@Transactional
+	@Override
+	public List<String> getSourceTicketsList(long as_at, long week, long projectId,
+			long watchedReleaseId, long roleCategoryId, String tableName, String columnName,
+			String weekOperator) {
+
+		List<String> ticketsStrings = getMetricDao().getSourceTickets(as_at, week, projectId,
+				watchedReleaseId, roleCategoryId, tableName, columnName, weekOperator);
+
+		return FormatList(ticketsStrings);
+	}
+
+	/**
+	 * 
+	 * @param ticketsStrings
+	 * @return
+	 */
+	private List<String> FormatList(List<String> ticketsStrings) {
+
+		List<String> ticketids = new ArrayList<String>();
+		for (String t : ticketsStrings) {
+
+			if(t == null){
+				continue;
+			}
 			
-			if(!t.equals("") && !t.equals(" ") ){
-				tickets.add(t);
+			String[] arr = t.split(",");
+			for (String u : arr) {
+				ticketids.add(u);
 			}
 		}
-		
-		String ticketString = StringUtils.collectionToCommaDelimitedString(tickets);
-		return ticketString;
+		return ticketids;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.millenniumit.mx.data.kpi.service.MetricService#getSourceTicketsList
+	 * (long, long, long, long, long, java.util.Map, java.lang.String)
+	 */
+
+	@Transactional
+	@Override
+	public List<String> getSourceTicketsList(long as_at, long week, long projectId,
+			long watchedReleaseId, long roleCategoryId, Map<String, String> tablecolumns,
+			String weekOperator) {
+
+		List<String> ticketsStrings = getMetricDao().getSourceTickets(as_at, week, projectId,
+				watchedReleaseId, roleCategoryId, tablecolumns, weekOperator);
+
+		return FormatList(ticketsStrings);
 	}
 }

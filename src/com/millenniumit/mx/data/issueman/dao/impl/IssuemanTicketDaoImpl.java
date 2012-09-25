@@ -122,7 +122,7 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 	 * (java.lang.String)
 	 */
 	@Override
-	public String getNativeTickets(String tickets) {
+	public List<Integer> getNativeTickets(String tickets) {
 
 		String queryString = "select native_id from tickets where id in(" + tickets + ")";
 		Query query = issuemanSessionFactory.getCurrentSession().createSQLQuery(queryString);
@@ -130,9 +130,9 @@ public class IssuemanTicketDaoImpl implements IssuemanTicketDao {
 		@SuppressWarnings("unchecked")
 		List<Integer> list = query.list();
 
-		String natives = org.springframework.util.StringUtils
-				.collectionToCommaDelimitedString(list);
-		return natives;
+//		String natives = org.springframework.util.StringUtils
+//				.collectionToCommaDelimitedString(list);
+		return list;
 	}
 
 	/* (non-Javadoc)

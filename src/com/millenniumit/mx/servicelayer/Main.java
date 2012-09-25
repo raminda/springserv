@@ -114,7 +114,7 @@ public class Main {
 		
 		
 	
-		main.tc.TestMetrics();
+		main.tc.TestSourceTickets();
 
 	
 	}

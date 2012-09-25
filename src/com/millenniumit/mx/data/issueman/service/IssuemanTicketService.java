@@ -254,7 +254,7 @@ public interface IssuemanTicketService {
 	 * @param tickets
 	 * @return
 	 */
-	public String getNativeTickets(String tickets);
+	public List<Integer>  getNativeTickets(String tickets);
 	
 	/**
 	 * 
