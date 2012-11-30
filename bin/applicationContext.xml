@@ -1,179 +1,74 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
-http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
-	<context:component-scan base-package="com.millenniumit.mx" />
+<?xml version="1.0"?>
+<!--  xmlns:spring="http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" -->
 
-	<bean id="issuemanabacus" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://172.25.40.135/issueman_abacus?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="portaluser" />
-		<property name="password" value="p0rt41u53r123" />
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xmlns:task="http://www.springframework.org/schema/task" 
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans        
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd        
+		http://www.springframework.org/schema/aop        
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd        
+		http://www.springframework.org/schema/jee        
+		http://www.springframework.org/schema/jee/spring-jee-2.0.xsd        
+		http://www.springframework.org/schema/tx        
+		http://www.springframework.org/schema/tx/spring-tx.xsd        
+		http://www.springframework.org/schema/context        
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd        
+		http://www.springframework.org/schema/task        
+		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+		
+	<context:component-scan base-package="com.millenniumit.mx"></context:component-scan>
+	
+	
+<!-- ***BasicDataSourcees*** -->
+	<!-- ServerDataSourcees -->
+	<bean id="ITICdbServer" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://172.25.40.135/itic_hdsizing?zeroDateTimeBehavior=convertToNull"></property>
+		<property name="username" value="itic"></property>
+		<property name="password" value="mit123"></property>
 	</bean>
 	
-	<bean id="issuemanjira" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://172.25.40.135/issueman_jira?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="portaluser" />
-		<property name="password" value="p0rt41u53r123" />
+	<!-- LocalDataSourcees -->
+	<bean id="ITICdbLocal" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost/mydb?zeroDateTimeBehavior=convertToNull"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="1234"></property>
 	</bean>
 	
-
-	<bean id="kpidb" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://172.25.40.135/kpi?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="portaluser" />
-		<property name="password" value="p0rt41u53r123" />
-	</bean>
-
-	<bean id="kpi-jiradb" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://172.25.40.135/kpi_jira?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="portaluser" />
-		<property name="password" value="p0rt41u53r123" />
-	</bean>
-
-	<bean id="kpi-abacusdb" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://172.25.40.135/kpi_abacus?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="portaluser" />
-		<property name="password" value="p0rt41u53r123" />
-	</bean>
-
-	<bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://172.25.40.135/portal_20111209_test?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="portaluser" />
-		<property name="password" value="p0rt41u53r123" />
-	</bean>
-
-	<bean id="timesheetsdb" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://172.25.40.135/timesheets?zeroDateTimeBehavior=convertToNull" />
-		<property name="username" value="portaluser" />
-		<property name="password" value="p0rt41u53r123" />
-	</bean>
-	<!-- Test databases (Comment out on production) -->
-	<!-- <bean id="jiradb" class="org.apache.commons.dbcp.BasicDataSource" -->
-	<!-- destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-	<!-- <property name="url" value="jdbc:mysql://localhost/jira_test" /> -->
-	<!-- <property name="username" value="root" /> -->
-	<!-- <property name="password" value="" /> -->
-	<!-- </bean> -->
-	<!-- <bean id="issuemandb" class="org.apache.commons.dbcp.BasicDataSource" -->
-	<!-- destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-	<!-- <property name="url" value="jdbc:mysql://localhost/issueman_test" /> -->
-	<!-- <property name="username" value="root" /> -->
-	<!-- <property name="password" value="" /> -->
-	<!-- </bean> -->
-	<!-- <bean id="portaldb" class="org.apache.commons.dbcp.BasicDataSource" -->
-	<!-- destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-	<!-- <property name="url" value="jdbc:mysql://localhost/portal_test" /> -->
-	<!-- <property name="username" value="root" /> -->
-	<!-- <property name="password" value="" /> -->
-	<!-- </bean> -->
-
-	<!-- JDBC templates to bypass Hibernate when needed -->
-	<!-- <bean id="jiraJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> -->
-	<!-- <property name="dataSource" ref="jiradb" /> -->
-	<!-- </bean> -->
-	<!-- <bean id="issuemanJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> -->
-	<!-- <property name="dataSource" ref="issuemandb" /> -->
-	<!-- </bean> -->
-
-
-	<!-- <bean id="timesheetsJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> -->
-	<!-- <property name="dataSource" ref="timesheetsdb" /> -->
-	<!-- </bean> -->
-
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="portaldb" />
+	
+	<!-- ****SessionFactorys*** -->
+		<!--<property name="dataSource" ref="ITICdbLocal"></property>  --><!-- insert this for local Use -->
+		<!-- <property name="dataSource" ref="ITICdbServer"></property> --><!-- insert this for Serve Use -->
+	<bean id="ITICsessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="ITICdbServer"></property>
 		<property name="packagesToScan">
 			<list>
-				<value>com.millenniumit.mx.data.relman.domain</value>
-				<value>com.millenniumit.mx.data.metrics.metric</value>
+				<value>com.millenniumit.mx.data.ITIC.domain</value>
 			</list>
 		</property>
 	</bean>
-
-	<bean id="kpiSessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="kpi-abacusdb" />
-		<property name="packagesToScan">
-			<list>
-				<value>com.millenniumit.mx.data.kpi.domain</value>
-			</list>
-		</property>
+	
+	
+	<!-- transaction-managers -->
+	<tx:annotation-driven transaction-manager="ITICtxManager"></tx:annotation-driven>
+	<bean id="ITICtxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="ITICsessionFactory"></property>
 	</bean>
-
-	<bean id="issuemanSessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="issuemanabacus" />
-		<property name="packagesToScan">
-			<list>
-				<value>com.millenniumit.mx.data.issueman.domain</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="timeSheetsSessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="timesheetsdb" />
-		<property name="packagesToScan">
-			<list>
-				<value>com.millenniumit.mx.data.timesheets.domain</value>
-			</list>
-		</property>
-	</bean>
-
-	<tx:annotation-driven transaction-manager="txManager" />
-	<bean id="txManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
-	<tx:annotation-driven transaction-manager="kpiTxManager" />
-	<bean id="kpiTxManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="kpiSessionFactory" />
-	</bean>
-
-	<tx:annotation-driven transaction-manager="isssuemanTxManager" />
-	<bean id="isssuemanTxManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="issuemanSessionFactory" />
-	</bean>
-
-	<tx:annotation-driven transaction-manager="timeSheetsTxManager" />
-	<bean id="timeSheetsTxManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="timeSheetsSessionFactory" />
-	</bean>
-
-	<bean id="testClass" class="com.millenniumit.mx.servicelayer.TestClass">
-	</bean>
+	
+	<!-- Beans for @Autowire Classes Using Service Implementation Class-->
+	<bean id="AcUserService" class="com.millenniumit.mx.data.itic.service.impl.AcUserServiceImpl"></bean>
+	<bean id="EquipmentsService" class="com.millenniumit.mx.data.itic.service.impl.EquipmentsServiceImpl"></bean>
+	<bean id="EquipmentsBulkService" class="com.millenniumit.mx.data.itic.service.impl.EquipmentsBulkServiceImpl"></bean>
+	<bean id="ItemTypeService" class="com.millenniumit.mx.data.itic.service.impl.ItemTypeServiceImpl"></bean>
+	<bean id="PackagesService" class="com.millenniumit.mx.data.itic.service.impl.PackagesServiceImpl"></bean>
+	<bean id="ProjectItemsService" class="com.millenniumit.mx.data.itic.service.impl.ProjectItemsServiceImpl"></bean>
+	<bean id="ProjectsService" class="com.millenniumit.mx.data.itic.service.impl.ProjectsServiceImpl"></bean>
+	<bean id="SiteTypeService" class="com.millenniumit.mx.data.itic.service.impl.SiteTypeServiceImpl"></bean>
+	<bean id="EquipmentMapingService" class="com.millenniumit.mx.data.itic.service.impl.EquipmentMapingServiceImpl"></bean>
 </beans>
