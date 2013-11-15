@@ -1,6 +1,4 @@
 <?xml version="1.0"?>
-<!--  xmlns:spring="http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" -->
-
 <beans xmlns="http://www.springframework.org/schema/beans" 
 	xmlns:tx="http://www.springframework.org/schema/tx" 
 	xmlns:context="http://www.springframework.org/schema/context" 
@@ -25,61 +23,46 @@
 	
 	
 <!-- ***BasicDataSourcees*** -->
-
 	<!-- ***************************************************Normal Way****************************************************************  -->
-	
-	<!-- ServerDataSourcees -->
-		<bean id="ITICdbServer" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-			<property name="url" value="jdbc:mysql://172.25.40.135/itic_hdsizing?zeroDateTimeBehavior=convertToNull"></property>
-			<property name="username" value="itic"></property>
-			<property name="password" value="mit123"></property>
-		</bean>	
-	<!-- LocalDataSourcees -->
 		<bean id="ITICdbLocal" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-			<property name="url" value="jdbc:mysql://localhost/mydb?zeroDateTimeBehavior=convertToNull"></property>
+			<property name="url" value="jdbc:mysql://localhost/nethdsizing?zeroDateTimeBehavior=convertToNull"></property>
 			<property name="username" value="root"></property>
-			<property name="password" value="1234"></property>
+			<property name="password" value="Rama"></property>
 		</bean>
-		
-	<!-- ****************************************************Normal Way***************************************************************  -->
+	<!-- *****************************************************************************************************************************  -->
+	<!-- *****************************************************************************************************************************  -->
 	
-	<!-- *****************************************************************************************************************************  -->
-	<!-- *****************************************************************************************************************************  -->
+	
 	
 	<!-- *******************************************************JNDI******************************************************************  -->
-
-	<!-- LocalDataSourcees -->
-		<jee:jndi-lookup jndi-name="java:comp/env/dbLocal" id="dbLocal" />
-	<!-- ServerDataSourcees -->
-		<jee:jndi-lookup jndi-name="java:comp/env/dbServer" id="dbServer" />
-		
-	<!-- *******************************************************JNDI******************************************************************  -->
-	
-	
+		<!-- <jee:jndi-lookup jndi-name="java:comp/env/dbLocal" id="NetHDSizing" /> -->
 	<!-- *****************************************************************************************************************************  -->
 	<!-- *****************************************************************************************************************************  -->
+	
+	
 			
 	<!-- ********************************************************Demo Names***********************************************************  -->	
-			<!--<property name="dataSource" ref="ITICdbLocal"></property>  --><!-- insert this for local Use -->
+			<!-- <property name="dataSource" ref="ITICdbLocal"></property>  --><!-- insert this for local Use -->
 			<!-- <property name="dataSource" ref="ITICdbServer"></property> --><!-- insert this for Server Use -->
 			<!-- <property name="dataSource" ref="jeeITICdbLocal"></property> --> <!-- insert this for local jndi Use -->
 			<!-- <property name="dataSource" ref="jeeITICdbServer"></property> --> <!-- insert this for Server jndi Use -->
-	<!-- ********************************************************Demo Names***********************************************************  -->
+	<!-- *****************************************************************************************************************************  -->
+	<!-- *****************************************************************************************************************************  -->
+	
 	
 	<!-- ****SessionFactorys*** -->	
-		<bean id="ITICsessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-			<property name="dataSource" ref="dbLocal"></property>
+		<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+			<property name="dataSource" ref="ITICdbLocal"></property>
 			<property name="packagesToScan">
 				<list>
-					<value>com.millenniumit.mx.data.itic.domain</value>
-					<!-- <value>com.millenniumit.mx.data.ITIC.domain</value> -->
+					<value>com.millenniumit.mx.data.nethdsizing.domain</value>
 				</list>
 			</property>
 		</bean>
-		
-		
+		<!-- <bean >
+			<property name="hibernate.hbm2ddl.auto" value="create"></property>
+		</bean> -->
 	<!-- *****************************************************************************************************************************  -->
 	<!-- *****************************************************************************************************************************  -->
 		
@@ -88,12 +71,12 @@
 	<!-- transaction-managers -->
 		<tx:annotation-driven transaction-manager="ITICtxManager"></tx:annotation-driven>
 		<bean id="ITICtxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-			<property name="sessionFactory" ref="ITICsessionFactory"></property>
+			<property name="sessionFactory" ref="sessionFactory"></property>
+			
 		</bean>
 		
 	<!-- *****************************************************************************************************************************  -->
 	<!-- *****************************************************************************************************************************  -->
-		
 		
 	<!-- ********************************************************Dermo imp class*******************************************************  -->
 		
@@ -112,16 +95,19 @@
 		
 		
 	<!-- ******************************************************Implementation class****************************************************  -->
-<!-- Beans for @Autowire Classes Using Service Implementation Class  EquipmentMapingService-->
-		
-		<bean id="AcUserService" class="com.millenniumit.mx.data.itic.service.impl.AcUserServiceImpl"></bean>
-		<bean id="EquipmentMapingService" class="com.millenniumit.mx.data.itic.service.impl.EquipmentMapingServiceImpl"></bean>
-		<bean id="EquipmentsService" class="com.millenniumit.mx.data.itic.service.impl.EquipmentsServiceImpl"></bean>
-		<bean id="EquipmentsBulkService" class="com.millenniumit.mx.data.itic.service.impl.EquipmentsBulkServiceImpl"></bean>
-		<bean id="ItemTypeService" class="com.millenniumit.mx.data.itic.service.impl.ItemTypeServiceImpl"></bean>
-		<bean id="PackagesService" class="com.millenniumit.mx.data.itic.service.impl.PackagesServiceImpl"></bean>
-		<bean id="ProjectItemsService" class="com.millenniumit.mx.data.itic.service.impl.ProjectItemsServiceImpl"></bean>
-		<bean id="ProjectsService" class="com.millenniumit.mx.data.itic.service.impl.ProjectsServiceImpl"></bean>
+	
+	<!-- Beans for @Autowire Classes Using Service Implementation Class -->	
+		<bean id="CompanyService" class="com.millenniumit.mx.data.nethdsizing.service.impl.CompanyServiceImpl"></bean>
+		<bean id="EquipmentMapingService" class="com.millenniumit.mx.data.nethdsizing.service.impl.EquipmentMapingServiceImpl"></bean>
+		<bean id="EquipmentsService" class="com.millenniumit.mx.data.nethdsizing.service.impl.EquipmentsServiceImpl"></bean>
+		<bean id="EquipmentsBulkService" class="com.millenniumit.mx.data.nethdsizing.service.impl.EquipmentBulkServiceImpl"></bean>
+		<bean id="ItemTypeService" class="com.millenniumit.mx.data.nethdsizing.service.impl.ItemTypesServiceImpl"></bean>
+		<bean id="PackagesService" class="com.millenniumit.mx.data.nethdsizing.service.impl.PackagesServiceImpl"></bean>
+		<bean id="ProjectItemsService" class="com.millenniumit.mx.data.nethdsizing.service.impl.ProjectItemsServiceImpl"></bean>
+		<bean id="ProjectsService" class="com.millenniumit.mx.data.nethdsizing.service.impl.ProjectsServiceImpl"></bean>
+		<bean id="VersionMapService" class="com.millenniumit.mx.data.nethdsizing.service.impl.VersionMapServicempl"></bean>
+		<bean id="Main" class="com.millenniumit.mx.servicelay.Main"></bean>
+		<bean id="Test" class="com.millenniumit.mx.servicelay.TestClass"></bean>
 	
 	<!-- *****************************************************************************************************************************  -->
 	<!-- *****************************************************************************************************************************  -->

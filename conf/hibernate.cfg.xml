@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC  "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+     
+        <property name="connection.url">jdbc:mysql://localhost:3306/nethdsizing</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">Rama</property>
+		
+		
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool_size">4</property>
+
+        <!-- SQL dialect -->
+        <!-- org.hibernate.dialect.MySQLDialect -->
+        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+        <!-- Enable Hibernate's current session context -->
+        <!-- org.hibernate.context.ManagedSessionContext -->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Disable the second-level cache  -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+		<!-- <property name="hibernate.hbm2ddl.auto">validate</property>
+		<property name="hibernate.hbm2ddl.auto">create</property> -->
+		<property name="hibernate.hbm2ddl.auto">update</property>
+       <!-- <mapping resource="org/hibernate/tutorial/domain/Event.hbm.xml"/>
+        <mapping resource="org/hibernate/tutorial/domain/Person.hbm.xml"/> -->
+		
+		<!-- <mapping  package="com.millenniumit.mx.data.nethdsizing.domain"/>
+    	<mapping  class="com.millenniumit.mx.data.nethdsizing.domain.Company"/>
+    	<mapping class="com.millenniumit.mx.data.nethdsizing.domain.EquipmentBulk"/>
+    	<mapping class="com.millenniumit.mx.data.nethdsizing.domain.EquipmentMaping"/>
+    	<mapping class="com.millenniumit.mx.data.nethdsizing.domain.Equipments"/>
+    	<mapping class="com.millenniumit.mx.data.nethdsizing.domain.ItemTypes"/>
+    	<mapping class="com.millenniumit.mx.data.nethdsizing.domain.Packages"/>
+    	<mapping class="com.millenniumit.mx.data.nethdsizing.domain.Project"/>
+    	<mapping class="com.millenniumit.mx.data.nethdsizing.domain.ProjectItems"/>
+    	<mapping class="com.millenniumit.mx.data.nethdsizing.domain.VersionMap"/> -->
+		
+    </session-factory>
+
+</hibernate-configuration>

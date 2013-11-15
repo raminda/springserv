@@ -4,14 +4,14 @@
 		<mkdir dir="service-classes" />
 
 		<path id="service.classpath">
-			<fileset dir="lib" includes="*.jar" excludes="mx-service.jar" />
+			<fileset dir="lib" includes="*.jar" excludes="NetHDServic.jar" />
 		</path>
 
-		<delete file="lib/mx-service.jar" />
+		<delete file="lib/NetHDServic.jar" />
 
 		<javac includeantruntime="false" classpathref="service.classpath" srcdir="src/com/millenniumit/mx/data" destdir="service-classes" debug="on" debuglevel="lines,vars,source" />
 
-		<zip basedir="service-classes" destfile="lib/mx-service.jar" />
+		<zip basedir="service-classes" destfile="lib/NetHDServic.jar" />
 
 		<delete dir="service-classes" />
 	</target>
