@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.millenniumit.mx.data.nethdsizing.domain.EquipmentMaping;
 import com.millenniumit.mx.data.nethdsizing.domain.ItemTypes;
 import com.millenniumit.mx.data.nethdsizing.service.EquipmentMapingService;
+import com.millenniumit.mx.data.nethdsizing.service.EquipmentsBulkService;
 import com.millenniumit.mx.data.nethdsizing.service.EquipmentsService;
 import com.millenniumit.mx.data.nethdsizing.service.ItemTypesService;
 import com.millenniumit.mx.data.nethdsizing.service.PackagesService;
@@ -35,11 +36,14 @@ public class TestClass {
 	
 	@Autowired
 	PackagesService packagesService;
+	@Autowired
+	EquipmentsBulkService equipmentsBulkService;
 	public void TestMetrics() {
 	}
 
 	public void TestSourceTickets() {
 		System.out.println(packagesService.getPackages().get(0).getPackageName());
+		equipmentsBulkService.EquipmentsBulkget(packagesService.getPackages("fd"),equipmentsService.getEquipments("Serve22"));
 		/*ItemTypes itemTypes=new ItemTypes();
 		itemTypes.setAccsessLevel(2);
 		itemTypes.setTypeName("fsdfsccdf");

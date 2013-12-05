@@ -59,10 +59,10 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#get(EquipmentBulk)
 	 */
 	@Override
-	public List<EquipmentBulk> getAll(Packages PackageID) {
+	public List<EquipmentBulk> getAll(Packages Package) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table + "  where PackageID =:PackageID ")
-				.setParameter("PackageID", PackageID).list();
+				.createQuery(table + "  where Package =:Package ")
+				.setParameter("Package", Package).list();
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 		 
 		 
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table + "  order by PackageID").list();
+				.createQuery(table + "  order by Package").list();
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	@Override
 	public List<EquipmentBulk> getAll(int start, int limit) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table + "  order by PackageID")
+				.createQuery(table + "  order by Package")
 				.setFirstResult(start).setMaxResults(limit).list();
 	}
 	
@@ -94,10 +94,10 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	 * @see 
 	 */ 
 	@Override
-	public List<EquipmentBulk> getAll(Equipments ItemID) {
+	public List<EquipmentBulk> getAll(Equipments Equipment) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table + "  where ItemID=:ItemID order by PackageID")
-				.setParameter("ItemID", ItemID).list();
+				.createQuery(table + "  where Equipment=:Equipment order by Package")
+				.setParameter("Equipment", Equipment).list();
 	}
 
 	/**
@@ -105,11 +105,11 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	 * @see 
 	 */
 	@Override
-	public EquipmentBulk get(Packages PackageID, Equipments ItemID) { 
+	public EquipmentBulk get(Packages Package, Equipments Equipment) { 
 		return (EquipmentBulk) getSessionFactory().getCurrentSession()
-				.createQuery(table + "  where PackageID=:PackageID and ItemID=:ItemID order by PackageID")
-				.setParameter("PackageID", PackageID)
-				.setParameter("ItemID", ItemID).uniqueResult();
+				.createQuery(table + "  where Package=:Package and Equipment=:Equipment order by Package")
+				.setParameter("Package", Package)
+				.setParameter("Equipment", Equipment).uniqueResult();
 	}
 
 	/**
