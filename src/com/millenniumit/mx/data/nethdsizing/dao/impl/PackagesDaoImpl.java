@@ -22,9 +22,7 @@ public class PackagesDaoImpl implements PackagesDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String table=new String();
-	protected PackagesDaoImpl() {
-	}
+	private String table="from packages ";
 
 	/**
 	 * @return the ITICSessionFactory
@@ -38,11 +36,6 @@ public class PackagesDaoImpl implements PackagesDao {
 	 */
 	public void setITICSessionFactory(SessionFactory ITICSessionFactory) {
 		this.SessionFactory = ITICSessionFactory;
-	}
-	
-	public PackagesDaoImpl(SessionFactory SessionFactory){
-		table="from Packages ";
-		this.SessionFactory=SessionFactory;
 	}
 	/**
 	 *  @param ID

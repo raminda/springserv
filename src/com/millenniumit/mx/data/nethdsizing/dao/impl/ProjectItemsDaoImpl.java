@@ -26,11 +26,8 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String table=new String();
+	private String table="from ProjectItems ";
 			
-			protected ProjectItemsDaoImpl() {
-	}
-
 			/**
 			 * @return the SessionFactory
 			 */
@@ -43,10 +40,6 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 			 */
 			public void setSessionFactory(SessionFactory SessionFactory) {
 				this.SessionFactory = SessionFactory;
-			}
-			public ProjectItemsDaoImpl(SessionFactory SessionFactory){
-				table="from ProjectItems ";
-				this.SessionFactory=SessionFactory;
 			}
 			//*******************************************end************************************************
 

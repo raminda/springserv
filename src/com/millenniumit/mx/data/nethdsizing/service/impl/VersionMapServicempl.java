@@ -2,7 +2,6 @@ package com.millenniumit.mx.data.nethdsizing.service.impl;
 
 
 import java.util.List;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import com.millenniumit.mx.data.nethdsizing.domain.Company;
 import com.millenniumit.mx.data.nethdsizing.domain.VersionMap;
 import com.millenniumit.mx.data.nethdsizing.service.VersionMapService;
 import com.millenniumit.mx.data.nethdsizing.dao.VersionMapDao;
-import com.millenniumit.mx.data.nethdsizing.dao.impl.VersionMapDaoImpl;
 
 /**
  * 
@@ -26,9 +24,6 @@ public class  VersionMapServicempl  implements  VersionMapService {
 	@Qualifier("VersionMapDao")
 	private VersionMapDao Version_MapDao;
 
-	public VersionMapServicempl() {
-	}
-
 	/**
 	 * @return the Version_MapsDeo
 	 */
@@ -41,9 +36,6 @@ public class  VersionMapServicempl  implements  VersionMapService {
 	 */
 	public void setVersion_MapsDao(VersionMapDao VersionMapDao) {
 		this.Version_MapDao = VersionMapDao;
-	}
-	public VersionMapServicempl(SessionFactory SessionFactory){
-		Version_MapDao=new VersionMapDaoImpl(SessionFactory);
 	}
 	/** (non-Javadoc)
 	 * @see com.millenniumit.mx.data.ITIC.service.Version_MapsService#getVersion_Maps(java.lang.Long)

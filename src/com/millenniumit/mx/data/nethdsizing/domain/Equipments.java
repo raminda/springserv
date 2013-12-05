@@ -22,7 +22,7 @@ public class Equipments extends AuditFields implements Serializable {
 	@GeneratedValue(strategy=GenerationType.TABLE,generator="ColumnHandl")
 	private Integer ID;
 	
-	@ManyToOne(cascade= CascadeType.REFRESH,fetch=FetchType.LAZY)
+	@ManyToOne(cascade= CascadeType.PERSIST)
 	@JoinColumn(name = "itemtypes",nullable=false)
 	private ItemTypes ItemTypes;
 	

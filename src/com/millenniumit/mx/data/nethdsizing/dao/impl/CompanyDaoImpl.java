@@ -21,7 +21,7 @@ public class CompanyDaoImpl implements CompanyDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory sessionFactory;
-	private String table=new String();
+	private String table="from Company ";
 
 	
 
@@ -39,19 +39,46 @@ public class CompanyDaoImpl implements CompanyDao {
 		this.sessionFactory = SessionFactory;
 	}
 	
-	//*******************************************end************************************************
-	public CompanyDaoImpl(){
-		table="from Company ";
-	}	
-			
+	//*******************************************end************************************************	
+	
+	/**
+	 * 
+	 *  (non-Javadoc)
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#getAll()
+	 */
+	@Override
+	public List <Company> getAll() {
+		return getSessionFactory().getCurrentSession()
+				.createQuery(table+" order by CompanyName").list();
+	}
+	
+	/**
+	 * 
+	 *  (non-Javadoc)
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#getAll()
+	 */
+	@Override
+	public List <String> getAllNames() {
+		return getSessionFactory().getCurrentSession()
+				.createQuery(table+" order by CompanyName").list();
+	}
 	/**
 	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#get(Long)
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#getAll(int, int)
+	 */
+	
+	@Override
+	public List<Company> getAll(int start, int limit) {
+		return getSessionFactory().getCurrentSession()
+				.createQuery(table+" order by CompanyName")
+				.setFirstResult(start).setMaxResults(limit).list();
+	}	
+	/**
+	 *  (non-Javadoc)
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#get(int)
 	 */
 	@Override
 	public Company get(int ID) {
-		  
-		 
 		return (Company)getSessionFactory().getCurrentSession().
 				createQuery(table+" where ID =:ID ")
 				.setParameter("ID", ID).uniqueResult();
@@ -63,8 +90,6 @@ public class CompanyDaoImpl implements CompanyDao {
 	 */
 	@Override
 	public Company get(String CompanyName) {
-		  
-		 
 		return (Company)getSessionFactory().getCurrentSession()
 				.createQuery(table+" where CompanyName =:CompanyName")
 				.setParameter("CompanyName", CompanyName).uniqueResult();
@@ -76,41 +101,10 @@ public class CompanyDaoImpl implements CompanyDao {
 	 */
 	@Override
 	public List<Company> getAll(String CompanyName) {
-		  
-		 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" where CompanyName =:CompanyName")
 				.setParameter("CompanyName", CompanyName).list();
 	}
-
-	/**
-	 * 
-	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#getAll()
-	 */
-	@Override
-	public List <Company> getAll() {
-		  
-		 
-		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" order by CompanyName").list();
-	}
-
-	/**
-	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#getAll(int, int)
-	 */
-	
-	@Override
-	public List<Company> getAll(int start, int limit) {
-		  
-		 
-		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" order by CompanyName")
-				.setFirstResult(start).setMaxResults(limit).list();
-	}
-	
-
 	/**
 	 *  (non-Javadoc)
 	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#save(java.lang.Object)
@@ -118,8 +112,6 @@ public class CompanyDaoImpl implements CompanyDao {
 	
 	@Override
 	public int save(Company index){
-		  
-		 
 		getSessionFactory().getCurrentSession().save(index);
 		getSessionFactory().getCurrentSession().flush();
 		return index.getID();
@@ -131,8 +123,6 @@ public class CompanyDaoImpl implements CompanyDao {
 	 */
 	@Override
 	public void delete(Company index) {
-		  
-		 
 			getSessionFactory().getCurrentSession().delete(index);
 			getSessionFactory().getCurrentSession().flush();
 	}
@@ -142,8 +132,6 @@ public class CompanyDaoImpl implements CompanyDao {
 	 */
 	@Override
 	public void update(Company object) {
-		  
-		 
 		getSessionFactory().getCurrentSession().update(object);
 		getSessionFactory().getCurrentSession().flush();
 	}
@@ -153,7 +141,6 @@ public class CompanyDaoImpl implements CompanyDao {
 	@Override
 	protected void finalize() throws Throwable {
 		getSessionFactory().getCurrentSession().flush();
-		
 		super.finalize();
 	}
 

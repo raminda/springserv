@@ -2,14 +2,12 @@ package com.millenniumit.mx.data.nethdsizing.service.impl;
 
 //import java.sql.Date;
 import java.util.List;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.millenniumit.mx.data.nethdsizing.dao.ProjectItemsDao;
-import com.millenniumit.mx.data.nethdsizing.dao.impl.ProjectItemsDaoImpl;
 import com.millenniumit.mx.data.nethdsizing.domain.Packages;
 import com.millenniumit.mx.data.nethdsizing.domain.ProjectItems;
 import com.millenniumit.mx.data.nethdsizing.domain.VersionMap;
@@ -43,10 +41,6 @@ public class ProjectItemsServiceImpl  implements ProjectItemsService {
 	
 	public void setProjectItemsDao( ProjectItemsDao  projectItemsDao) {
 		this. projectItemsDao =  projectItemsDao;
-	}
-	
-	public ProjectItemsServiceImpl(SessionFactory SessionFactory){
-		projectItemsDao=new ProjectItemsDaoImpl(SessionFactory);
 	}
 	
 	@Override

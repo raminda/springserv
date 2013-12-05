@@ -75,4 +75,6 @@ public interface  EquipmentMapingDao extends Dao <EquipmentMaping> {
 	 */
 	@Override
 	public void update(EquipmentMaping object);
+
+	List<EquipmentMaping> getAll(Equipments ItemID,int type);
 }

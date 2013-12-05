@@ -2,14 +2,12 @@ package com.millenniumit.mx.data.nethdsizing.service.impl;
 
 import java.sql.Date;
 import java.util.List;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.millenniumit.mx.data.nethdsizing.dao.PackagesDao;
-import com.millenniumit.mx.data.nethdsizing.dao.impl.PackagesDaoImpl;
 import com.millenniumit.mx.data.nethdsizing.domain.Packages;
 import com.millenniumit.mx.data.nethdsizing.service.PackagesService;
 
@@ -40,9 +38,6 @@ public PackagesServiceImpl() {
 	 */
 	public void setPackagesDao(PackagesDao PackagesDao) {
 		this.PackagesDao = PackagesDao;
-	}
-	public PackagesServiceImpl(SessionFactory SessionFactory) {
-	PackagesDao=new PackagesDaoImpl(SessionFactory);
 	}
 	/**
 	 * 

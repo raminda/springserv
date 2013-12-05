@@ -2,7 +2,6 @@ package com.millenniumit.mx.data.nethdsizing.dao.impl;
 
 import java.util.List;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -25,10 +24,7 @@ public class EquipmentMapingDaoImpl implements EquipmentMapingDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	
-	private String table=new String();
-	private Transaction trans;
-	//private getSessionFactory().getCurrentSession() ssession;
+	private String table="from equipmentmaping";
 
 	/**
 	 * @return  SessionFactory
@@ -42,14 +38,12 @@ public class EquipmentMapingDaoImpl implements EquipmentMapingDao {
 	public void setITICSessionFactory(SessionFactory ITICSessionFactory) {
 		this.SessionFactory = ITICSessionFactory;
 	}
-	public EquipmentMapingDaoImpl(){
-		table="from Equipmentmaping ";
-	}
 	//*******************************************end************************************************
 			
 	/**
 	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#get(Long)
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#get(Long)
+	 * @return EquipmentMaping
 	 */
 	@Override
 	public EquipmentMaping get(int ID) {
@@ -60,7 +54,8 @@ public class EquipmentMapingDaoImpl implements EquipmentMapingDao {
 	
 	/**
 	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#get(EquipmentBulk)
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#get(EquipmentBulk)
+	 * @return List<EquipmentMaping>
 	 */
 	@Override
 	public List<EquipmentMaping> getAll(Equipments ParentID,Equipments ChildID) {
@@ -75,62 +70,82 @@ public class EquipmentMapingDaoImpl implements EquipmentMapingDao {
 	/**
 	 * 
 	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#getAll()
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#getAll()
+	 * @return List<EquipmentMaping>
 	 */
 	@Override
 	public List<EquipmentMaping> getAll() {
 		return getSessionFactory().getCurrentSession()
-				.createQuery("from equipmentmaping order by ParentID").list();
+				.createQuery(table+" order by ParentID").list();
 	}
 
 	/**
 	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#getAll(int, int)
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#getAll(int, int)
+	 * @return List<EquipmentMaping>
 	 */
 	@Override
 	public List<EquipmentMaping> getAll(int start, int limit) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery("from equipmentmaping order by ParentID")
+				.createQuery(table+" order by ParentID")
 				.setFirstResult(start).setMaxResults(limit).list();
 	}
 	
 	/**
 	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.ITIC.dao.EquipmentMapingDaoImpl#getEquipmentsBulk(com.millenniumit.mx.data.ITIC.domain.Equipments )
+	 * @see com.millenniumit.mx.data.ITIC.dao.EquipmentMapingDaoImpl#getEquipmentsBulk(Equipments,ItemTypes )
+	 * @return List<EquipmentMaping>
 	 */
 	@Override
 	public List<EquipmentMaping> getAll(Equipments ItemID,ItemTypes itemType) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery("from equipmentmaping where ChildID=ChildID.ID and ChildID.ItemType=:itemType and ParentID=:ParentID ")
+				.createQuery(table+" where ChildID=ChildID.ID and ChildID.ItemType=:itemType and ParentID=:ParentID ")
 				.setParameter("ParentID", ItemID)
 				.setParameter("itemType", itemType).list();
 	}
-
 	/**
 	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#save(java.lang.Object)
+	 * @see com.millenniumit.mx.data.ITIC.dao.EquipmentMapingDaoImpl#getEquipmentsBulk(Equipments,ItemTypes )
+	 * @return List<EquipmentMaping>
+	 */
+	@Override
+	public List<EquipmentMaping> getAll(Equipments ItemID,int type) {
+		if(type==1){
+			return getSessionFactory().getCurrentSession()
+					.createQuery(table+" where CEquipment=:ChildID")
+					.setParameter("ChildID", ItemID).list();
+		}
+		else{
+			return getSessionFactory().getCurrentSession()
+					.createQuery(table+" where PEquipment=:ParentID ")
+					.setParameter("ParentID", ItemID).list();
+		}
+	}
+	/**
+	 *  (non-Javadoc)
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#save(java.lang.Object)
+	 * @return int
 	 */
 	
 	@Override
 	public int save(EquipmentMaping index) {
 		getSessionFactory().getCurrentSession().save(index);
-		getSessionFactory().getCurrentSession().flush();trans.commit();
+		getSessionFactory().getCurrentSession().flush();
 		return index.getID();
 	}
 
 	/**
 	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#delete(java.lang.Object)
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#delete(java.lang.Object)
 	 */
 	@Override
 	public void delete(EquipmentMaping index) {
-		
 		getSessionFactory().getCurrentSession().delete(index);
 		getSessionFactory().getCurrentSession().flush();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.millenniumit.mx.data.itic.dao.Dao#update(java.lang.Object)
+	/** (non-Javadoc)
+	 * @see com.millenniumit.mx.data.nethdsizing.dao.Dao#update(java.lang.Object)
 	 */
 	@Override
 	public void update(EquipmentMaping object) {

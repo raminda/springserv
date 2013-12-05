@@ -6,7 +6,6 @@ package com.millenniumit.mx.data.nethdsizing.service.impl;
 */
 
 import java.util.List;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import com.millenniumit.mx.data.nethdsizing.domain.EquipmentBulk;
 import com.millenniumit.mx.data.nethdsizing.domain.Packages;
 import com.millenniumit.mx.data.nethdsizing.service.EquipmentsBulkService;
 import com.millenniumit.mx.data.nethdsizing.dao.EquipmentbulkDao;
-import com.millenniumit.mx.data.nethdsizing.dao.impl.EquipmentsBulkDaoImpl;
 
 /**
  * 
@@ -31,16 +29,11 @@ public class  EquipmentBulkServiceImpl implements  EquipmentsBulkService {
 @Qualifier("EquipmentbulkDao")
 private EquipmentbulkDao EquipmentsBulkDao;
 
-	protected EquipmentBulkServiceImpl() {
-	}
 	/**
 	 * @return the EquipmentsBulkDeo
 	 */
 	public EquipmentbulkDao getEquipmentsBulkDao() {
 		return EquipmentsBulkDao;
-	}
-	public EquipmentBulkServiceImpl (SessionFactory SessionFactory){
-		EquipmentsBulkDao=new EquipmentsBulkDaoImpl(SessionFactory);
 	}
 	/**
 	 * @param EquipmentsBulkDeo the EquipmentsBulkDeo to set

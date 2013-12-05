@@ -25,9 +25,7 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String table=new String();
-			protected EquipmentsBulkDaoImpl() {
-	}
+	private String table="from Equipmentbulk ";
 
 			/**
 			 * @return the SessionFactory
@@ -42,11 +40,7 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 			public void setSessionFactory(SessionFactory SessionFactory) {
 				this.SessionFactory = SessionFactory;
 			}
-	
-			public EquipmentsBulkDaoImpl(SessionFactory SessionFactory) {
-				table="from Equipmentbulk ";
-				this.SessionFactory=SessionFactory;
-			}		
+		
 	//*******************************************end************************************************
 			
 	/**
@@ -55,7 +49,6 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	 */
 	@Override
 	public EquipmentBulk get(int ID) {
-		 
 		return (EquipmentBulk)getSessionFactory().getCurrentSession()
 				.createQuery(table + "  where ID =:ID ")
 				.setParameter("ID", ID).uniqueResult();
@@ -71,8 +64,6 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 				.createQuery(table + "  where PackageID =:PackageID ")
 				.setParameter("PackageID", PackageID).list();
 	}
-	
-
 
 	/**
 	 * 
@@ -100,8 +91,8 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	
 	/**
 	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.EquipmentbulkDao.dao.EquipmentsBulkDao#getEquipmentsBulk(com.millenniumit.mx.data.ITIC.domain.Equipments )
-	 */
+	 * @see 
+	 */ 
 	@Override
 	public List<EquipmentBulk> getAll(Equipments ItemID) {
 		return getSessionFactory().getCurrentSession()
@@ -111,7 +102,7 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 
 	/**
 	 *  (non-Javadoc)
-	 * @see com.millenniumit.mx.data.EquipmentbulkDao.dao.EquipmentsBulkDao#getEquipmentsBulk(com.millenniumit.mx.data.ITIC.domain.KpiCategory, java.lang.String)
+	 * @see 
 	 */
 	@Override
 	public EquipmentBulk get(Packages PackageID, Equipments ItemID) { 
@@ -128,7 +119,6 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	
 	@Override
 	public int save(EquipmentBulk index) {
-		 
 		getSessionFactory().getCurrentSession().save(index);
 		getSessionFactory().getCurrentSession().flush();
 		return index.getId();
@@ -140,7 +130,6 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	 */
 	@Override
 	public void delete(EquipmentBulk index) {
-		 
 		getSessionFactory().getCurrentSession().delete(index);
 		getSessionFactory().getCurrentSession().flush();
 	}
@@ -150,7 +139,6 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	 */
 	@Override
 	public void update(EquipmentBulk object) {
-
 		getSessionFactory().getCurrentSession().update(object);
 		getSessionFactory().getCurrentSession().flush();
 	}

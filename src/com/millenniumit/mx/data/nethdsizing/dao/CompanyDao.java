@@ -21,7 +21,7 @@ public interface  CompanyDao extends Dao <Company> {
 	
 	/**
 	 * 
-	 * @param ID
+	 * @param int ID
 	 * @return
 	 */
 	@Override
@@ -29,33 +29,39 @@ public interface  CompanyDao extends Dao <Company> {
 
 	/**
 	 * 
-	 * @return
+	 * @return List<Company>
 	 */
 	@Override
 	public List<Company> getAll();
 	
 	/**
-	 * @param CompanyName
+	 * 
+	 * @return  List<String>
+	 */
+	public List<String> getAllNames();
+	
+	/**
+	 * @param String CompanyName
 	 * @return
 	 */
 	public Company get(String CompanyName);
 	
 	/**
 	 * @param Start,Limit
-	 * @return
+	 * @return List<Company>
 	 */
 	@Override
 	public List<Company> getAll(int start, int limit);
 	
 	/**
-	 * @param object
-	 * @return 
+	 * @param String CompanyName
+	 * @return  List<Company>
 	 */
 	public List<Company> getAll(String CompanyName);
 	/**
 	 * 
 	 * @param object
-	 * @return
+	 * @return Company object
 	 * @throws Exception 
 	 */
 	@Override
@@ -63,14 +69,16 @@ public interface  CompanyDao extends Dao <Company> {
 	
 	/**
 	 * 
-	 * @param object
+	 * @param Company object
+	 * @throws Exception
 	 */
 	@Override
 	public void delete(Company object);
 	
 	/**
 	 * 
-	 * @param object
+	 * @param Company object
+	 * @throws Exception
 	 */
 	@Override
 	public void update(Company object);

@@ -70,5 +70,7 @@ public interface  EquipmentMapingService {
 	 * @param index
 	 */
 	public  void update(EquipmentMaping index);
+
+	List<EquipmentMaping> getEquipmentMapings(Equipments PerantID, int type);
 }
 

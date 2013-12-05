@@ -20,61 +20,9 @@ import com.millenniumit.spring.consoleutil.ApplicationContextLoader;
  * @author Vimukthi <vimukthi@millenniumit.com>
  * 
  */
-//@Service("Main")
 public class Main {
 
-	// These variables provide access to services and databases
 
-//	@Autowired
-//	@Qualifier("timesheetsJdbcTemplate")
-//	private JdbcTemplate timesheetsJdbcTemplate;
-	//
-	// @Autowired
-	// @Qualifier("issuemanJdbcTemplate")
-	// private JdbcTemplate issuemanJdbcTemplate;
-	
-//	@Autowired
-//	private TimeSheetsReminderService reminderService;
-//	
-//	@Autowired
-//	private PortalDivisionService divisionService;
-//
-//	@Autowired
-//	private PortalProjectService projectService;
-//	
-//	@Autowired
-//	private PortalUserService userService;
-//	
-//	@Autowired
-//	private PortalRoleService roleService;
-	
-//	@Autowired
-//	private KpiProjectService projectService;
-//	
-//	@Autowired
-//	private KpiCategoryService categoryService;
-//	
-//	@Autowired
-//	private KpiIndexService indexService;
-//	
-//	@Autowired
-//	private KpiKpiInstanceService instanceService;
-//	
-//	@Autowired
-//	private KpiLevelService levelService;
-//	
-//	@Autowired
-//	private KpiIndexScoreService indexScoreService;
-//	
-//	@Autowired
-//	private KpiKpiScoreService kpiScoreService;
-//	
-//	@Autowired
-//	private KpiWatchedReleaseService releaseService;
-	
-//	@Autowired
-//	@Qualifier(value="timeSheetsWorkService")
-//	private WorkService<TimeSheetsWork> workService;
 	@Autowired
 	ItemTypesService itemTypesService;
 	/**
@@ -90,8 +38,6 @@ public class Main {
 	@Autowired
 	TestClass tc;
 	
-
-
 	/**
 	 * @param args
 	 */
@@ -106,35 +52,10 @@ public class Main {
 		// Initialize the Spring application main
 		Main main = new Main();
 		
-		//System.out.println(new Gson().toJson(main.ks.getKpiProjects()));
-		
-		
 		// comment this when testing
 		contextLoader.load(main, "applicationContext.xml");
 		
-		
-	
 		main.tc.TestSourceTickets();
-
-	
-	}
-
-	/**
-	 * 
-	 * @param map
-	 */
-	@SuppressWarnings("unused")
-	private static void PrintMap(Map<String, Integer> map) {
-		Iterator<String> iterator = map.keySet().iterator();
-
-		int count = 0;
-		while (iterator.hasNext()) {
-			String key = iterator.next().toString();
-			int value = map.get(key);
-			count += value;
-			System.out.println("key = " + key + "  " + " value = " + value);
-		}
-		System.out.println("Total Value = " + count);
 
 	}
 }

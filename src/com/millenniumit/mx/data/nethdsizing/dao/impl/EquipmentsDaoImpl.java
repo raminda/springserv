@@ -25,11 +25,7 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String table=new String();
-	
-			protected EquipmentsDaoImpl() {
-		}
-
+	private String table="from equipments ";
 			/**
 			 * @return the SessionFactory
 			 */
@@ -42,10 +38,6 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 			 */
 			public void setSessionFactory(SessionFactory SessionFactory) {
 				this.SessionFactory = SessionFactory;
-			}
-			public EquipmentsDaoImpl(SessionFactory SessionFactory){
-				table="from Equipments ";
-				this.SessionFactory=SessionFactory;
 			}
 	//*******************************************end************************************************
 	/**
@@ -68,10 +60,8 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 	//****************************************************************************
 	@Override
 	public List<Equipments> getBases(int ID) {
-		 
-		 
 		return  getSessionFactory().getCurrentSession()
-				.createQuery(table+" where  ItemType.AccsessLevel=:ID and ItemType=ItemType.ID and ItemType.ID!='1' order by ItemName ")
+				.createQuery(table+" where  ItemTypes.AccsessLevel=:ID and ItemTypes=ItemTypes.ID and ItemTypes.ID!='1' order by ItemName ")
 				.setParameter("ID", ID).list();
 	}
 	/**
@@ -85,7 +75,7 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 				.createQuery(table+" where ID!='1' order by ItemName").list();
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#getAll(int, int)
 	 */
 	@Override
@@ -104,15 +94,19 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 	@Override
 	public Equipments getName(String Equipments){
 			return (Equipments) getSessionFactory().getCurrentSession()
-					.createQuery(table+" where ItemName =:ItemName and ID!='1'")
+					.createQuery(table+" where ItemName =:ItemName")
 					.setParameter("ItemName", Equipments).uniqueResult();
 	}
-
+	
+	/**
+	 * @return
+	 * @param
+	 */
 	@Override
 	public List<Equipments> getAll(ItemTypes equipmentsType) {
 		return getSessionFactory()
 			.getCurrentSession()
-			.createQuery(table+" where ItemType=:equipmentsType and ID!='1' order by ItemName")
+			.createQuery(table+" where ItemTypes=:equipmentsType and ID!='1' order by ItemName")
 			.setParameter("equipmentsType", equipmentsType).list();
 	}
 
@@ -133,7 +127,7 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 		else{
 			return getSessionFactory()
 				.getCurrentSession()
-				.createQuery(table+" where ItemType<:Price and ID!='1'  order by ItemName")
+				.createQuery(table+" where Price<:Price and ID!='1'  order by ItemName")
 				.setParameter("Price", Price).list();
 		}
 	}
@@ -175,8 +169,6 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 	 */
 	@Override
 	public int save(Equipments index)  {
-		 
-		 
 			getSessionFactory().getCurrentSession().save(index);
 			getSessionFactory().getCurrentSession().flush();
 		return index.getID();
@@ -188,8 +180,6 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 	 */
 	@Override
 	public void delete(Equipments index)  {
-		 
-		 
 			getSessionFactory().getCurrentSession().delete(index);
 			getSessionFactory().getCurrentSession().flush();
 	}
@@ -198,8 +188,6 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 	 */
 	@Override
 	public void update(Equipments object)  {
-		 
-		 
 		getSessionFactory().getCurrentSession().update(object);
 		getSessionFactory().getCurrentSession().flush();
 	}

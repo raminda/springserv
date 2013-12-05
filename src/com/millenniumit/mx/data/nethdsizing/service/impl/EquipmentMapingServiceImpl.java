@@ -70,6 +70,12 @@ public class  EquipmentMapingServiceImpl implements  EquipmentMapingService {
 	public  List<EquipmentMaping> getEquipmentMapings(Equipments PerantID,Equipments ChildID) {
 		return getEquipmentsMapingDao().getAll(PerantID,ChildID);
 	}
+	
+	@Override
+	@Transactional
+	public  List<EquipmentMaping> getEquipmentMapings(Equipments PerantID,int type) {
+		return getEquipmentsMapingDao().getAll(PerantID,type);
+	}
 	/** (non-Javadoc)
 	 * @see com.millenniumit.mx.data.ITIC.service.EquipmentMapingServiceImpl#getEquipmentsBulk()
 	 */

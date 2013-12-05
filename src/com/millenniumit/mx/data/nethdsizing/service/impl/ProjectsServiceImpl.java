@@ -2,7 +2,6 @@ package com.millenniumit.mx.data.nethdsizing.service.impl;
 
 
 import java.util.List;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import com.millenniumit.mx.data.nethdsizing.domain.Company;
 import com.millenniumit.mx.data.nethdsizing.domain.Project;
 import com.millenniumit.mx.data.nethdsizing.service.ProjectsService;
 import com.millenniumit.mx.data.nethdsizing.dao.ProjectDao;
-import com.millenniumit.mx.data.nethdsizing.dao.impl.ProjectDaoImpl;
 
 /**
  * 
@@ -27,9 +25,6 @@ public class  ProjectsServiceImpl  implements  ProjectsService {
 	@Qualifier("ProjectDao")
 	private ProjectDao ProjectDao;
 
-	public ProjectsServiceImpl() {
-	}
-
 	/**
 	 * @return the ProjectsDeo
 	 */
@@ -42,9 +37,6 @@ public class  ProjectsServiceImpl  implements  ProjectsService {
 	 */
 	public void setProjectsDao(ProjectDao ProjectsDao) {
 		this.ProjectDao = ProjectsDao;
-	}
-	public ProjectsServiceImpl(SessionFactory SessionFactory){
-		ProjectDao=new ProjectDaoImpl(SessionFactory);
 	}
 	/** (non-Javadoc)
 	 * @see com.millenniumit.mx.data.ITIC.service.ProjectsService#getProjects(java.lang.Long)

@@ -17,9 +17,8 @@ public class ProjectDaoImpl implements ProjectDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String table=new String();
-	protected ProjectDaoImpl() {
-	}
+	private String table="from Project ";
+
 
 	/**
 	 * @return the ITICSessionFactory
@@ -34,10 +33,7 @@ public class ProjectDaoImpl implements ProjectDao {
 	public void setITICSessionFactory(SessionFactory ITICSessionFactory) {
 		this.SessionFactory = ITICSessionFactory;
 	}
-	public ProjectDaoImpl(SessionFactory SessionFactory){
-		table="from Project ";
-		this.SessionFactory=SessionFactory;
-	}
+	
 	@Override
 	public Project get(String id) {
 		 

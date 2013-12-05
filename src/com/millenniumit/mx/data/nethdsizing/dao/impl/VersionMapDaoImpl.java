@@ -25,10 +25,7 @@ public class VersionMapDaoImpl implements VersionMapDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String table=new String();
-			
-			protected VersionMapDaoImpl() {
-	}
+	private String 	table="from VersionMap ";
 
 			/**
 			 * @return the SessionFactory
@@ -42,10 +39,6 @@ public class VersionMapDaoImpl implements VersionMapDao {
 			 */
 			public void setSessionFactory(SessionFactory SessionFactory) {
 				this.SessionFactory = SessionFactory;
-			}
-			public VersionMapDaoImpl(SessionFactory SessionFactory){
-				table="from VersionMap ";
-				this.SessionFactory=SessionFactory;
 			}
 			//*******************************************end************************************************
 

@@ -62,9 +62,7 @@ public class ItemTypesDaoImpl implements ItemTypesDao {
 	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#get(String)
 	 */
 	@Override
-	public ItemTypes get(String TypeName) {
-		  
-		 
+	public ItemTypes get(String TypeName) { 
 		return (ItemTypes) getSessionFactory().getCurrentSession()
 				.createQuery(table+"  where TypeName!='base'and TypeName=:TypeName")
 				.setParameter("TypeName", TypeName).uniqueResult();
@@ -75,9 +73,7 @@ public class ItemTypesDaoImpl implements ItemTypesDao {
 	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#get(int)
 	 */
 	@Override
-	public  List<ItemTypes> getAll(int  AccsessLevel) {
-		  
-		 
+	public  List<ItemTypes> getAll(int  AccsessLevel) { 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" where TypeName!='base' and AccsessLevel =:AccsessLevel order by TypeName")
 				.setParameter("AccsessLevel",  AccsessLevel).list();
@@ -89,8 +85,6 @@ public class ItemTypesDaoImpl implements ItemTypesDao {
 	 */
 	@Override
 	public List<ItemTypes> getAll() {
-		  
-		 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" where TypeName!='base' order by TypeName").list();
 	}
@@ -113,11 +107,9 @@ public class ItemTypesDaoImpl implements ItemTypesDao {
 	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#save(java.lang.Object)
 	 */
 	@Override
-	public int save(ItemTypes index){
-		  
-		 
-			getSessionFactory().getCurrentSession().save(index);
-			getSessionFactory().getCurrentSession().flush();
+	public int save(ItemTypes index){ 
+		getSessionFactory().getCurrentSession().save(index);
+		getSessionFactory().getCurrentSession().flush();
 		return index.getID();
 	}
 
@@ -127,9 +119,8 @@ public class ItemTypesDaoImpl implements ItemTypesDao {
 	 */
 	@Override
 	public void delete(ItemTypes index) {
-		  
-		 
-			getSessionFactory().getCurrentSession().flush();
+		getSessionFactory().getCurrentSession().delete(index);
+		getSessionFactory().getCurrentSession().flush();
 	}
 
 	/** (non-Javadoc)
@@ -137,8 +128,6 @@ public class ItemTypesDaoImpl implements ItemTypesDao {
 	 */
 	@Override
 	public void update(ItemTypes object)  {
-		  
-		 
 		getSessionFactory().getCurrentSession().update(object);
 		getSessionFactory().getCurrentSession().flush();
 	}
