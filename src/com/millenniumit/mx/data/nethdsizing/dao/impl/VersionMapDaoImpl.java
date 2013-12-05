@@ -25,7 +25,7 @@ public class VersionMapDaoImpl implements VersionMapDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String 	table="from VersionMap ";
+	private String 	table="from versionMap ";
 
 			/**
 			 * @return the SessionFactory

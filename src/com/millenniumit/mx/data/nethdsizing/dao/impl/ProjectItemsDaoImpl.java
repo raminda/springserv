@@ -26,7 +26,7 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String table="from ProjectItems ";
+	private String table="from projectItems ";
 			
 			/**
 			 * @return the SessionFactory

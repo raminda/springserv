@@ -25,7 +25,7 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String table="from Equipmentbulk ";
+	private String table="from equipmentbulk ";
 
 			/**
 			 * @return the SessionFactory

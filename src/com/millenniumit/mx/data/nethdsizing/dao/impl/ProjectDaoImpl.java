@@ -17,7 +17,7 @@ public class ProjectDaoImpl implements ProjectDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String table="from Project ";
+	private String table="from project ";
 
 
 	/**

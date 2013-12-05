@@ -21,7 +21,7 @@ public class CompanyDaoImpl implements CompanyDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory sessionFactory;
-	private String table="from Company ";
+	private String table="from company ";
 
 	
 
