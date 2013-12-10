@@ -79,6 +79,13 @@ public interface EquipmentsBulkService {
 	 * @param index
 	 */
 	public  void update(EquipmentBulk index);
+
+	/**
+	 * 
+	 * @param Packages
+	 * @param Equipments
+	 */
+	public List<EquipmentBulk> EquipmentsBulkgetD(Packages PackageID, Equipments ItemId);
 	
 	
 }

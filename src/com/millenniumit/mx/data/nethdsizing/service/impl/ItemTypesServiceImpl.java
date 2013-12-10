@@ -54,7 +54,12 @@ public ItemTypesServiceImpl() {
 	public ItemTypes getItemTypess(int id) {
 		return getItemTypesDao().get(id);
 	}
-
+	
+	@Override
+	@Transactional
+	public List<ItemTypes> getItemTypesByAl(int id) {
+		return getItemTypesDao().getAll(id);
+	}
 	/** (non-Javadoc)
 	 * @see com.millenniumit.mx.data.ITIC.service.ItemTypesService#getItemTypes(java.lang.String)
 	 */

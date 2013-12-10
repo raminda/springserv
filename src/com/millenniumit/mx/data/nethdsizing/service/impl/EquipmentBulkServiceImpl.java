@@ -106,7 +106,11 @@ private EquipmentbulkDao EquipmentsBulkDao;
 	public EquipmentBulk EquipmentsBulkget(Packages PackageID,Equipments ItemId) {
 		return getEquipmentsBulkDao().get(PackageID, ItemId);
 	}
-
+	@Override
+	@Transactional
+	public List<EquipmentBulk> EquipmentsBulkgetD(Packages PackageID,Equipments ItemId) {
+		return getEquipmentsBulkDao().getD(PackageID, ItemId);
+	}
 	/** (non-Javadoc)
 	 * @see com.millenniumit.mx.data.itic.service.EquipmentsBulkService#update(com.millenniumit.mx.data.itic.domain.EquipmentsBulk)
 	 */

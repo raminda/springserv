@@ -61,7 +61,7 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 	@Override
 	public List<Equipments> getBases(int ID) {
 		return  getSessionFactory().getCurrentSession()
-				.createQuery(table+" where  ItemTypes.AccsessLevel=:ID and ItemTypes=ItemTypes.ID and ItemTypes.ID!='1' order by ItemName ")
+				.createQuery(table+" where  itemtypes.AccsessLevel=:ID and itemtypes=itemtypes.ID and itemtypes.ID!='1' order by ItemName ")
 				.setParameter("ID", ID).list();
 	}
 	/**
@@ -106,7 +106,7 @@ public class EquipmentsDaoImpl implements EquipmentsDao {
 	public List<Equipments> getAll(ItemTypes equipmentsType) {
 		return getSessionFactory()
 			.getCurrentSession()
-			.createQuery(table+" where ItemTypes=:equipmentsType and ID!='1' order by ItemName")
+			.createQuery(table+" where itemtypes=:equipmentsType and ID!='1' order by ItemName")
 			.setParameter("equipmentsType", equipmentsType).list();
 	}
 

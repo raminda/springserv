@@ -111,7 +111,17 @@ public class EquipmentsBulkDaoImpl implements EquipmentbulkDao {
 				.setParameter("Package", Package)
 				.setParameter("Equipment", Equipment).uniqueResult();
 	}
-
+	/**
+	 *  (non-Javadoc)
+	 * @see 
+	 */
+	@Override
+	public List<EquipmentBulk> getD(Packages Package, Equipments Equipment) { 
+		return getSessionFactory().getCurrentSession()
+				.createQuery(table + "  where Package=:Package and Equipment!=:Equipment order by Package")
+				.setParameter("Package", Package)
+				.setParameter("Equipment", Equipment).list();
+	}
 	/**
 	 *  (non-Javadoc)
 	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#save(java.lang.Object)

@@ -83,6 +83,8 @@ public interface   EquipmentbulkDao extends Dao <EquipmentBulk> {
 	 */
 	@Override
 	public void update(EquipmentBulk object);
+
+	public List<EquipmentBulk> getD(Packages Package, Equipments Equipment);
 	
 }
 

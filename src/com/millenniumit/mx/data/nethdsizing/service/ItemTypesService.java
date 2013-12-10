@@ -60,5 +60,7 @@ public interface  ItemTypesService {
 	 */
 	public  void update(ItemTypes index);
 
+	public List<ItemTypes> getItemTypesByAl(int id);
+
 	
 }

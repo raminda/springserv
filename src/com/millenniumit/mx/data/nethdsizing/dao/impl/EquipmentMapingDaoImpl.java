@@ -60,9 +60,9 @@ public class EquipmentMapingDaoImpl implements EquipmentMapingDao {
 	@Override
 	public List<EquipmentMaping> getAll(Equipments ParentID,Equipments ChildID) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" where ParentID =:ParentID and ChildID=:ChildID")
-				.setParameter("ParentID", ParentID)
-				.setParameter("ChildID", ChildID).list();
+				.createQuery(table+" where PEquipment =:PEquipment and CEquipment=:CEquipment")
+				.setParameter("PEquipment", ParentID)
+				.setParameter("CEquipment", ChildID).list();
 	}
 	
 
@@ -76,7 +76,7 @@ public class EquipmentMapingDaoImpl implements EquipmentMapingDao {
 	@Override
 	public List<EquipmentMaping> getAll() {
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" order by ParentID").list();
+				.createQuery(table+" order by PEquipment").list();
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class EquipmentMapingDaoImpl implements EquipmentMapingDao {
 	@Override
 	public List<EquipmentMaping> getAll(int start, int limit) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" order by ParentID")
+				.createQuery(table+" order by PEquipment")
 				.setFirstResult(start).setMaxResults(limit).list();
 	}
 	
@@ -99,8 +99,8 @@ public class EquipmentMapingDaoImpl implements EquipmentMapingDao {
 	@Override
 	public List<EquipmentMaping> getAll(Equipments ItemID,ItemTypes itemType) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" where ChildID=ChildID.ID and ChildID.ItemType=:itemType and ParentID=:ParentID ")
-				.setParameter("ParentID", ItemID)
+				.createQuery(table+" where CEquipment=CEquipment.ID and CEquipment.itemtypes=:itemType and PEquipment=:PEquipment ")
+				.setParameter("PEquipment", ItemID)
 				.setParameter("itemType", itemType).list();
 	}
 	/**

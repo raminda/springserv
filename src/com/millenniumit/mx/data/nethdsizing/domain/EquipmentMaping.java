@@ -26,11 +26,11 @@ public class EquipmentMaping extends AuditFields implements Serializable {
 	
 	@ManyToOne(cascade= CascadeType.PERSIST)
 	@JoinColumn(name = "PEquipment",nullable=false)
-	private Equipments ParentID;
+	private Equipments PEquipment;
 
 	@ManyToOne(cascade= CascadeType.PERSIST)
 	@JoinColumn(name = "CEquipment",nullable=false)
-	private Equipments ChildID;
+	private Equipments CEquipment;
 	
 	
 				/*  Get Set Methods For Column*/
@@ -51,31 +51,31 @@ public class EquipmentMaping extends AuditFields implements Serializable {
 	}	
 	
 	/**
-	 * @return the ParentID
+	 * @return the PEquipment
 	 */
-	public Equipments getParentID() {
-		return ParentID;
+	public Equipments getPEquipment() {
+		return PEquipment;
 	}
 
 	/**
-	 * @param ParentID 
+	 * @param PEquipment 
 	 */
-	public void setParentID(Equipments ParentID) {
-		this.ParentID = ParentID;
+	public void setPEquipment(Equipments PEquipment) {
+		this.PEquipment = PEquipment;
 	}
 	
 	/**
-	 * @return the ChildID
+	 * @return the CEquipment
 	 */
-	public Equipments getChildID() {
-		return ChildID;
+	public Equipments getCEquipment() {
+		return CEquipment;
 	}
 
 	/**
-	 * @param ChildID
+	 * @param CEquipment
 	 */
-	public void setChildID(Equipments ChildID) {
-		this.ChildID = ChildID;
+	public void setCEquipment(Equipments CEquipment) {
+		this.CEquipment = CEquipment;
 	}	
 }
 
