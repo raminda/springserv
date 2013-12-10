@@ -14,7 +14,7 @@ import javax.persistence.*;
  *
  **/
 @Entity(name="versionMap")
-@Table(name="versionMap")
+@Table(name="versionMap", uniqueConstraints= @UniqueConstraint(columnNames={"Version","OptionID","Project","SiteID"}))
 public class VersionMap extends AuditFields implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,11 +25,13 @@ public class VersionMap extends AuditFields implements Serializable {
 	private int ID;
 	
 	@ManyToOne(cascade= CascadeType.PERSIST)
-	@JoinColumn(name = "Project")
-	private Project ProjectID;
-	
+	@JoinColumn(name = "Project",nullable=false)
+	private Project Project;
+	@Column(nullable=false)
 	private String OptionID;
-	
+	@Column(nullable=false)
+	private String SiteID;
+	@Column(nullable=false)
 	private String Version;
 
 	/**
@@ -50,14 +52,14 @@ public class VersionMap extends AuditFields implements Serializable {
 	 * @return the projectID
 	 */
 	public Project getProjectID() {
-		return ProjectID;
+		return Project;
 	}
 
 	/**
 	 * @param projectID the projectID to set
 	 */
 	public void setProjectID(Project projectID) {
-		ProjectID = projectID;
+		Project = projectID;
 	}
 
 	/**
@@ -86,6 +88,14 @@ public class VersionMap extends AuditFields implements Serializable {
 	 */
 	public void setVersion(String version) {
 		Version = version;
+	}
+
+	public String getSiteID() {
+		return SiteID;
+	}
+
+	public void setSiteID(String siteID) {
+		SiteID = siteID;
 	}						
 	
 

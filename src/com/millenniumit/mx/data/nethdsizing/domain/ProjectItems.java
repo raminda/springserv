@@ -10,7 +10,7 @@ import javax.persistence.*;
  **/
 
 @Entity(name="projectItems")
-@Table(name="projectItems")
+@Table(name="projectItems" ,uniqueConstraints= @UniqueConstraint(columnNames={ "Version_Map","Packages"}))
 public class ProjectItems extends AuditFields implements Serializable {
 
 	
@@ -22,14 +22,12 @@ public class ProjectItems extends AuditFields implements Serializable {
 	private Integer ID;
 	
 	@ManyToOne(cascade= CascadeType.PERSIST)
-	@JoinColumn(name = "Version_Map")
-	private VersionMap VersionID;	
+	@JoinColumn(name = "Version_Map",nullable=false)
+	private VersionMap Version_Map;	
 
 	@ManyToOne(cascade= CascadeType.PERSIST)
-	@JoinColumn(name = "Packages")
-	private Packages PackageID;
-
-	private String SiteID;
+	@JoinColumn(name = "Packages",nullable=false)
+	private Packages Packages;
 
 	private int Quantity;
 	
@@ -53,28 +51,28 @@ public class ProjectItems extends AuditFields implements Serializable {
 	 * @return the Version
 	 */
 	public VersionMap getVersion() {
-		return VersionID;
+		return Version_Map;
 	}
 
 	/**
 	 * @param Version the Version to set
 	 */
 	public void setVersion(VersionMap Version) {
-		this.VersionID = Version;
+		this.Version_Map = Version;
 	}
 
 	/**
 	 * @return the packageID
 	 */
 	public Packages getPackageID() {
-		return PackageID;
+		return Packages;
 	}
 
 	/**
 	 * @param packageID the packageID to set
 	 */
 	public void setPackageID(Packages packageID) {
-		PackageID = packageID;
+		Packages = packageID;
 	}
 
 	/**
@@ -90,21 +88,6 @@ public class ProjectItems extends AuditFields implements Serializable {
 	public void setQuantity(int quantity) {
 		Quantity = quantity;
 	}
-
-	/**
-	 * @return the siteID
-	 */
-	public String getSiteID() {
-		return SiteID;
-	}
-
-	/**
-	 * @param siteID the siteID to set
-	 */
-	public void setSiteID(String siteID) {
-		SiteID = siteID;
-	}
-
 	/**
 	 * @return the packageType
 	 */

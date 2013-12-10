@@ -45,7 +45,7 @@ public class TestClass {
 	public void TestSourceTickets() {
 		System.out.println(packagesService.getPackages().get(0).getPackageName());
 		System.out.println(equipmentsBulkService.getPackageBulk(packagesService.getPackagess(1)).get(0).getPackageID().getPackageName());
-		System.out.println(companyService.get("nirobis").getCompanyName());
+		System.out.println(companyService.get("nirobi").getCompanyName());
 		System.out.println(itemTypesService.get("Ram").getTypeName());
 		System.out.println(equipmentMapingService.getEquipmentMapings(equipmentsService.getEquipments(3), itemTypesService.getItemTypess(2)).get(0).getCEquipment().getItemName());
 		//System.out.println(equipmentsBulkService.EquipmentsBulkgetD(packagesService.getPackagess(1), equipmentMapingService.getEquipmentMapings(equipmentsService.getEquipments(3), itemTypesService.getItemTypess(2)).get(0).getCEquipment()).get(0).getEquipmentsId().getItemName());
