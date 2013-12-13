@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.millenniumit.mx.data.nethdsizing.domain.Company;
+import com.millenniumit.mx.data.nethdsizing.domain.Project;
 import com.millenniumit.mx.data.nethdsizing.domain.VersionMap;
 import com.millenniumit.mx.data.nethdsizing.service.VersionMapService;
 import com.millenniumit.mx.data.nethdsizing.dao.VersionMapDao;
@@ -94,23 +94,30 @@ public class  VersionMapServicempl  implements  VersionMapService {
 
 	@Override
 	@Transactional
-	public VersionMap getVersion_Maps(String Version_MapsName) {
-		
-		return null;
+	public List<String> getVersion_Maps(Project project, String OptionID) {
+		return getVersion_MapsDao().getAll(project, OptionID);
 	}
 
 	@Override
 	@Transactional
-	public List<VersionMap> getCompany(Company company) {
-		
-		return null;
+	public List<String> getProjects(Project project) {
+		return getVersion_MapsDao().getAllPackagetype(project);
 	}
 
 	@Override
 	@Transactional
-	public List<String> getAllNames() {
-		
-		return null;
+	public List<VersionMap> getAll(Project project, String OptionID,String Version) {
+		return getVersion_MapsDao().get(project, OptionID, Version);
 	}
-
+	
+	@Override
+	@Transactional
+	public VersionMap getAll(Project project, String OptionID,String Version,String SiteID) {
+		return getVersion_MapsDao().get(project,OptionID,Version,SiteID);
+	}
+	@Override
+	@Transactional
+	public List<VersionMap> getAll(Project project) {
+		return getVersion_MapsDao().getAll(project);
+	}
 }

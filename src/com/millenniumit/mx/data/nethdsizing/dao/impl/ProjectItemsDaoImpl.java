@@ -87,8 +87,8 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 		 
 		 
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" WHERE VersionID =:VersionID")
-				.setParameter("VersionID", VersionID).list();
+				.createQuery(table+" WHERE Version_Map =:Version_Map")
+				.setParameter("Version_Map", VersionID).list();
 	}
 	
 	@Override
@@ -96,7 +96,7 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 		 
 		 
 		return (ProjectItems) getSessionFactory().getCurrentSession()
-				.createQuery(table+" WHERE VersionID =:VersionID and SiteID =:SiteID and PackageID =:PackageID")
+				.createQuery(table+" WHERE Version_Map =:Version_Map and SiteID =:SiteID and PackageID =:PackageID")
 				.setParameter("VersionID", VersionID)
 				.setParameter("SiteID", SiteID)
 				.setParameter("PackageID", PackageID).uniqueResult();
@@ -107,9 +107,9 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 		 
 		 
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" WHERE SiteID =:SiteID and  VersionID =:VersionID")
+				.createQuery(table+" WHERE SiteID =:SiteID and  Version_Map =:Version_Map")
 				.setParameter("SiteID", SiteID)
-				.setParameter("VersionID", VersionID).list();
+				.setParameter("Version_Map", VersionID).list();
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 		 
 		 
 		return getSessionFactory().getCurrentSession()
-				.createQuery("Select distinct PackageType from projectitems WHERE VersionID =:VersionID")
+				.createQuery("Select distinct PackageType from projectitems WHERE Version_Map =:VersionID")
 				.setParameter("SiteID", SiteID)
 				.setParameter("VersionID", VersionID).list();
 	}
@@ -128,7 +128,7 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 		 
 		 
 		return getSessionFactory().getCurrentSession()
-				.createQuery("Select distinct SiteID from projectitems WHERE VersionID =:VersionID")
+				.createQuery("Select distinct SiteID from projectitems WHERE Version_Map =:VersionID")
 				.setParameter("VersionID", VersionID).list();
 	}
 //*********************************************************************
@@ -137,7 +137,7 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 		 
 		 
 		return getSessionFactory().getCurrentSession()
-				.createQuery("Select distinct PackageType from projectitems WHERE VersionID =:VersionID and SiteID =:SiteID")
+				.createQuery("Select distinct PackageType from projectitems WHERE Version_Map =:VersionID and SiteID =:SiteID")
 				.setParameter("SiteID", SiteID)
 				.setParameter("VersionID", VersionID).list();
 	}
@@ -147,7 +147,7 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 		 
 		 
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" WHERE VersionID =:VersionID  and SiteID =:SiteID and  PackageType =:PackageType")
+				.createQuery(table+" WHERE Version_Map =:VersionID  and SiteID =:SiteID and  PackageType =:PackageType")
 				.setParameter("SiteID", SiteID)
 				.setParameter("PackageType", PackageType)
 				.setParameter("VersionID", VersionID).list();

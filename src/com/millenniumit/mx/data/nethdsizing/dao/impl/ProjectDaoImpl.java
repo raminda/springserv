@@ -36,10 +36,9 @@ public class ProjectDaoImpl implements ProjectDao {
 	
 	@Override
 	public Project get(String id) {
-		 
-		 
+
 		return (Project) getSessionFactory().getCurrentSession()
-				.createQuery(table+" projects where ProjectName=:ProjectName")
+				.createQuery(table+" where ProjectName=:ProjectName")
 				.setParameter("ProjectName", id).uniqueResult();
 	}
 
@@ -48,7 +47,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		 
 		 
 		return  getSessionFactory().getCurrentSession()
-				.createQuery(table+" projects where Company=:Campanyname")
+				.createQuery(table+" where Company=:Campanyname")
 				.setParameter("Campanyname", Campanyname).list();
 	}
 
@@ -57,7 +56,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		 
 		 
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" projects order by ID")
+				.createQuery(table+" order by ID")
 				.setFirstResult(start).setMaxResults(limit).list();
 	}
 
@@ -66,7 +65,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		 
 		 
 		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" projects order by  ID ")
+				.createQuery(table+" order by  ID ")
 				.list();
 	}
 	/**
@@ -78,14 +77,14 @@ public class ProjectDaoImpl implements ProjectDao {
 		 
 		 
 		return getSessionFactory().getCurrentSession()
-				.createQuery("select distinct Company from  projects order by Company").list();
+				.createQuery("select distinct Company "+table+" order by Company").list();
 	}
 	@Override
 	public Project get(int ID) {
 		 
 		 
 		return (Project) getSessionFactory().getCurrentSession()
-				.createQuery(table+" projects where ID =:ID")
+				.createQuery(table+" where ID =:ID")
 				.setParameter("ID", ID).uniqueResult();
 	}
 	@Override

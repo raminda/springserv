@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.millenniumit.mx.data.nethdsizing.domain.Packages;
+import com.millenniumit.mx.data.nethdsizing.domain.Project;
 import com.millenniumit.mx.data.nethdsizing.domain.VersionMap;
 
 
@@ -36,15 +37,20 @@ public interface VersionMapDao extends Dao <VersionMap> {
 	 * @param SiteID
 	 * @return
 	 */
-	public List<VersionMap> getAll( VersionMap VersionID, String SiteID);
+	public List<String> getAll(Project project, String OptionID);
 	
+	/**
+	 * @param VersionID
+	 * @return
+	 */
+	public List<VersionMap> getAll(Project project);
 	/**
 	 * @param VersionID
 	 * @param SiteID
 	 * @param PackageID
 	 * @return
 	 */
-	public VersionMap get(VersionMap VersionID,String SiteID,Packages PackageID);
+	public  List<VersionMap> get(Project project,String OptionID, String Version);
 		
 	/**
 	 * @param Start,Limit
@@ -81,7 +87,7 @@ public interface VersionMapDao extends Dao <VersionMap> {
 	 * @param SiteID
 	 * @return
 	 */
-	public List<String> getAllPackage( VersionMap VersionID, String SiteID);
+	public VersionMap get(Project project,String OptionID, String Version,String SiteID);
 
 	/**
 	 * @param VersionID
@@ -117,6 +123,8 @@ public interface VersionMapDao extends Dao <VersionMap> {
 	 */
 	@Override
 	public void update(VersionMap object);
+
+	public List<String> getAllPackagetype(Project project);
 
 }
 

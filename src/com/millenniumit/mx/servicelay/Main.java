@@ -4,8 +4,6 @@
 package com.millenniumit.mx.servicelay;
 
 import java.net.URL;
-import java.util.Iterator;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.millenniumit.mx.data.nethdsizing.dao.VersionMapDao;
-import com.millenniumit.mx.data.nethdsizing.domain.Packages;
+import com.millenniumit.mx.data.nethdsizing.domain.Project;
 import com.millenniumit.mx.data.nethdsizing.domain.VersionMap;
 
 /**
@@ -25,7 +25,7 @@ public class VersionMapDaoImpl implements VersionMapDao {
 	@Autowired
 	@Qualifier("sessionFactory")
 	private SessionFactory SessionFactory;
-	private String 	table="from versionMap ";
+	private String 	table=" from versionMap ";
 
 			/**
 			 * @return the SessionFactory
@@ -74,77 +74,73 @@ public class VersionMapDaoImpl implements VersionMapDao {
 	 */
 	@Override
 	public List<VersionMap> getAll(int start, int limit) {
-		 
-		 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" VersionMap order by Version")
 				.setFirstResult(start).setMaxResults(limit).list();
 	}
 	
 	@Override
-	public List<VersionMap> getAll(VersionMap VersionID) {
-		 
-		 
+	public List<VersionMap> getAll(VersionMap VersionID) { 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" WHERE VersionID =:VersionID")
 				.setParameter("VersionID", VersionID).list();
 	}
 	
 	@Override
-	public VersionMap get(VersionMap VersionID, String SiteID, Packages PackageID) {
-		 
-		 
+	public  List<VersionMap> get(Project project,String OptionID, String Version) {
+		return  getSessionFactory().getCurrentSession()
+				.createQuery(table+" WHERE Project =:Project and OptionID =:OptionID and Version =:Version")
+				.setParameter("Project", project)
+				.setParameter("OptionID", OptionID)
+				.setParameter("Version", Version).list();
+	}
+	
+	@Override
+	public List<String> getAll(Project project,String OptionID) { 
+		return getSessionFactory().getCurrentSession()
+				.createQuery("Select distinct Version "+table+" WHERE OptionID =:OptionID and  Project =:Project")
+				.setParameter("OptionID", OptionID)
+				.setParameter("Project", project).list();
+	}
+	@Override
+	public List<VersionMap> getAll(Project project) { 
+		return getSessionFactory().getCurrentSession()
+				.createQuery(table+" WHERE Project =:Project")
+				.setParameter("Project", project).list();
+	}
+	@Override
+	public VersionMap get(Project project,String OptionID, String Version,String SiteID) {	 
 		return (VersionMap) getSessionFactory().getCurrentSession()
-				.createQuery(table+" WHERE VersionID =:VersionID and SiteID =:SiteID and PackageID =:PackageID")
-				.setParameter("VersionID", VersionID)
+				.createQuery(table+" WHERE Project =:Project and SiteID =:SiteID and OptionID =:OptionID and Version =:Version")
 				.setParameter("SiteID", SiteID)
-				.setParameter("PackageID", PackageID).uniqueResult();
-	}
-	
-	@Override
-	public List<VersionMap> getAll(VersionMap VersionID,String SiteID) {
-		 
-		 
-		return getSessionFactory().getCurrentSession()
-				.createQuery(table+" WHERE SiteID =:SiteID and  VersionID =:VersionID")
-				.setParameter("SiteID", SiteID)
-				.setParameter("VersionID", VersionID).list();
-	}
-
-	@Override
-	public List<String> getAllPackage(VersionMap VersionID,String SiteID) {
-		 
-		 
-		return getSessionFactory().getCurrentSession()
-				.createQuery("Select distinct PackageType from VersionMap WHERE VersionID =:VersionID")
-				.setParameter("SiteID", SiteID)
-				.setParameter("VersionID", VersionID).list();
+				.setParameter("Version", Version)
+				.setParameter("OptionID", OptionID)
+				.setParameter("Project", project).uniqueResult();
 	}
 
 	
 	@Override
-	public List<String> getAllSites(VersionMap VersionID) {
-		 
-		 
+	public List<String> getAllSites(VersionMap VersionID) { 
 		return getSessionFactory().getCurrentSession()
-				.createQuery("Select distinct SiteID from VersionMap WHERE VersionID =:VersionID")
+				.createQuery("Select distinct SiteID "+table+" WHERE VersionID =:VersionID")
 				.setParameter("VersionID", VersionID).list();
 	}
 //*********************************************************************
 	@Override
-	public List<String> getAllPackagetype(VersionMap VersionID,String SiteID) {
-		 
-		 
+	public List<String> getAllPackagetype(VersionMap VersionID,String SiteID) { 
 		return getSessionFactory().getCurrentSession()
-				.createQuery("Select distinct PackageType from VersionMap WHERE VersionID =:VersionID and SiteID =:SiteID")
+				.createQuery("Select distinct PackageType "+table+" WHERE VersionID =:VersionID and SiteID =:SiteID")
 				.setParameter("SiteID", SiteID)
 				.setParameter("VersionID", VersionID).list();
 	}
-	
+	@Override
+	public List<String> getAllPackagetype(Project project) {  
+		return getSessionFactory().getCurrentSession()
+				.createQuery("SELECT distinct OptionID "+table+" WHERE Project =:Project")
+				.setParameter("Project", project).list();
+	}
 	@Override
 	public List<VersionMap> getAll(VersionMap VersionID,String SiteID,String PackageType) {
-		 
-		 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" WHERE VersionID =:VersionID  and SiteID =:SiteID and  PackageType =:PackageType")
 				.setParameter("SiteID", SiteID)

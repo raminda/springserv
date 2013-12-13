@@ -3,7 +3,7 @@ package com.millenniumit.mx.data.nethdsizing.service;
 
 import java.util.List;
 
-import com.millenniumit.mx.data.nethdsizing.domain.Company;
+import com.millenniumit.mx.data.nethdsizing.domain.Project;
 import com.millenniumit.mx.data.nethdsizing.domain.VersionMap;
 /**
  * 
@@ -21,17 +21,11 @@ public interface VersionMapService {
 	
 	/**
 	 * 
-	 * @param Version_MapsName
+	 * @param VersionMap index
+	 * @param String OptionID
 	 * @return
 	 */
-	public  VersionMap getVersion_Maps(String Version_MapsName);
-	
-	/**
-	 * 
-	 * @param Company
-	 * @return
-	 */
-	public  List <VersionMap> getCompany(Company company);
+	public  List<String> getVersion_Maps(Project project, String OptionID);
 	
 	/**
 	 * 
@@ -48,10 +42,18 @@ public interface VersionMapService {
 	public  List<VersionMap> getVersion_Maps(int start, int limit);
 	
 	/**
-	 * 
+	 * @param project
 	 * @return
 	 */
-	public List<String> getAllNames();
+	public List<VersionMap> getAll(Project project);
+	
+	/**
+	 * @param project
+	 * @param OptionID
+	 * @param Version
+	 * @return
+	 */
+	public List<VersionMap> getAll(Project project, String OptionID,String Version);
 	/**
 	 * 
 	 * @param index
@@ -69,6 +71,11 @@ public interface VersionMapService {
 	 * @param index
 	 */
 	public  void update(VersionMap index);
+
+	public List<String> getProjects(Project project);
+
+	public VersionMap getAll(Project project, String OptionID, String Version,
+			String SiteID);
 
 	/**
 	 * @return
