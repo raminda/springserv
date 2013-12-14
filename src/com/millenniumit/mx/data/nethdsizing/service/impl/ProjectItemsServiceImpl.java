@@ -75,9 +75,9 @@ public class ProjectItemsServiceImpl  implements ProjectItemsService {
 	 */
 	@Override
 	@Transactional
-	public ProjectItems get(VersionMap VersionID, String SiteID, Packages PackageID) {
+	public ProjectItems get(VersionMap VersionID, Packages PackageID) {
 		
-		return getProjectItemsDao().get( VersionID, SiteID, PackageID);
+		return getProjectItemsDao().get(VersionID,PackageID);
 	}
 
 	/** (non-Javadoc)

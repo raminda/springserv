@@ -92,14 +92,12 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 	}
 	
 	@Override
-	public ProjectItems get(VersionMap VersionID, String SiteID, Packages PackageID) {
-		 
-		 
+	public ProjectItems get(VersionMap VersionID, Packages PackageID) {
+ 
 		return (ProjectItems) getSessionFactory().getCurrentSession()
-				.createQuery(table+" WHERE Version_Map =:Version_Map and SiteID =:SiteID and PackageID =:PackageID")
-				.setParameter("VersionID", VersionID)
-				.setParameter("SiteID", SiteID)
-				.setParameter("PackageID", PackageID).uniqueResult();
+				.createQuery(table+" WHERE Version_Map =:Version_Map and Packages =:Packages")
+				.setParameter("Version_Map", VersionID)
+				.setParameter("Packages", PackageID).uniqueResult();
 	}
 	
 	@Override

@@ -158,9 +158,7 @@ public class VersionMapDaoImpl implements VersionMapDao {
 	 */
 	
 	@Override 
-	public int save(VersionMap index)  {
-		 
-		 
+	public int save(VersionMap index)  {	 
 		getSessionFactory().getCurrentSession().save(index);
 		getSessionFactory().getCurrentSession().flush(); 
 		return index.getID();

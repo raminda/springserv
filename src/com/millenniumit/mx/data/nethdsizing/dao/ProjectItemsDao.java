@@ -45,7 +45,7 @@ public interface ProjectItemsDao extends Dao <ProjectItems> {
 	 * @param PackageID
 	 * @return
 	 */
-	public ProjectItems get(VersionMap VersionID,String SiteID,Packages PackageID);
+	public ProjectItems get(VersionMap VersionID,Packages PackageID);
 		
 	/**
 	 * @param Start,Limit

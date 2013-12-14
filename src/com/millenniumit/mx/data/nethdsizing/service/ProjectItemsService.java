@@ -51,7 +51,7 @@ public interface ProjectItemsService {
 	 * @return
 	 *//*
 	public   List<ProjectItems> getAll(Date date1, Date date2);*/
-	public ProjectItems get(VersionMap VersionID, String SiteID, Packages PackageID);
+	public ProjectItems get(VersionMap VersionID, Packages PackageID);
 	
 	public List<ProjectItems> getAll(VersionMap VersionID,String SiteID);
 
