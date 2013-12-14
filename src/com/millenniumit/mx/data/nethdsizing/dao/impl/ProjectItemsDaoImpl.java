@@ -197,7 +197,6 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 	 */
 	@Override
 	protected void finalize() throws Throwable {
-		getSessionFactory().getCurrentSession().flush();
 		super.finalize();
 	}
 }

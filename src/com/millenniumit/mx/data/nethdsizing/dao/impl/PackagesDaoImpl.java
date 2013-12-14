@@ -43,8 +43,6 @@ public class PackagesDaoImpl implements PackagesDao {
 	 */
 	@Override
 	public Packages get(int ID) {
-		 
-		 
 		return (Packages) getSessionFactory().getCurrentSession()
 				.createQuery(table+" where ID =:ID")
 				.setParameter("ID", ID).uniqueResult();
@@ -56,9 +54,7 @@ public class PackagesDaoImpl implements PackagesDao {
 	 */
 	
 	@Override
-	public List<Packages> getAll(){
-		 
-		 
+	public List<Packages> getAll(){ 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" order by PackageName").list();
 	}
@@ -69,9 +65,7 @@ public class PackagesDaoImpl implements PackagesDao {
 	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#delete(String,int)
 	 */
 	@Override
-	public Packages get(String id) {
-		 
-		 
+	public Packages get(String id) {	 
 		return (Packages) getSessionFactory().getCurrentSession().createQuery(table+" where PackageName =:PackageName")
 					.setParameter("PackageName", id).uniqueResult();
 	}
@@ -80,9 +74,7 @@ public class PackagesDaoImpl implements PackagesDao {
 	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#getAll(int, int)
 	 */
 	@Override
-	public List <Packages> getAll(int start, int limit) {
-		 
-		 
+	public List <Packages> getAll(int start, int limit) { 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" order by PackageName")
 				.setFirstResult(start).setMaxResults(limit).list();
@@ -93,9 +85,7 @@ public class PackagesDaoImpl implements PackagesDao {
 	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#delete(Date,Date,int)
 	 */
 	@Override
-	public List<Packages> getAll(Date date1, Date date2) {
-		 
-		 
+	public List<Packages> getAll(Date date1, Date date2) { 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" where EOLdate>:date1 and EOLdate<:date2  order by PackageName")
 				.setParameter("date1", date1)
@@ -111,8 +101,6 @@ public class PackagesDaoImpl implements PackagesDao {
 	 */
 	@Override
 	public List<Packages> getAll(Date date,int sumtype) {
-		 
-		 
 		if(sumtype==1){
 				return getSessionFactory().getCurrentSession()
 					.createQuery(table+" where EOLdate=:date order by PackageName")
@@ -135,9 +123,7 @@ public class PackagesDaoImpl implements PackagesDao {
 	 */
 	
 	@Override
-	public int save(Packages index)  {
-		 
-		 
+	public int save(Packages index)  { 
 		getSessionFactory().getCurrentSession().save(index);
 		getSessionFactory().getCurrentSession().flush();
 		return index.getId();
@@ -148,9 +134,7 @@ public class PackagesDaoImpl implements PackagesDao {
 	 * @see com.millenniumit.mx.data.ITIC.dao.Dao#delete(java.lang.Object)
 	 */
 	@Override
-	public void delete(Packages index)  {
-		 
-		 
+	public void delete(Packages index)  {	 
 		getSessionFactory().getCurrentSession().delete(index);
 		getSessionFactory().getCurrentSession().flush();
 	}
@@ -159,9 +143,7 @@ public class PackagesDaoImpl implements PackagesDao {
 	 * @see com.millenniumit.mx.data.itic.dao.Dao#update(java.lang.Object)
 	 */
 	@Override
-	public void update(Packages index)  {
-		 
-		 
+	public void update(Packages index)  { 
 		getSessionFactory().getCurrentSession().update(index);
 		getSessionFactory().getCurrentSession().flush();
 	}
@@ -170,7 +152,7 @@ public class PackagesDaoImpl implements PackagesDao {
 	 */
 	@Override
 	protected void finalize() throws Throwable {
-		getSessionFactory().getCurrentSession().flush();
+		//getSessionFactory().getCurrentSession().flush();
 		super.finalize();
 	}
 }

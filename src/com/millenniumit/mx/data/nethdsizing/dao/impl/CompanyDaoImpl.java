@@ -140,7 +140,7 @@ public class CompanyDaoImpl implements CompanyDao {
 	 */
 	@Override
 	protected void finalize() throws Throwable {
-		getSessionFactory().getCurrentSession().flush();
+		//getSessionFactory().getCurrentSession().flush();
 		super.finalize();
 	}
 

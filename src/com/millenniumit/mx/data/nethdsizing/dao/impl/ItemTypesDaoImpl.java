@@ -137,7 +137,7 @@ public class ItemTypesDaoImpl implements ItemTypesDao {
 	 */
 	@Override
 	protected void finalize() throws Throwable {
-		getSessionFactory().getCurrentSession().flush();
+		//getSessionFactory().getCurrentSession().flush();
 		super.finalize();
 	}
 

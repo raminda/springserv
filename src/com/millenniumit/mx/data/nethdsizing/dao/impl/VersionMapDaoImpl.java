@@ -170,8 +170,6 @@ public class VersionMapDaoImpl implements VersionMapDao {
 	 */
 	@Override
 	public void delete(VersionMap index)  {
-		 
-		 
 		getSessionFactory().getCurrentSession().delete(index);
 		getSessionFactory().getCurrentSession().flush(); 
 	}
@@ -181,9 +179,7 @@ public class VersionMapDaoImpl implements VersionMapDao {
 	 * @see com.millenniumit.mx.data.itic.dao.Dao#update(java.lang.Object)
 	 */
 	@Override
-	public void update(VersionMap object)  {
-		 
-		 
+	public void update(VersionMap object)  { 
 		getSessionFactory().getCurrentSession().update(object);
 		getSessionFactory().getCurrentSession().flush(); 
 	}
@@ -192,7 +188,6 @@ public class VersionMapDaoImpl implements VersionMapDao {
 	 */
 	@Override
 	protected void finalize() throws Throwable {
-		getSessionFactory().getCurrentSession().flush(); 
 		super.finalize();
 	}
 }
