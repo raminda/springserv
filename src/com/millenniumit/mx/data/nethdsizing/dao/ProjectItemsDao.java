@@ -119,6 +119,8 @@ public interface ProjectItemsDao extends Dao <ProjectItems> {
 	@Override
 	public void update(ProjectItems object)  ;
 
+	public List<String> getPackageType(VersionMap VersionID);
+
 }
 
 

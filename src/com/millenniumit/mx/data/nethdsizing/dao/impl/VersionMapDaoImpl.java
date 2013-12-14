@@ -102,6 +102,15 @@ public class VersionMapDaoImpl implements VersionMapDao {
 				.setParameter("OptionID", OptionID)
 				.setParameter("Project", project).list();
 	}
+	
+	@Override
+	public  List<String> getSite(Project project,String OptionID, String Version) {
+		return  getSessionFactory().getCurrentSession()
+				.createQuery("Select distinct SiteID "+table+" WHERE Project =:Project and OptionID =:OptionID and Version =:Version")
+				.setParameter("Project", project)
+				.setParameter("OptionID", OptionID)
+				.setParameter("Version", Version).list();
+	}
 	@Override
 	public List<VersionMap> getAll(Project project) { 
 		return getSessionFactory().getCurrentSession()

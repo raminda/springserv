@@ -31,7 +31,8 @@ public class ProjectItems extends AuditFields implements Serializable {
 
 	private int Quantity;
 	
-	private String PackageType;											
+	private String PackageType;	
+	private String PcakageUsege;
 										/*  Get Set Methods For Column*/
 	/**
 	 * @return the ID
@@ -100,5 +101,13 @@ public class ProjectItems extends AuditFields implements Serializable {
 	 */
 	public void setPackageType(String packageType) {
 		PackageType = packageType;
+	}
+
+	public String getPcakageUsege() {
+		return PcakageUsege;
+	}
+
+	public void setPcakageUsege(String pcakageUsege) {
+		PcakageUsege = pcakageUsege;
 	}
 }

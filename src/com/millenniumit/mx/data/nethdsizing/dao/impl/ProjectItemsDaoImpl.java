@@ -84,13 +84,24 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 	
 	@Override
 	public List<ProjectItems> getAll(VersionMap VersionID) {
-		 
-		 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" WHERE Version_Map =:Version_Map")
 				.setParameter("Version_Map", VersionID).list();
 	}
 	
+	@Override
+	public List<ProjectItems> getAll(VersionMap VersionID,String PackageType) {
+		return getSessionFactory().getCurrentSession()
+				.createQuery(table+" WHERE Version_Map =:Version_Map and PackageType =:PackageType")
+				.setParameter("PackageType", PackageType)
+				.setParameter("Version_Map", VersionID).list();
+	}
+	@Override
+	public List<String> getPackageType(VersionMap VersionID) {
+		return getSessionFactory().getCurrentSession()
+				.createQuery("Select distinct PackageType "+table+" WHERE Version_Map =:Version_Map")
+				.setParameter("Version_Map", VersionID).list();
+	}
 	@Override
 	public ProjectItems get(VersionMap VersionID, Packages PackageID) {
  
@@ -100,15 +111,13 @@ public class ProjectItemsDaoImpl implements ProjectItemsDao {
 				.setParameter("Packages", PackageID).uniqueResult();
 	}
 	
-	@Override
-	public List<ProjectItems> getAll(VersionMap VersionID,String SiteID) {
-		 
-		 
+/*	@Override
+	public List<ProjectItems> getAll(VersionMap VersionID,String SiteID) {	 
 		return getSessionFactory().getCurrentSession()
 				.createQuery(table+" WHERE SiteID =:SiteID and  Version_Map =:Version_Map")
 				.setParameter("SiteID", SiteID)
 				.setParameter("Version_Map", VersionID).list();
-	}
+	}*/
 
 	@Override
 	public List<String> getAllPackage(VersionMap VersionID,String SiteID) {

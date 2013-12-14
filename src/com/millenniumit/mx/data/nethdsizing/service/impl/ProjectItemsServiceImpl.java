@@ -54,7 +54,12 @@ public class ProjectItemsServiceImpl  implements ProjectItemsService {
 	public List<ProjectItems> getAll() {
 		return getProjectItemsDao().getAll();
 	}
-
+	@Override
+	@Transactional
+	public List<String> getPackageType(VersionMap VersionID) {
+		return getProjectItemsDao().getPackageType(VersionID);
+	}
+	
 	@Override
 	@Transactional
 	public List<ProjectItems> getAll(int start, int limit) {
@@ -85,9 +90,8 @@ public class ProjectItemsServiceImpl  implements ProjectItemsService {
 	 */
 	@Override 
 	@Transactional
-	public List<ProjectItems> getAll(VersionMap VersionID, String SiteID) {
-		
-		return getProjectItemsDao().getAll( VersionID, SiteID);
+	public List<ProjectItems> getAll(VersionMap VersionID, String PackageType) {
+		return getProjectItemsDao().getAll( VersionID, PackageType);
 	}
 	
 	/** (non-Javadoc)

@@ -77,6 +77,8 @@ public interface VersionMapService {
 	public VersionMap getAll(Project project, String OptionID, String Version,
 			String SiteID);
 
+	public List<String> getSite(Project project, String OptionID, String Version);
+
 	/**
 	 * @return
 	 */

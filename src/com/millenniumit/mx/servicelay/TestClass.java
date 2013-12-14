@@ -17,6 +17,7 @@ import com.millenniumit.mx.data.nethdsizing.service.EquipmentsBulkService;
 import com.millenniumit.mx.data.nethdsizing.service.EquipmentsService;
 import com.millenniumit.mx.data.nethdsizing.service.ItemTypesService;
 import com.millenniumit.mx.data.nethdsizing.service.PackagesService;
+import com.millenniumit.mx.data.nethdsizing.service.ProjectItemsService;
 import com.millenniumit.mx.data.nethdsizing.service.ProjectsService;
 import com.millenniumit.mx.data.nethdsizing.service.VersionMapService;
 
@@ -50,6 +51,9 @@ public class TestClass {
 	
 	@Autowired
 	ProjectsService projectService;
+	
+	@Autowired
+	ProjectItemsService projectItemsService;
 	public void TestMetrics() {
 	}
 
@@ -59,6 +63,8 @@ public class TestClass {
 		System.out.println(companyService.get("nirobi").getCompanyName());
 		System.out.println(itemTypesService.get("RAM").getTypeName());
 		System.out.println(equipmentMapingService.getEquipmentMapings(equipmentsService.getEquipments(3), itemTypesService.getItemTypess(2)).get(0).getCEquipment().getItemName());
+		List<String> PacakgeTypes=projectItemsService.getPackageType(versionMapService.getAll(projectService.getProjects("Dhilli"), "Op12","1.12","Primary"));
+		System.out.println(PacakgeTypes.size());
 		//System.out.println(equipmentsBulkService.EquipmentsBulkgetD(packagesService.getPackagess(1), equipmentMapingService.getEquipmentMapings(equipmentsService.getEquipments(3), itemTypesService.getItemTypess(2)).get(0).getCEquipment()).get(0).getEquipmentsId().getItemName());
 		//packagesService.delete(packagesService.getPackagess(2));
 		/*ItemTypes itemTypes=new ItemTypes();

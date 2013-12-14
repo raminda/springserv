@@ -94,4 +94,6 @@ public interface ProjectItemsService {
 	 * @param index
 	 */
 	public  void update(ProjectItems index);
+
+	public List<String> getPackageType(VersionMap VersionID);
 }

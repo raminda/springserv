@@ -126,6 +126,8 @@ public interface VersionMapDao extends Dao <VersionMap> {
 
 	public List<String> getAllPackagetype(Project project);
 
+	public List<String> getSite(Project project, String OptionID, String Version);
+
 }
 
 

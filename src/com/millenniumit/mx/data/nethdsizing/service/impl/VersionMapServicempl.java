@@ -91,7 +91,12 @@ public class  VersionMapServicempl  implements  VersionMapService {
 		getVersion_MapsDao().update(index);
 		
 	}
-
+	@Override
+	@Transactional
+	public List<String> getSite(Project project, String OptionID,String Version) {
+		return getVersion_MapsDao().getSite(project, OptionID,Version);
+	}
+	
 	@Override
 	@Transactional
 	public List<String> getVersion_Maps(Project project, String OptionID) {
